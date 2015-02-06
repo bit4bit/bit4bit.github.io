@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Bit4bit</title>
-    <link>http://bit4bit.github.io/</link>
+    <link>https://bit4bit.github.io/</link>
     <description>Recent content on Bit4bit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es-co</language>
     <lastBuildDate>Mon, 16 Feb 2015 16:57:36 -0500</lastBuildDate>
-    <atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>redchan</title>
-      <link>http://bit4bit.github.io/post/es/codigo/redchan/</link>
+      <link>https://bit4bit.github.io/post/es/codigo/redchan/</link>
       <pubDate>Mon, 16 Feb 2015 16:57:36 -0500</pubDate>
       
-      <guid>http://bit4bit.github.io/post/es/codigo/redchan/</guid>
+      <guid>https://bit4bit.github.io/post/es/codigo/redchan/</guid>
       <description>
 
 &lt;h1 id=&#34;redchan:9e888d547b41acfab7d4a21e9645b8a0&#34;&gt;RedChan&lt;/h1&gt;
