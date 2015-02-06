@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Bit4bit</title>
+    <link>http://bit4bit.github.io/post/</link>
+    <description>Recent content in Posts on Bit4bit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es-co</language>
+    <lastBuildDate>Mon, 16 Feb 2015 16:57:36 -0500</lastBuildDate>
+    <atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>redchan</title>
+      <link>http://bit4bit.github.io/post/es/codigo/redchan/</link>
+      <pubDate>Mon, 16 Feb 2015 16:57:36 -0500</pubDate>
+      
+      <guid>http://bit4bit.github.io/post/es/codigo/redchan/</guid>
+      <description>
+
+&lt;h1 id=&#34;redchan:9e888d547b41acfab7d4a21e9645b8a0&#34;&gt;RedChan&lt;/h1&gt;
+
+&lt;p&gt;Deslocalizando los canales de &lt;em&gt;Go&lt;/em&gt; con &lt;em&gt;Redis&lt;/em&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;tutorial:9e888d547b41acfab7d4a21e9645b8a0&#34;&gt;TUTORIAL&lt;/h2&gt;
+
+&lt;p&gt;Para esto necesitamos instalar el paquete &lt;strong&gt;glivo&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;go get github.com/bit4bit/redchan
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;inicializacion:9e888d547b41acfab7d4a21e9645b8a0&#34;&gt;INICIALIZACION&lt;/h3&gt;
+
+&lt;p&gt;Para crear un canal usando &lt;strong&gt;Redis&lt;/strong&gt; como transporte usamos la estructura &lt;strong&gt;RedisChannel{&amp;ldquo;uuid&amp;rdquo;, 0}&lt;/strong&gt; , siendo el primer parametro  el identificador unico del canal usado tanto para recibir como para enviar, el segundo parametro es el tamano de &lt;strong&gt;Buffer&lt;/strong&gt; antes de bloquear la gorutina.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;# Creacion de un canal sin buffer
+redisChannel := RedisChannel{&amp;quot;uuid&amp;quot;, 0}
+
+# Creacion de un canal con buffer
+redisChannel := RedisChannel{&amp;quot;uuid&amp;quot;, 10}
+
+# Al finalizar el uso del canal lo cerramos llamando *Close*
+defer redisChannel.Close()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;uso:9e888d547b41acfab7d4a21e9645b8a0&#34;&gt;USO&lt;/h3&gt;
+
+&lt;p&gt;Ahora creamos los canales para enviar la data&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;#buffered
+sendCh, sendErr := redchan.Send(redisChannel, 0)
+if sendErr != nil {
+    t.Fatal(sendErr)
+}
+
+#unbuffered
+sendCh, sendErr := redchan.Send(redisChannel, 1)
+if sendErr != nil {
+    t.Fatal(sendErr)
+}
+
+#Atencion con los parentesis
+sendCh() &amp;lt;- []byte(&amp;quot;data&amp;quot;)
+
+#Al finalizar el canal se notifica el receptor tal como los canales de *Go*
+close(sendCh())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Tambien podemos crear varios canales &lt;em&gt;Go&lt;/em&gt; por un canal &lt;em&gt;RedChan&lt;/em&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;chanA, chanAErr := redchan.Send(redisChannel)
+if chanAErr != nil {
+    t.Fatal(chanAErr)
+}
+chanB, chanBErr := redchan.Send(redisChannel)
+if chanBErr != nil {
+	t.Fatal(chanBErr)
+}
+
+go func(){
+ chanA() &amp;lt;- []byte(&amp;quot;data a&amp;quot;)
+ close(chanA())
+}()
+
+go func(){
+ chanB() &amp;lt;- []byte(&amp;quot;data b&amp;quot;)
+ close(chanB())
+}()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ahora recibimos la data.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;recvCh, recvErr := redchan.Recv(redisChannel)
+if recvErr != nil {
+        t.Fatal(recvErr)
+}
+
+&amp;lt;-recvCh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;o bien podemos crear varios receptores sobre un &lt;strong&gt;RedChan&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;recvACh, recvAErr := redchan.Recv(redisChannel)
+if recvAErr != nil {
+        t.Fatal(recvAErr)
+}
+
+recvBCh, recvBErr := redchan.Recv(redisChannel)
+if recvAErr != nil {
+        t.Fatal(recvBErr)
+}
+
+&amp;lt;-recvACh
+&amp;lt;-recvBCh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Recordemos que al usar &lt;strong&gt;Redis&lt;/strong&gt;, podemos conectarnos desde diferentes maquinas desde que se comparta el mismo identificador de canal.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
