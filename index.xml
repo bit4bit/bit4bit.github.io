@@ -6,8 +6,65 @@
     <description>Recent content on Bit4bit</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>es-co</language>
-    <lastBuildDate>Mon, 16 Feb 2015 16:57:36 -0500</lastBuildDate>
+    <lastBuildDate>Sun, 09 Aug 2015 16:50:44 -0500</lastBuildDate>
     <atom:link href="https://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>remoton_desktop</title>
+      <link>https://bit4bit.github.io/post/es/codigo/remoton_desktop/</link>
+      <pubDate>Sun, 09 Aug 2015 16:50:44 -0500</pubDate>
+      
+      <guid>https://bit4bit.github.io/post/es/codigo/remoton_desktop/</guid>
+      <description>
+
+&lt;h1 id=&#34;remoton-desktop:541e73dc62f634e5cbc1f5743562ab4f&#34;&gt;Remoton - Desktop&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://cloud.githubusercontent.com/assets/1474826/8950994/543baebc-358e-11e5-886c-d4c440d3417f.png&#34; alt=&#34;remoton&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Usa &lt;a href=&#34;http://godoc.org/github.com/bit4bit/remoton&#34;&gt;Remoton&lt;/a&gt; y &lt;a href=&#34;http://xpra.org&#34;&gt;XPRA&lt;/a&gt; para crear una plataform de acceso remoto,
+Un reemplazo libre para &lt;strong&gt;TeamViewer/Logmein/etc..&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/bit4bit/remoton&#34;&gt;Mas Detalles&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;uso:541e73dc62f634e5cbc1f5743562ab4f&#34;&gt;Uso&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/bit4bit/remoton/releases&#34;&gt;Descargar&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;El procedimiento seria:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;instalar &lt;strong&gt;remoton-server&lt;/strong&gt; en un servidor local o publico.&lt;/li&gt;
+&lt;li&gt;crear certificados con &lt;strong&gt;remoton-server-cert&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;correr &lt;strong&gt;remoton-server&lt;/strong&gt; con los respectivos certificados&lt;/li&gt;
+&lt;li&gt;instalar &lt;strong&gt;remoton-client-desktop&lt;/strong&gt; a los usuarios que se da soporte&lt;/li&gt;
+&lt;li&gt;instalar &lt;strong&gt;remoton-support-desktop&lt;/strong&gt; a los usuarios que dan el soporte&lt;/li&gt;
+&lt;li&gt;compartir el certificado &lt;strong&gt;cert.pem&lt;/strong&gt; de forma segura a todos los usuarios.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;servicio:541e73dc62f634e5cbc1f5743562ab4f&#34;&gt;Servicio&lt;/h2&gt;
+
+&lt;p&gt;Si no tienes un servidor o tienens dificultades o inclusive deseas
+una personalización contacta con la empresa
+&lt;a href=&#34;http://www.neurotec.co/&#34;&gt;Neurotec&lt;/a&gt; que puede brindarte diferentes soluciones.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>remoton</title>
+      <link>https://bit4bit.github.io/post/es/codigo/remoton/</link>
+      <pubDate>Sun, 09 Aug 2015 16:47:42 -0500</pubDate>
+      
+      <guid>https://bit4bit.github.io/post/es/codigo/remoton/</guid>
+      <description>
+
+&lt;h1 id=&#34;remoton:2b3c6367a16ff82902dbbaa8e2c9f903&#34;&gt;Remoton&lt;/h1&gt;
+
+&lt;p&gt;Libreria para construir servicios en red. Permite crear una interfaz -net.Listen-
+en el servidor y marcar a -net.Dial- a la interfaz para simular una red centralizada.&lt;/p&gt;
+
+&lt;p&gt;Más detalles en &lt;a href=&#34;http://godoc.org/github.com/bit4bit/remoton&#34;&gt;Doc&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>redchan</title>
@@ -114,6 +171,90 @@ if recvAErr != nil {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Recordemos que al usar &lt;strong&gt;Redis&lt;/strong&gt;, podemos conectarnos desde diferentes maquinas desde que se comparta el mismo identificador de canal.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>gami</title>
+      <link>https://bit4bit.github.io/post/es/codigo/gami/</link>
+      <pubDate>Fri, 06 Feb 2015 19:05:45 -0500</pubDate>
+      
+      <guid>https://bit4bit.github.io/post/es/codigo/gami/</guid>
+      <description>
+
+&lt;h1 id=&#34;gami-asterisk-manager-interface-go-lang:01ff7a9fe7af4a56df813efe8d79542a&#34;&gt;GAMI Asterisk Manager Interface (GO Lang)&lt;/h1&gt;
+
+&lt;p&gt;Libreria para comunicarse con &lt;strong&gt;AMI&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Más detalles en &lt;a href=&#34;https://github.com/bit4bit/gami&#34;&gt;https://github.com/bit4bit/gami&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>glivo</title>
+      <link>https://bit4bit.github.io/post/es/codigo/glivo/</link>
+      <pubDate>Thu, 07 Aug 2014 16:57:36 -0500</pubDate>
+      
+      <guid>https://bit4bit.github.io/post/es/codigo/glivo/</guid>
+      <description>
+
+&lt;h1 id=&#34;glivo:2bb1f7343f595e18e448b1a2c1aaa8c1&#34;&gt;GLIVO&lt;/h1&gt;
+
+&lt;p&gt;Sencillo kit de herramientas para el desarrollo aplicaciones &lt;strong&gt;IVR&lt;/strong&gt; desde el lenguaje &lt;strong&gt;GO&lt;/strong&gt;
+y &lt;strong&gt;Freeswitch&lt;/strong&gt; haciendo uso del mod&amp;rsquo;ulo &lt;a href=&#34;https://wiki.freeswitch.org/wiki/Mod_event_socket&#34;&gt;&lt;strong&gt;mod_event_socket&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;tutorial:2bb1f7343f595e18e448b1a2c1aaa8c1&#34;&gt;TUTORIAL&lt;/h2&gt;
+
+&lt;p&gt;Para esto necesitamos instalar el paquete &lt;strong&gt;glivo&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ go get github.com/bit4bit/glivo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;inicializaci-on-de-glivo:2bb1f7343f595e18e448b1a2c1aaa8c1&#34;&gt;Inicializaci&amp;rsquo;on de Glivo&lt;/h3&gt;
+
+&lt;p&gt;El procedimiento general  &lt;strong&gt;Glivo&lt;/strong&gt; es crear un socket en la interfaz y puerto al que se comunicar&amp;rsquo;a el &lt;strong&gt;Freeswitch&lt;/strong&gt;, para esto usamos la funci&amp;rsquo;on &lt;strong&gt;glivo.NewSession&lt;/strong&gt; del paquete en conjunto con &lt;strong&gt;net.Listener&lt;/strong&gt; o bien podemos directamente la funci&amp;rsquo;on &lt;strong&gt;glivo.Listen&lt;/strong&gt; del paquete &lt;strong&gt;Glivo&lt;/strong&gt;, miremos:&lt;/p&gt;
+
+&lt;h4 id=&#34;glivo-newsession:2bb1f7343f595e18e448b1a2c1aaa8c1&#34;&gt;glivo.NewSession&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;net&amp;quot;
+	&amp;quot;log&amp;quot;
+	&amp;quot;github.com/bit4bit/glivo&amp;quot;
+)
+
+func main() {
+	listen, listenErr := net.Listen(&amp;quot;tcp&amp;quot;, &amp;quot;localhost:5050&amp;quot;)
+	if listenErr != nil {
+		log.Fatal(listenErr)
+	}
+	
+	socket = glivo.NewSession(listen)
+	defer socket.Close()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;glivo-listen:2bb1f7343f595e18e448b1a2c1aaa8c1&#34;&gt;glivo.Listen&lt;/h4&gt;
+
+&lt;p&gt;Nos permite abrir el la direcci&amp;rsquo;on &lt;strong&gt;TCP&lt;/strong&gt; indicada directamente.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;net&amp;quot;
+	&amp;quot;log&amp;quot;
+	&amp;quot;github.com/bit4bit/glivo&amp;quot;
+)
+
+func main() {
+	socket, socketErr := glivo.Listen(&amp;quot;localhost:5050&amp;quot;)
+	if socketErr != nil {
+		log.Fatal(socketErr)
+	}
+	defer socket.Close()
+}
+&lt;/code&gt;&lt;/pre&gt;
 </description>
     </item>
     

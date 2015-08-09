@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <title>
-    redchan // Bit4bit
+    remoton_desktop // Bit4bit
   </title>
 
   <link href="http://gmpg.org/xfn/11" rel="profile">
@@ -16,11 +16,11 @@
 <meta name="author" content="">
 <meta name="generator" content="Hugo 0.15-DEV" />
 
-  <meta property="og:title" content="redchan" />
+  <meta property="og:title" content="remoton_desktop" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:url" content="https://bit4bit.github.io/post/es/codigo/redchan/" />
+<meta property="og:url" content="https://bit4bit.github.io/post/es/codigo/remoton_desktop/" />
 
 
   
@@ -101,13 +101,10 @@
 				<small class="toc-label">Contents</small>
 		   	 	<nav id="TableOfContents">
 <ul>
-<li><a href="#redchan:9e888d547b41acfab7d4a21e9645b8a0">RedChan</a>
+<li><a href="#remoton-desktop:541e73dc62f634e5cbc1f5743562ab4f">Remoton - Desktop</a></li>
+<li><a href="#uso:541e73dc62f634e5cbc1f5743562ab4f">Uso</a>
 <ul>
-<li><a href="#tutorial:9e888d547b41acfab7d4a21e9645b8a0">TUTORIAL</a>
-<ul>
-<li><a href="#inicializacion:9e888d547b41acfab7d4a21e9645b8a0">INICIALIZACION</a></li>
-<li><a href="#uso:9e888d547b41acfab7d4a21e9645b8a0">USO</a></li>
-</ul></li>
+<li><a href="#servicio:541e73dc62f634e5cbc1f5743562ab4f">Servicio</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -116,14 +113,14 @@
 	    
   		<section class="post">
             <h1 class="post-title">
-              <a href="/post/es/codigo/redchan/">redchan</a>
+              <a href="/post/es/codigo/remoton_desktop/">remoton_desktop</a>
             </h1>
             <h3 class="post-subtitle">
             	
             </h3>
             
             	<span class="post-date">
-                	<span class="post-date-day"><sup>16</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Feb</span> <span class="post-date-year">2015</span>
+                	<span class="post-date-day"><sup>9</sup></span><span class="post-date-separator">/</span><span class="post-date-month">Aug</span> <span class="post-date-year">2015</span>
             	</span>
             	
             
@@ -139,103 +136,35 @@
 
             
 
-<h1 id="redchan:9e888d547b41acfab7d4a21e9645b8a0">RedChan</h1>
+<h1 id="remoton-desktop:541e73dc62f634e5cbc1f5743562ab4f">Remoton - Desktop</h1>
 
-<p>Deslocalizando los canales de <em>Go</em> con <em>Redis</em>.</p>
+<p><img src="https://cloud.githubusercontent.com/assets/1474826/8950994/543baebc-358e-11e5-886c-d4c440d3417f.png" alt="remoton" /></p>
 
-<h2 id="tutorial:9e888d547b41acfab7d4a21e9645b8a0">TUTORIAL</h2>
+<p>Usa <a href="http://godoc.org/github.com/bit4bit/remoton">Remoton</a> y <a href="http://xpra.org">XPRA</a> para crear una plataform de acceso remoto,
+Un reemplazo libre para <strong>TeamViewer/Logmein/etc..</strong></p>
 
-<p>Para esto necesitamos instalar el paquete <strong>glivo</strong>.</p>
+<p><a href="https://github.com/bit4bit/remoton">Mas Detalles</a></p>
 
-<pre><code class="language-bash">go get github.com/bit4bit/redchan
-</code></pre>
+<h1 id="uso:541e73dc62f634e5cbc1f5743562ab4f">Uso</h1>
 
-<h3 id="inicializacion:9e888d547b41acfab7d4a21e9645b8a0">INICIALIZACION</h3>
+<p><a href="https://github.com/bit4bit/remoton/releases">Descargar</a></p>
 
-<p>Para crear un canal usando <strong>Redis</strong> como transporte usamos la estructura <strong>RedisChannel{&ldquo;uuid&rdquo;, 0}</strong> , siendo el primer parametro  el identificador unico del canal usado tanto para recibir como para enviar, el segundo parametro es el tamano de <strong>Buffer</strong> antes de bloquear la gorutina.</p>
+<p>El procedimiento seria:</p>
 
-<pre><code class="language-go"># Creacion de un canal sin buffer
-redisChannel := RedisChannel{&quot;uuid&quot;, 0}
+<ul>
+<li>instalar <strong>remoton-server</strong> en un servidor local o publico.</li>
+<li>crear certificados con <strong>remoton-server-cert</strong></li>
+<li>correr <strong>remoton-server</strong> con los respectivos certificados</li>
+<li>instalar <strong>remoton-client-desktop</strong> a los usuarios que se da soporte</li>
+<li>instalar <strong>remoton-support-desktop</strong> a los usuarios que dan el soporte</li>
+<li>compartir el certificado <strong>cert.pem</strong> de forma segura a todos los usuarios.</li>
+</ul>
 
-# Creacion de un canal con buffer
-redisChannel := RedisChannel{&quot;uuid&quot;, 10}
+<h2 id="servicio:541e73dc62f634e5cbc1f5743562ab4f">Servicio</h2>
 
-# Al finalizar el uso del canal lo cerramos llamando *Close*
-defer redisChannel.Close()
-</code></pre>
-
-<h3 id="uso:9e888d547b41acfab7d4a21e9645b8a0">USO</h3>
-
-<p>Ahora creamos los canales para enviar la data</p>
-
-<pre><code class="language-go">#buffered
-sendCh, sendErr := redchan.Send(redisChannel, 0)
-if sendErr != nil {
-    t.Fatal(sendErr)
-}
-
-#unbuffered
-sendCh, sendErr := redchan.Send(redisChannel, 1)
-if sendErr != nil {
-    t.Fatal(sendErr)
-}
-
-#Atencion con los parentesis
-sendCh() &lt;- []byte(&quot;data&quot;)
-
-#Al finalizar el canal se notifica el receptor tal como los canales de *Go*
-close(sendCh())
-</code></pre>
-
-<p>Tambien podemos crear varios canales <em>Go</em> por un canal <em>RedChan</em>.</p>
-
-<pre><code class="language-go">chanA, chanAErr := redchan.Send(redisChannel)
-if chanAErr != nil {
-    t.Fatal(chanAErr)
-}
-chanB, chanBErr := redchan.Send(redisChannel)
-if chanBErr != nil {
-	t.Fatal(chanBErr)
-}
-
-go func(){
- chanA() &lt;- []byte(&quot;data a&quot;)
- close(chanA())
-}()
-
-go func(){
- chanB() &lt;- []byte(&quot;data b&quot;)
- close(chanB())
-}()
-</code></pre>
-
-<p>Ahora recibimos la data.</p>
-
-<pre><code class="language-go">recvCh, recvErr := redchan.Recv(redisChannel)
-if recvErr != nil {
-        t.Fatal(recvErr)
-}
-
-&lt;-recvCh
-</code></pre>
-
-<p>o bien podemos crear varios receptores sobre un <strong>RedChan</strong></p>
-
-<pre><code class="language-go">recvACh, recvAErr := redchan.Recv(redisChannel)
-if recvAErr != nil {
-        t.Fatal(recvAErr)
-}
-
-recvBCh, recvBErr := redchan.Recv(redisChannel)
-if recvAErr != nil {
-        t.Fatal(recvBErr)
-}
-
-&lt;-recvACh
-&lt;-recvBCh
-</code></pre>
-
-<p>Recordemos que al usar <strong>Redis</strong>, podemos conectarnos desde diferentes maquinas desde que se comparta el mismo identificador de canal.</p>
+<p>Si no tienes un servidor o tienens dificultades o inclusive deseas
+una personalización contacta con la empresa
+<a href="http://www.neurotec.co/">Neurotec</a> que puede brindarte diferentes soluciones.</p>
 
 	
 			
@@ -246,16 +175,11 @@ if recvAErr != nil {
 				<div class="paging">
 					<span class="paging-label">More Reading</span>
 					
-					<div class="paging-newer">
-						<span class="dark-red">Newer</span><span class="decorative-marker">//</span>
-						<a class="paging-link" href="/post/es/codigo/remoton/">remoton</a>
-		            </div>
-		            
 
 					
 					<div class="paging-older">
 						<span class="dark-red">Older</span><span class="decorative-marker">//</span>
-			            <a class="paging-link" href="/post/es/codigo/gami/">gami</a>
+			            <a class="paging-link" href="/post/es/codigo/remoton/">remoton</a>
 		            </div>
 		            
 	            </div>
