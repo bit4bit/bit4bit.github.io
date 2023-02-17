@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Bit4bit Integraciones</title>
+    <link>http://bit4bit.github.io/posts/</link>
+    <description>Recent content in Posts on Bit4bit Integraciones</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>es-co</language>
+    <managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor>
+    <webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster>
+    <lastBuildDate>Thu, 16 Feb 2023 18:59:06 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What_how_whom</title>
+      <link>http://bit4bit.github.io/posts/what_how_whom/</link>
+      <pubDate>Thu, 16 Feb 2023 18:59:06 -0500</pubDate>
+      <author>bit4bit@riseup.net (Jovany Leandro G.C)</author>
+      <guid>http://bit4bit.github.io/posts/what_how_whom/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>
