@@ -1,0 +1,86 @@
+<!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="Cuando ré/factorizamos surgen nuevos elementos de los cuales es importante determinar cuales son públicos y y cuales son publicados, si no hacemos esta aclaración podemos fácilmente transgredir conceptos, veamos lo un ejemplo.
+class Billetera def initialize @movimientos = [] end def ingreso(concepto, valor) @movimientos << [concepto, valor] end def gasto(concepto, valor) @movimientos << [concepto, -valor] end def saldo @movimientos.inject(0) { |saldo, movimiento| saldo + movimiento[1] } end end La clase Billetera es pública y publicada (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta) ya que esperemos que sea usada."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="¿Público y/o Públicado?"><meta property="og:description" content="Cuando ré/factorizamos surgen nuevos elementos de los cuales es importante determinar cuales son públicos y y cuales son publicados, si no hacemos esta aclaración podemos fácilmente transgredir conceptos, veamos lo un ejemplo.
+class Billetera def initialize @movimientos = [] end def ingreso(concepto, valor) @movimientos << [concepto, valor] end def gasto(concepto, valor) @movimientos << [concepto, -valor] end def saldo @movimientos.inject(0) { |saldo, movimiento| saldo + movimiento[1] } end end La clase Billetera es pública y publicada (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta) ya que esperemos que sea usada."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/published_vs_public/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-02-16T21:09:34-05:00"><meta property="article:modified_time" content="2023-02-16T21:45:34-05:00"><link rel=canonical href=http://bit4bit.github.io/post/published_vs_public/><meta itemprop=name content="¿Público y/o Públicado?"><meta itemprop=description content="Cuando ré/factorizamos surgen nuevos elementos de los cuales es importante determinar cuales son públicos y y cuales son publicados, si no hacemos esta aclaración podemos fácilmente transgredir conceptos, veamos lo un ejemplo.
+class Billetera def initialize @movimientos = [] end def ingreso(concepto, valor) @movimientos << [concepto, valor] end def gasto(concepto, valor) @movimientos << [concepto, -valor] end def saldo @movimientos.inject(0) { |saldo, movimiento| saldo + movimiento[1] } end end La clase Billetera es pública y publicada (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta) ya que esperemos que sea usada."><meta itemprop=datePublished content="2023-02-16T21:09:34-05:00"><meta itemprop=dateModified content="2023-02-16T21:45:34-05:00"><meta itemprop=wordCount content="275"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>¿Público y/o Públicado? - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="¿Público y/o Públicado?"><meta name=twitter:description content="Cuando ré/factorizamos surgen nuevos elementos de los cuales es importante determinar cuales son públicos y y cuales son publicados, si no hacemos esta aclaración podemos fácilmente transgredir conceptos, veamos lo un ejemplo.
+class Billetera def initialize @movimientos = [] end def ingreso(concepto, valor) @movimientos << [concepto, valor] end def gasto(concepto, valor) @movimientos << [concepto, -valor] end def saldo @movimientos.inject(0) { |saldo, movimiento| saldo + movimiento[1] } end end La clase Billetera es pública y publicada (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta) ya que esperemos que sea usada."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
+<span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
+<span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>¿Público y/o Públicado?</h1><article class=content><p>Cuando ré/factorizamos surgen nuevos elementos de los cuales
+es importante determinar cuales son públicos y y cuales son publicados,
+si no hacemos esta aclaración podemos fácilmente transgredir conceptos,
+veamos lo un ejemplo.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Billetera</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>
+</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>=</span> <span style=color:#f92672>[]</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ingreso</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#f92672>[</span>concepto, valor<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>gasto</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#f92672>[</span>concepto, <span style=color:#f92672>-</span>valor<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>saldo</span>
+</span></span><span style=display:flex><span>    @movimientos<span style=color:#f92672>.</span>inject(<span style=color:#ae81ff>0</span>) { <span style=color:#f92672>|</span>saldo, movimiento<span style=color:#f92672>|</span> saldo <span style=color:#f92672>+</span> movimiento<span style=color:#f92672>[</span><span style=color:#ae81ff>1</span><span style=color:#f92672>]</span> }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>La clase <code>Billetera</code> es <code>pública</code> y <code>publicada</code> (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta)
+ya que esperemos que sea usada.</p><p>Ahora realicemos una refactorización buscando la apertura del movimiento.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movimiento</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>attr_reader</span> <span style=color:#e6db74>:valor</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @concepto <span style=color:#f92672>=</span> concepto
+</span></span><span style=display:flex><span>    @valor <span style=color:#f92672>=</span> valor
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>balancear</span>(saldo)
+</span></span><span style=display:flex><span>    saldo<span style=color:#f92672>.</span>balancear(@valor)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Saldo</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>attr_reader</span> <span style=color:#e6db74>:resultado</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>
+</span></span><span style=display:flex><span>    @resultado <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>balancear</span>(valor)
+</span></span><span style=display:flex><span>    @resultado <span style=color:#f92672>+=</span> valor
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>aplicar</span>(movimientos)
+</span></span><span style=display:flex><span>    movimientos<span style=color:#f92672>.</span>each_with_object(self) { <span style=color:#f92672>|</span>movimiento, saldo<span style=color:#f92672>|</span> movimiento<span style=color:#f92672>.</span>balancear(saldo) }
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Billetera</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>
+</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>=</span> <span style=color:#f92672>[]</span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ingreso</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#66d9ef>Movimiento</span><span style=color:#f92672>.</span>new(concepto, valor)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>gasto</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#66d9ef>Movimiento</span><span style=color:#f92672>.</span>new(concepto, <span style=color:#f92672>-</span>valor)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>saldo</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>Saldo</span><span style=color:#f92672>.</span>new<span style=color:#f92672>.</span>aplicar(@movimientos)<span style=color:#f92672>.</span>resultado
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>Las clases <code>Balance</code>, <code>Saldo</code>, <code>Movimiento</code> son por defecto <code>públicas</code> al menos en <code>Ruby</code> (cada lenguaje tiene
+un comportamiento por defecto por ejemplo en C# el alcance por defecto es <code>private</code>) ahora
+las clases deben estar <code>publicadas</code> para crear acoplamiento desde otras secciones del programa?
+no, no están publicadas a excepción de <code>Balance</code>, actualmente son elementos que surgieron de la refactorización y tienen alta cohesión
+con el origen de la creación (<code>Balance</code>).</p><p>ahora ¿Cómo podemos hacer explicito este concepto? ni idea (si tengo ideas), es algo que queda a la creatividad del equipo ya
+que <code>depende de</code>.</p></article><div class=paginator><a></a>
+<a></a></div><div class=comment></div></main><footer id=footer><div><span>© 2019</span> - <span>2023</span></div><div><span>Powered by</span>
+<a class=link href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme</span>
+<a class=link href=https://github.com/queensferryme/hugo-theme-texify>TeXify</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/bit4bit>GitHub</a> or
+<a class=link href=http://chiselapp.com/user/bit4bit/>Chiselapp</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>
