@@ -2,72 +2,72 @@
 es importante determinar cuales son públicos y y cuales son publicados,
 si no hacemos esta aclaración podemos fácilmente transgredir conceptos,
 veamos lo un ejemplo.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Billetera&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">initialize&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Billetera&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="font-weight:bold">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">ingreso&lt;/span>(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#f92672">[&lt;/span>concepto, valor&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">ingreso&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">&amp;lt;&amp;lt;&lt;/span> &lt;span style="font-weight:bold">[&lt;/span>concepto, valor&lt;span style="font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">gasto&lt;/span>(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#f92672">[&lt;/span>concepto, &lt;span style="color:#f92672">-&lt;/span>valor&lt;span style="color:#f92672">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">gasto&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">&amp;lt;&amp;lt;&lt;/span> &lt;span style="font-weight:bold">[&lt;/span>concepto, &lt;span style="font-weight:bold">-&lt;/span>valor&lt;span style="font-weight:bold">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">saldo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos&lt;span style="color:#f92672">.&lt;/span>inject(&lt;span style="color:#ae81ff">0&lt;/span>) { &lt;span style="color:#f92672">|&lt;/span>saldo, movimiento&lt;span style="color:#f92672">|&lt;/span> saldo &lt;span style="color:#f92672">+&lt;/span> movimiento&lt;span style="color:#f92672">[&lt;/span>&lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">]&lt;/span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">saldo&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos&lt;span style="font-weight:bold">.&lt;/span>inject(&lt;span style="color:#099">0&lt;/span>) { &lt;span style="font-weight:bold">|&lt;/span>saldo, movimiento&lt;span style="font-weight:bold">|&lt;/span> saldo &lt;span style="font-weight:bold">+&lt;/span> movimiento&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#099">1&lt;/span>&lt;span style="font-weight:bold">]&lt;/span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>La clase &lt;code>Billetera&lt;/code> es &lt;code>pública&lt;/code> y &lt;code>publicada&lt;/code> (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta)
 ya que esperemos que sea usada.&lt;/p>
 &lt;p>Ahora realicemos una refactorización buscando la apertura del movimiento.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Movimiento&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">attr_reader&lt;/span> &lt;span style="color:#e6db74">:valor&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Movimiento&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">attr_reader&lt;/span> &lt;span style="color:#b84">:valor&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">initialize&lt;/span>(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @concepto &lt;span style="color:#f92672">=&lt;/span> concepto
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @valor &lt;span style="color:#f92672">=&lt;/span> valor
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @concepto &lt;span style="font-weight:bold">=&lt;/span> concepto
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @valor &lt;span style="font-weight:bold">=&lt;/span> valor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">balancear&lt;/span>(saldo)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> saldo&lt;span style="color:#f92672">.&lt;/span>balancear(@valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">balancear&lt;/span>(saldo)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> saldo&lt;span style="font-weight:bold">.&lt;/span>balancear(@valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Saldo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">attr_reader&lt;/span> &lt;span style="color:#e6db74">:resultado&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Saldo&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">attr_reader&lt;/span> &lt;span style="color:#b84">:resultado&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">initialize&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @resultado &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @resultado &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#099">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">balancear&lt;/span>(valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @resultado &lt;span style="color:#f92672">+=&lt;/span> valor
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">balancear&lt;/span>(valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @resultado &lt;span style="font-weight:bold">+=&lt;/span> valor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">aplicar&lt;/span>(movimientos)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> movimientos&lt;span style="color:#f92672">.&lt;/span>each_with_object(self) { &lt;span style="color:#f92672">|&lt;/span>movimiento, saldo&lt;span style="color:#f92672">|&lt;/span> movimiento&lt;span style="color:#f92672">.&lt;/span>balancear(saldo) }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">aplicar&lt;/span>(movimientos)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> movimientos&lt;span style="font-weight:bold">.&lt;/span>each_with_object(&lt;span style="color:#999">self&lt;/span>) { &lt;span style="font-weight:bold">|&lt;/span>movimiento, saldo&lt;span style="font-weight:bold">|&lt;/span> movimiento&lt;span style="font-weight:bold">.&lt;/span>balancear(saldo) }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">class&lt;/span> &lt;span style="color:#a6e22e">Billetera&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">initialize&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#f92672">[]&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Billetera&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="font-weight:bold">[]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">ingreso&lt;/span>(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#66d9ef">Movimiento&lt;/span>&lt;span style="color:#f92672">.&lt;/span>new(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">ingreso&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#008080">Movimiento&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">gasto&lt;/span>(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="color:#f92672">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#66d9ef">Movimiento&lt;/span>&lt;span style="color:#f92672">.&lt;/span>new(concepto, &lt;span style="color:#f92672">-&lt;/span>valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">gasto&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#008080">Movimiento&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(concepto, &lt;span style="font-weight:bold">-&lt;/span>valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">def&lt;/span> &lt;span style="color:#a6e22e">saldo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">Saldo&lt;/span>&lt;span style="color:#f92672">.&lt;/span>new&lt;span style="color:#f92672">.&lt;/span>aplicar(@movimientos)&lt;span style="color:#f92672">.&lt;/span>resultado
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">saldo&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Saldo&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new&lt;span style="font-weight:bold">.&lt;/span>aplicar(@movimientos)&lt;span style="font-weight:bold">.&lt;/span>resultado
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Las clases &lt;code>Balance&lt;/code>, &lt;code>Saldo&lt;/code>, &lt;code>Movimiento&lt;/code> son por defecto &lt;code>públicas&lt;/code> al menos en &lt;code>Ruby&lt;/code> (cada lenguaje tiene
 un comportamiento por defecto por ejemplo en C# el alcance por defecto es &lt;code>private&lt;/code>) ahora
 las clases deben estar &lt;code>publicadas&lt;/code> para crear acoplamiento desde otras secciones del programa?

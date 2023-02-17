@@ -7,70 +7,70 @@ class Billetera def initialize @movimientos = [] end def ingreso(concepto, valor
 <span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>¿Público y/o Públicado?</h1><article class=content><p>Cuando ré/factorizamos surgen nuevos elementos de los cuales
 es importante determinar cuales son públicos y y cuales son publicados,
 si no hacemos esta aclaración podemos fácilmente transgredir conceptos,
-veamos lo un ejemplo.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Billetera</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>
-</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>=</span> <span style=color:#f92672>[]</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+veamos lo un ejemplo.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Billetera</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>initialize</span>
+</span></span><span style=display:flex><span>    @movimientos <span style=font-weight:700>=</span> <span style=font-weight:700>[]</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ingreso</span>(concepto, valor)
-</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#f92672>[</span>concepto, valor<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>ingreso</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=font-weight:700>&lt;&lt;</span> <span style=font-weight:700>[</span>concepto, valor<span style=font-weight:700>]</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>gasto</span>(concepto, valor)
-</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#f92672>[</span>concepto, <span style=color:#f92672>-</span>valor<span style=color:#f92672>]</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>gasto</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=font-weight:700>&lt;&lt;</span> <span style=font-weight:700>[</span>concepto, <span style=font-weight:700>-</span>valor<span style=font-weight:700>]</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>saldo</span>
-</span></span><span style=display:flex><span>    @movimientos<span style=color:#f92672>.</span>inject(<span style=color:#ae81ff>0</span>) { <span style=color:#f92672>|</span>saldo, movimiento<span style=color:#f92672>|</span> saldo <span style=color:#f92672>+</span> movimiento<span style=color:#f92672>[</span><span style=color:#ae81ff>1</span><span style=color:#f92672>]</span> }
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>saldo</span>
+</span></span><span style=display:flex><span>    @movimientos<span style=font-weight:700>.</span>inject(<span style=color:#099>0</span>) { <span style=font-weight:700>|</span>saldo, movimiento<span style=font-weight:700>|</span> saldo <span style=font-weight:700>+</span> movimiento<span style=font-weight:700>[</span><span style=color:#099>1</span><span style=font-weight:700>]</span> }
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
 </span></span></code></pre></div><p>La clase <code>Billetera</code> es <code>pública</code> y <code>publicada</code> (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta)
-ya que esperemos que sea usada.</p><p>Ahora realicemos una refactorización buscando la apertura del movimiento.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movimiento</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>attr_reader</span> <span style=color:#e6db74>:valor</span>
+ya que esperemos que sea usada.</p><p>Ahora realicemos una refactorización buscando la apertura del movimiento.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Movimiento</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>attr_reader</span> <span style=color:#b84>:valor</span>
 </span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>(concepto, valor)
-</span></span><span style=display:flex><span>    @concepto <span style=color:#f92672>=</span> concepto
-</span></span><span style=display:flex><span>    @valor <span style=color:#f92672>=</span> valor
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>initialize</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @concepto <span style=font-weight:700>=</span> concepto
+</span></span><span style=display:flex><span>    @valor <span style=font-weight:700>=</span> valor
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>balancear</span>(saldo)
-</span></span><span style=display:flex><span>    saldo<span style=color:#f92672>.</span>balancear(@valor)
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>balancear</span>(saldo)
+</span></span><span style=display:flex><span>    saldo<span style=font-weight:700>.</span>balancear(@valor)
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Saldo</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>attr_reader</span> <span style=color:#e6db74>:resultado</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Saldo</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>attr_reader</span> <span style=color:#b84>:resultado</span>
 </span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>
-</span></span><span style=display:flex><span>    @resultado <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>initialize</span>
+</span></span><span style=display:flex><span>    @resultado <span style=font-weight:700>=</span> <span style=color:#099>0</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>balancear</span>(valor)
-</span></span><span style=display:flex><span>    @resultado <span style=color:#f92672>+=</span> valor
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>balancear</span>(valor)
+</span></span><span style=display:flex><span>    @resultado <span style=font-weight:700>+=</span> valor
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>aplicar</span>(movimientos)
-</span></span><span style=display:flex><span>    movimientos<span style=color:#f92672>.</span>each_with_object(self) { <span style=color:#f92672>|</span>movimiento, saldo<span style=color:#f92672>|</span> movimiento<span style=color:#f92672>.</span>balancear(saldo) }
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>aplicar</span>(movimientos)
+</span></span><span style=display:flex><span>    movimientos<span style=font-weight:700>.</span>each_with_object(<span style=color:#999>self</span>) { <span style=font-weight:700>|</span>movimiento, saldo<span style=font-weight:700>|</span> movimiento<span style=font-weight:700>.</span>balancear(saldo) }
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Billetera</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>initialize</span>
-</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>=</span> <span style=color:#f92672>[]</span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>Billetera</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>initialize</span>
+</span></span><span style=display:flex><span>    @movimientos <span style=font-weight:700>=</span> <span style=font-weight:700>[]</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ingreso</span>(concepto, valor)
-</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#66d9ef>Movimiento</span><span style=color:#f92672>.</span>new(concepto, valor)
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>ingreso</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=font-weight:700>&lt;&lt;</span> <span style=color:teal>Movimiento</span><span style=font-weight:700>.</span>new(concepto, valor)
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>  
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>gasto</span>(concepto, valor)
-</span></span><span style=display:flex><span>    @movimientos <span style=color:#f92672>&lt;&lt;</span> <span style=color:#66d9ef>Movimiento</span><span style=color:#f92672>.</span>new(concepto, <span style=color:#f92672>-</span>valor)
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>gasto</span>(concepto, valor)
+</span></span><span style=display:flex><span>    @movimientos <span style=font-weight:700>&lt;&lt;</span> <span style=color:teal>Movimiento</span><span style=font-weight:700>.</span>new(concepto, <span style=font-weight:700>-</span>valor)
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>saldo</span>
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>Saldo</span><span style=color:#f92672>.</span>new<span style=color:#f92672>.</span>aplicar(@movimientos)<span style=color:#f92672>.</span>resultado
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>end</span>
-</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>saldo</span>
+</span></span><span style=display:flex><span>    <span style=color:teal>Saldo</span><span style=font-weight:700>.</span>new<span style=font-weight:700>.</span>aplicar(@movimientos)<span style=font-weight:700>.</span>resultado
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
 </span></span></code></pre></div><p>Las clases <code>Balance</code>, <code>Saldo</code>, <code>Movimiento</code> son por defecto <code>públicas</code> al menos en <code>Ruby</code> (cada lenguaje tiene
 un comportamiento por defecto por ejemplo en C# el alcance por defecto es <code>private</code>) ahora
 las clases deben estar <code>publicadas</code> para crear acoplamiento desde otras secciones del programa?
