@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Thu, 16 Feb 2023 21:09:34 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>¿Público y/o Públicado?</title><link>http://bit4bit.github.io/post/published_vs_public/</link><pubDate>Thu, 16 Feb 2023 21:09:34 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/published_vs_public/</guid><description>&lt;p>Cuando ré/factorizamos surgen nuevos elementos de los cuales
 es importante determinar cuales son públicos y y cuales son publicados,
-si no hacemos esta aclaración podemos fácilmente transgredir conceptos,
-veamos lo un ejemplo.&lt;/p>
+si no hacemos esta aclaración podemos fácilmente transgredir conceptos o crear fugas entre capas,
+veamos un ejemplo.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Billetera&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="font-weight:bold">[]&lt;/span>
@@ -19,61 +19,66 @@ veamos lo un ejemplo.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos&lt;span style="font-weight:bold">.&lt;/span>inject(&lt;span style="color:#099">0&lt;/span>) { &lt;span style="font-weight:bold">|&lt;/span>saldo, movimiento&lt;span style="font-weight:bold">|&lt;/span> saldo &lt;span style="font-weight:bold">+&lt;/span> movimiento&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#099">1&lt;/span>&lt;span style="font-weight:bold">]&lt;/span> }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>La clase &lt;code>Billetera&lt;/code> es &lt;code>pública&lt;/code> y &lt;code>publicada&lt;/code> (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta)
-ya que esperemos que sea usada.&lt;/p>
-&lt;p>Ahora realicemos una refactorización buscando la apertura del movimiento.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>La clase &lt;code>Billetera&lt;/code> es &lt;code>pública&lt;/code> y &lt;code>publicada&lt;/code> (concepto común al asumir que cualquiera puede referenciar la clase y hacer uso de esta).&lt;/p>
+&lt;p>Ahora realicemos una refactorización buscando la apertura del concepto movimiento.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Movimiento&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">attr_reader&lt;/span> &lt;span style="color:#b84">:valor&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#458;font-weight:bold">self&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="color:#900;font-weight:bold">debito&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">new&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#458;font-weight:bold">self&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="color:#900;font-weight:bold">credito&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">new&lt;/span>(concepto, &lt;span style="font-weight:bold">-&lt;/span>valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">balancear&lt;/span>(saldo)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> saldo &lt;span style="font-weight:bold">+&lt;/span> @valor
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">private&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>(concepto, valor)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @concepto &lt;span style="font-weight:bold">=&lt;/span> concepto
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @valor &lt;span style="font-weight:bold">=&lt;/span> valor
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">balancear&lt;/span>(saldo)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> saldo&lt;span style="font-weight:bold">.&lt;/span>balancear(@valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Saldo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">attr_reader&lt;/span> &lt;span style="color:#b84">:resultado&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @resultado &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#099">0&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">balancear&lt;/span>(valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @resultado &lt;span style="font-weight:bold">+=&lt;/span> valor
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">aplicar&lt;/span>(movimientos)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> movimientos&lt;span style="font-weight:bold">.&lt;/span>each_with_object(&lt;span style="color:#999">self&lt;/span>) { &lt;span style="font-weight:bold">|&lt;/span>movimiento, saldo&lt;span style="font-weight:bold">|&lt;/span> movimiento&lt;span style="font-weight:bold">.&lt;/span>balancear(saldo) }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Billetera&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Cuenta&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="font-weight:bold">[]&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">ingreso&lt;/span>(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#008080">Movimiento&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">gasto&lt;/span>(concepto, valor)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#008080">Movimiento&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(concepto, &lt;span style="font-weight:bold">-&lt;/span>valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">registrar&lt;/span>(movimiento)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos &lt;span style="font-weight:bold">&amp;lt;&amp;lt;&lt;/span> movimiento
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">saldo&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Saldo&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new&lt;span style="font-weight:bold">.&lt;/span>aplicar(@movimientos)&lt;span style="font-weight:bold">.&lt;/span>resultado
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @movimientos&lt;span style="font-weight:bold">.&lt;/span>inject(&lt;span style="color:#099">0&lt;/span>) { &lt;span style="font-weight:bold">|&lt;/span>saldo, movimiento&lt;span style="font-weight:bold">|&lt;/span> movimiento&lt;span style="font-weight:bold">.&lt;/span>balancear(saldo) }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Las clases &lt;code>Balance&lt;/code>, &lt;code>Saldo&lt;/code>, &lt;code>Movimiento&lt;/code> son por defecto &lt;code>públicas&lt;/code> al menos en &lt;code>Ruby&lt;/code> (cada lenguaje tiene
-un comportamiento por defecto por ejemplo en C# el alcance por defecto es &lt;code>private&lt;/code>) ahora
-las clases deben estar &lt;code>publicadas&lt;/code> para crear acoplamiento desde otras secciones del programa?
-no, no están publicadas a excepción de &lt;code>Balance&lt;/code>, actualmente son elementos que surgieron de la refactorización y tienen alta cohesión
-con el origen de la creación (&lt;code>Balance&lt;/code>).&lt;/p>
-&lt;p>ahora ¿Cómo podemos hacer explicito este concepto? ni idea (si tengo ideas), es algo que queda a la creatividad del equipo ya
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Billetera&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>(cuenta)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @cuenta &lt;span style="font-weight:bold">=&lt;/span> cuenta
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">ingreso&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @cuenta&lt;span style="font-weight:bold">.&lt;/span>registrar &lt;span style="color:#008080">Movimiento&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>debito(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">gasto&lt;/span>(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @cuenta&lt;span style="font-weight:bold">.&lt;/span>registrar &lt;span style="color:#008080">Movimiento&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>credito(concepto, valor)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">saldo&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @cuenta&lt;span style="font-weight:bold">.&lt;/span>saldo
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Las clases &lt;code>Billetera&lt;/code>, &lt;code>Cuenta&lt;/code>, &lt;code>Movimiento&lt;/code> son por defecto &lt;code>públicas&lt;/code> al menos en &lt;code>Ruby&lt;/code> (cada lenguaje tiene
+un comportamiento por defecto por ejemplo en C# el alcance por defecto es &lt;code>private&lt;/code>) ahora,
+las nuevas clases (&lt;code>Cuenta&lt;/code>, &lt;code>Movimiento&lt;/code>) deben estar &lt;code>publicadas&lt;/code> es decir podemos referenciarlas desde otras secciones del programa?
+no, no están publicadas son elementos que surgieron de la refactorización y tienen alta cohesión
+con el origen de la creación (&lt;code>Billetera&lt;/code>), posteriorme a la llegada de nuevos requerimientos se valoraría si deben ser &lt;code>publicadas&lt;/code>.&lt;/p>
+&lt;p>Ahora ¿Cómo podemos hacer explicito este concepto? ni idea (si tengo ideas), es algo que queda a la creatividad del equipo ya
 que &lt;code>depende de&lt;/code>.&lt;/p></description></item><item><title>About</title><link>http://bit4bit.github.io/about/</link><pubDate>Wed, 15 Feb 2023 21:38:19 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/about/</guid><description>&lt;p>&lt;img src="http://bit4bit.github.io/bit4bit.png" alt="bit4bit">&lt;/p>
 &lt;p>Apasionado por la enseñanza y aprendizaje del software libre,
 el desarrollo de software y desde ahora la publicación de pendejadas.&lt;/p>
