@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Thu, 16 Feb 2023 21:09:34 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>¿Público y/o Públicado?</title><link>http://bit4bit.github.io/post/published_vs_public/</link><pubDate>Thu, 16 Feb 2023 21:09:34 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/published_vs_public/</guid><description>&lt;p>Cuando ré/factorizamos surgen nuevos elementos de los cuales
-es importante determinar cuales son públicos y y cuales son publicados,
-si no hacemos esta aclaración podemos fácilmente transgredir conceptos o crear fugas entre capas,
+es importante determinar si son públicos y adicionalmente estan publicados,
+si no hacemos esta aclaración podemos fácilmente crear referencias innecesarias,
 veamos un ejemplo.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Billetera&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">initialize&lt;/span>
@@ -73,9 +73,9 @@ veamos un ejemplo.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @cuenta&lt;span style="font-weight:bold">.&lt;/span>saldo
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Las clases &lt;code>Billetera&lt;/code>, &lt;code>Cuenta&lt;/code>, &lt;code>Movimiento&lt;/code> son por defecto &lt;code>públicas&lt;/code> al menos en &lt;code>Ruby&lt;/code> (cada lenguaje tiene
-un comportamiento por defecto por ejemplo en C# el alcance por defecto es &lt;code>private&lt;/code>) ahora,
-las nuevas clases (&lt;code>Cuenta&lt;/code>, &lt;code>Movimiento&lt;/code>) deben estar &lt;code>publicadas&lt;/code> es decir podemos referenciarlas desde otras secciones del programa?
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Las clases &lt;code>Billetera&lt;/code>, &lt;code>Cuenta&lt;/code>, &lt;code>Movimiento&lt;/code> son por defecto &lt;code>públicas&lt;/code> (este es el alcance general pero cada lenguaje tiene
+un comportamiento diferente por ejemplo en C# el alcance por defecto es &lt;code>private&lt;/code>) ahora,
+¿las nuevas clases (&lt;code>Cuenta&lt;/code>, &lt;code>Movimiento&lt;/code>) deben estar &lt;code>publicadas&lt;/code>, es decir podemos referenciarlas desde otras secciones del programa?
 no, no están publicadas son elementos que surgieron de la refactorización y tienen alta cohesión
 con el origen de la creación (&lt;code>Billetera&lt;/code>), posteriorme a la llegada de nuevos requerimientos se valoraría si deben ser &lt;code>publicadas&lt;/code>.&lt;/p>
 &lt;p>Ahora ¿Cómo podemos hacer explicito este concepto? ni idea (si tengo ideas), es algo que queda a la creatividad del equipo ya
