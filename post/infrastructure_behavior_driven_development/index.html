@@ -1,0 +1,133 @@
+<!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="(WIP)
+Ahí más inventores que inventos dice un amigo mio.
+Como Desarrollador y Operador de plataformas de software orientadas a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades y por lo tanto en la necesidad de mejorar el proceso de configuración y mantenimiento de los diferentes servicios, en este ejercicio he llegado a la conclusión que muchos otros ya han llegado y es usar la práctica de un entorno de pruebas automatizadas para configurar y probar los servicios."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Infrastructure Behavior Driven-Development (WIP)"><meta property="og:description" content="(WIP)
+Ahí más inventores que inventos dice un amigo mio.
+Como Desarrollador y Operador de plataformas de software orientadas a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades y por lo tanto en la necesidad de mejorar el proceso de configuración y mantenimiento de los diferentes servicios, en este ejercicio he llegado a la conclusión que muchos otros ya han llegado y es usar la práctica de un entorno de pruebas automatizadas para configurar y probar los servicios."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/infrastructure_behavior_driven_development/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-06-12T14:59:38-05:00"><meta property="article:modified_time" content="2023-06-12T14:59:38-05:00"><link rel=canonical href=http://bit4bit.github.io/post/infrastructure_behavior_driven_development/><meta itemprop=name content="Infrastructure Behavior Driven-Development (WIP)"><meta itemprop=description content="(WIP)
+Ahí más inventores que inventos dice un amigo mio.
+Como Desarrollador y Operador de plataformas de software orientadas a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades y por lo tanto en la necesidad de mejorar el proceso de configuración y mantenimiento de los diferentes servicios, en este ejercicio he llegado a la conclusión que muchos otros ya han llegado y es usar la práctica de un entorno de pruebas automatizadas para configurar y probar los servicios."><meta itemprop=datePublished content="2023-06-12T14:59:38-05:00"><meta itemprop=dateModified content="2023-06-12T14:59:38-05:00"><meta itemprop=wordCount content="460"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Infrastructure Behavior Driven-Development (WIP) - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Infrastructure Behavior Driven-Development (WIP)"><meta name=twitter:description content="(WIP)
+Ahí más inventores que inventos dice un amigo mio.
+Como Desarrollador y Operador de plataformas de software orientadas a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades y por lo tanto en la necesidad de mejorar el proceso de configuración y mantenimiento de los diferentes servicios, en este ejercicio he llegado a la conclusión que muchos otros ya han llegado y es usar la práctica de un entorno de pruebas automatizadas para configurar y probar los servicios."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
+<span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
+<span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>Infrastructure Behavior Driven-Development (WIP)</h1><article class=content><p>(WIP)</p><p><code>Ahí más inventores que inventos dice un amigo mio</code>.</p><p>Como Desarrollador y Operador de plataformas de software orientadas
+a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades
+y por lo tanto en la necesidad de mejorar el proceso de configuración y mantenimiento de los diferentes
+servicios, en este ejercicio he llegado a la conclusión que muchos
+otros ya han llegado y es usar la práctica de un entorno de pruebas automatizadas
+para configurar y probar los servicios.</p><p>Lo que buscamos de esta práctica es:</p><ul><li>que la configuración de servicios entre en un ciclo de integración y despliegue continuo.</li><li>que la configuración de los servicios este orientado a comportamientos esperados.</li><li>tener un mecanismo para obtener rápidamente feedback en la configuración de los servicios.</li></ul><p>Para ilustrar como proceder vamos a configurar el servicio <strong>vsftpd</strong>
+en base a una serie de requerimientos, usando una librería de pruebas automatizadas,
+en este caso usare <strong>rspec</strong> y <strong>ruby</strong> para el ejercicio.</p><p>inicializamos el entorno de pruebas de <strong>rspec</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>$ rspec --init
+</span></span></code></pre></div><p>iniciamos con una prueba fundamental y es verificar
+la sintaxis de configuración.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#999>require</span> <span style=color:#b84>&#39;spec_helper&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#999>require</span> <span style=color:#b84>&#39;tempfile&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>validate_syntax</span>(config_path)
+</span></span><span style=display:flex><span>  <span style=color:#b84>%x[timeout 1 vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES </span><span style=color:#b84>#{</span>config_path<span style=color:#b84>}</span><span style=color:#b84>]</span>
+</span></span><span style=display:flex><span>  $?<span style=font-weight:700>.</span>exitstatus <span style=font-weight:700>==</span> <span style=color:#099>0</span> <span style=font-weight:700>||</span> $?<span style=font-weight:700>.</span>exitstatus <span style=font-weight:700>==</span> <span style=color:#099>124</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>describe <span style=color:#b84>&#39;vsftpd&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>  let (<span style=color:#b84>:conf</span>) { <span style=color:teal>Tempfile</span><span style=font-weight:700>.</span>new(<span style=color:#b84>&#39;vsftpd&#39;</span>) }
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  describe <span style=color:#b84>&#39;configuracion&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>    it <span style=color:#b84>&#39;al verificar archivo invalido falla&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>      conf<span style=font-weight:700>.</span>write(<span style=color:#b84>&#39;invalidline&#39;</span>)
+</span></span><span style=display:flex><span>      conf<span style=font-weight:700>.</span>flush
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      expect(validate_syntax(conf<span style=font-weight:700>.</span>path))<span style=font-weight:700>.</span>to be <span style=font-weight:700>false</span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    it <span style=color:#b84>&#39;al verificar archivo valido ok&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>      conf<span style=font-weight:700>.</span>write(<span style=color:#b84>&#39;listen_ipv6=NO&#39;</span>)
+</span></span><span style=display:flex><span>      conf<span style=font-weight:700>.</span>flush
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      expect(validate_syntax(conf<span style=font-weight:700>.</span>path))<span style=font-weight:700>.</span>to be <span style=font-weight:700>true</span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span></code></pre></div><p>una vez tenemos un mecanismo para confirmar que la sintaxis
+del archivo es correcta procedemos a confirmar que el servicio
+inicializa y finaliza correctamente en presencia del archivo de configuracion indicado.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#999>require</span> <span style=color:#b84>&#39;spec_helper&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#999>require</span> <span style=color:#b84>&#39;tempfile&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>vsftpd_start</span>(config_path)
+</span></span><span style=display:flex><span>  pid <span style=font-weight:700>=</span> <span style=color:teal>Process</span><span style=font-weight:700>.</span>spawn(<span style=color:#b84>&#34;vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES </span><span style=color:#b84>#{</span>config_path<span style=color:#b84>}</span><span style=color:#b84>&#34;</span>)
+</span></span><span style=display:flex><span>  <span style=color:teal>Process</span><span style=font-weight:700>.</span>detach(pid)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#999>sleep</span> <span style=color:#099>1</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  port <span style=font-weight:700>=</span> <span style=color:#b84>%x{lsof -p </span><span style=color:#b84>#{</span>pid<span style=color:#b84>}</span><span style=color:#b84> -itcp -a -P -n}</span><span style=font-weight:700>.</span>chomp<span style=font-weight:700>[</span><span style=color:olive>/TCP.+:(\d+)/</span>,<span style=color:#099>1</span><span style=font-weight:700>].</span>to_i
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  {<span style=color:#b84>pid</span>: pid, <span style=color:#b84>port</span>: port}
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>vsftpd_alive?</span>(server)
+</span></span><span style=display:flex><span>  <span style=color:#998;font-style:italic># http://dev.housetrip.com/2014/03/24/ruby-pid-tip/</span>
+</span></span><span style=display:flex><span>  <span style=color:teal>Process</span><span style=font-weight:700>.</span>kill(<span style=color:#099>0</span>, server<span style=font-weight:700>[</span><span style=color:#b84>:pid</span><span style=font-weight:700>]</span>)
+</span></span><span style=display:flex><span>  <span style=font-weight:700>true</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>rescue</span> <span style=color:teal>Errno</span><span style=font-weight:700>::</span><span style=color:teal>ESRCH</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>false</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>vsftpd_stop</span>(server)
+</span></span><span style=display:flex><span>  <span style=color:teal>Process</span><span style=font-weight:700>.</span>kill(<span style=color:#099>9</span>, server<span style=font-weight:700>[</span><span style=color:#b84>:pid</span><span style=font-weight:700>]</span>)
+</span></span><span style=display:flex><span><span style=font-weight:700>rescue</span> <span style=color:teal>Errno</span><span style=font-weight:700>::</span><span style=color:teal>ESRCH</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>false</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>describe <span style=color:#b84>&#39;vsftpd&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>  let (<span style=color:#b84>:conf</span>) { <span style=color:teal>Tempfile</span><span style=font-weight:700>.</span>new(<span style=color:#b84>&#39;vsftpd&#39;</span>) }
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  describe <span style=color:#b84>&#39;gestión del servicio&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>    it <span style=color:#b84>&#39;iniciar cuando el archivo de configuracion es correcto&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>      conf<span style=font-weight:700>.</span>flush
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      pid <span style=font-weight:700>=</span> vsftpd_start(conf<span style=font-weight:700>.</span>path)
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      expect(vsftpd_alive?(pid))<span style=font-weight:700>.</span>to be <span style=font-weight:700>true</span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>ensure</span>
+</span></span><span style=display:flex><span>      vsftpd_stop(pid)
+</span></span><span style=display:flex><span>    <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    it <span style=color:#b84>&#39;not iniciar cuando el archivo de configuracion es invalido&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>      conf<span style=font-weight:700>.</span>write(<span style=color:#b84>&#39;asdfs&#39;</span>)
+</span></span><span style=display:flex><span>      conf<span style=font-weight:700>.</span>flush
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      pid <span style=font-weight:700>=</span> vsftpd_start(conf<span style=font-weight:700>.</span>path)
+</span></span><span style=display:flex><span>      expect(vsftpd_alive?(pid))<span style=font-weight:700>.</span>to be <span style=font-weight:700>false</span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>ensure</span>
+</span></span><span style=display:flex><span>      vsftpd_stop(pid)
+</span></span><span style=display:flex><span>    <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span></code></pre></div><p>los ejercicios anteriores nos da empiezan a dar una idea de como vamos a controlar
+el servicio durante las pruebas, ya con esto procedemos con
+nuestro primer requerimiento: <code>no se permite ingreso anónimo</code></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=display:flex><span><span style=color:#999>require</span> <span style=color:#b84>&#39;spec_helper&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#999>require</span> <span style=color:#b84>&#39;tempfile&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#999>require</span> <span style=color:#b84>&#39;net/ftp&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>describe <span style=color:#b84>&#39;comportamiento&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>  let (<span style=color:#b84>:conf</span>) { <span style=color:teal>Tempfile</span><span style=font-weight:700>.</span>new(<span style=color:#b84>&#39;vsftpd&#39;</span>) }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  it <span style=color:#b84>&#39;no se permite logeo anonimo&#39;</span> <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>    conf<span style=font-weight:700>.</span>write(<span style=color:#b84>&#39;anonymous_enable=NO&#39;</span>)
+</span></span><span style=display:flex><span>    conf<span style=font-weight:700>.</span>flush
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    server <span style=font-weight:700>=</span> vsftpd_start(conf<span style=font-weight:700>.</span>path)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    expect <span style=font-weight:700>do</span>
+</span></span><span style=display:flex><span>      <span style=color:teal>Net</span><span style=font-weight:700>::</span><span style=color:teal>FTP</span><span style=font-weight:700>.</span>open(<span style=color:#b84>&#34;127.0.0.1&#34;</span>, <span style=color:#b84>port</span>: server<span style=font-weight:700>[</span><span style=color:#b84>:port</span><span style=font-weight:700>]</span>) <span style=font-weight:700>do</span> <span style=font-weight:700>|</span>ftp<span style=font-weight:700>|</span>
+</span></span><span style=display:flex><span>        ftp<span style=font-weight:700>.</span>login
+</span></span><span style=display:flex><span>      <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>end</span><span style=font-weight:700>.</span>to raise_error(<span style=color:teal>Net</span><span style=font-weight:700>::</span><span style=color:teal>FTPPermError</span>)
+</span></span><span style=display:flex><span>  <span style=font-weight:700>ensure</span>
+</span></span><span style=display:flex><span>    vsftpd_stop(server)
+</span></span><span style=display:flex><span>  <span style=font-weight:700>end</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>end</span>
+</span></span></code></pre></div><h3 id=más-inventores-que-inventos>Más inventores que inventos</h3><ul><li><a href=https://developer.ibm.com/tutorials/d-bbd-guide-iac/>https://developer.ibm.com/tutorials/d-bbd-guide-iac/</a></li></ul></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/published_vs_public/>← prev</a>
+<a></a></div><div class=comment></div></main><footer id=footer><div><span>© 2019</span> - <span>2023</span></div><div><span>Powered by</span>
+<a class=link href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme</span>
+<a class=link href=https://github.com/queensferryme/hugo-theme-texify>TeXify</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/bit4bit>GitHub</a> or
+<a class=link href=http://chiselapp.com/user/bit4bit/>Chiselapp</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>

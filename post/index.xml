@@ -1,4 +1,136 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Thu, 16 Feb 2023 21:09:34 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>¿Público y/o Públicado?</title><link>http://bit4bit.github.io/post/published_vs_public/</link><pubDate>Thu, 16 Feb 2023 21:09:34 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/published_vs_public/</guid><description>&lt;p>Cuando ré/factorizamos surgen nuevos elementos de los cuales
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Mon, 12 Jun 2023 14:59:38 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
+&lt;p>&lt;code>Ahí más inventores que inventos dice un amigo mio&lt;/code>.&lt;/p>
+&lt;p>Como Desarrollador y Operador de plataformas de software orientadas
+a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades
+y por lo tanto en la necesidad de mejorar el proceso de configuración y mantenimiento de los diferentes
+servicios, en este ejercicio he llegado a la conclusión que muchos
+otros ya han llegado y es usar la práctica de un entorno de pruebas automatizadas
+para configurar y probar los servicios.&lt;/p>
+&lt;p>Lo que buscamos de esta práctica es:&lt;/p>
+&lt;ul>
+&lt;li>que la configuración de servicios entre en un ciclo de integración y despliegue continuo.&lt;/li>
+&lt;li>que la configuración de los servicios este orientado a comportamientos esperados.&lt;/li>
+&lt;li>tener un mecanismo para obtener rápidamente feedback en la configuración de los servicios.&lt;/li>
+&lt;/ul>
+&lt;p>Para ilustrar como proceder vamos a configurar el servicio &lt;strong>vsftpd&lt;/strong>
+en base a una serie de requerimientos, usando una librería de pruebas automatizadas,
+en este caso usare &lt;strong>rspec&lt;/strong> y &lt;strong>ruby&lt;/strong> para el ejercicio.&lt;/p>
+&lt;p>inicializamos el entorno de pruebas de &lt;strong>rspec&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ rspec --init
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>iniciamos con una prueba fundamental y es verificar
+la sintaxis de configuración.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;spec_helper&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">validate_syntax&lt;/span>(config_path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">%x[timeout 1 vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> $?&lt;span style="font-weight:bold">.&lt;/span>exitstatus &lt;span style="font-weight:bold">==&lt;/span> &lt;span style="color:#099">0&lt;/span> &lt;span style="font-weight:bold">||&lt;/span> $?&lt;span style="font-weight:bold">.&lt;/span>exitstatus &lt;span style="font-weight:bold">==&lt;/span> &lt;span style="color:#099">124&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span>) }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> describe &lt;span style="color:#b84">&amp;#39;configuracion&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;al verificar archivo invalido falla&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;invalidline&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(validate_syntax(conf&lt;span style="font-weight:bold">.&lt;/span>path))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;al verificar archivo valido ok&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;listen_ipv6=NO&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(validate_syntax(conf&lt;span style="font-weight:bold">.&lt;/span>path))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>una vez tenemos un mecanismo para confirmar que la sintaxis
+del archivo es correcta procedemos a confirmar que el servicio
+inicializa y finaliza correctamente en presencia del archivo de configuracion indicado.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;spec_helper&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">vsftpd_start&lt;/span>(config_path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>spawn(&lt;span style="color:#b84">&amp;#34;vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>detach(pid)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#999">sleep&lt;/span> &lt;span style="color:#099">1&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> port &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">%x{lsof -p &lt;/span>&lt;span style="color:#b84">#{&lt;/span>pid&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84"> -itcp -a -P -n}&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>chomp&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#808000">/TCP.+:(\d+)/&lt;/span>,&lt;span style="color:#099">1&lt;/span>&lt;span style="font-weight:bold">].&lt;/span>to_i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {&lt;span style="color:#b84">pid&lt;/span>: pid, &lt;span style="color:#b84">port&lt;/span>: port}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">vsftpd_alive?&lt;/span>(server)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># http://dev.housetrip.com/2014/03/24/ruby-pid-tip/&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>kill(&lt;span style="color:#099">0&lt;/span>, server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:pid&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">rescue&lt;/span> &lt;span style="color:#008080">Errno&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">ESRCH&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">vsftpd_stop&lt;/span>(server)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>kill(&lt;span style="color:#099">9&lt;/span>, server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:pid&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">rescue&lt;/span> &lt;span style="color:#008080">Errno&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">ESRCH&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span>) }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> describe &lt;span style="color:#b84">&amp;#39;gestión del servicio&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;iniciar cuando el archivo de configuracion es correcto&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> vsftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(vsftpd_alive?(pid))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">ensure&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vsftpd_stop(pid)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;not iniciar cuando el archivo de configuracion es invalido&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;asdfs&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> vsftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(vsftpd_alive?(pid))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">ensure&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vsftpd_stop(pid)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>los ejercicios anteriores nos da empiezan a dar una idea de como vamos a controlar
+el servicio durante las pruebas, ya con esto procedemos con
+nuestro primer requerimiento: &lt;code>no se permite ingreso anónimo&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;spec_helper&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;net/ftp&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;comportamiento&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span>) }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;no se permite logeo anonimo&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;anonymous_enable=NO&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server &lt;span style="font-weight:bold">=&lt;/span> vsftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Net&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">FTP&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>open(&lt;span style="color:#b84">&amp;#34;127.0.0.1&amp;#34;&lt;/span>, &lt;span style="color:#b84">port&lt;/span>: server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:port&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> &lt;span style="font-weight:bold">|&lt;/span>ftp&lt;span style="font-weight:bold">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftp&lt;span style="font-weight:bold">.&lt;/span>login
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>to raise_error(&lt;span style="color:#008080">Net&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">FTPPermError&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">ensure&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vsftpd_stop(server)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="más-inventores-que-inventos">Más inventores que inventos&lt;/h3>
+&lt;ul>
+&lt;li>&lt;a href="https://developer.ibm.com/tutorials/d-bbd-guide-iac/">https://developer.ibm.com/tutorials/d-bbd-guide-iac/&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>¿Público y/o Públicado?</title><link>http://bit4bit.github.io/post/published_vs_public/</link><pubDate>Thu, 16 Feb 2023 21:09:34 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/published_vs_public/</guid><description>&lt;p>Cuando ré/factorizamos surgen nuevos elementos de los cuales
 es importante determinar si son públicos y adicionalmente estan publicados,
 si no hacemos esta aclaración podemos fácilmente crear referencias innecesarias,
 veamos un ejemplo.&lt;/p>
