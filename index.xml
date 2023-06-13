@@ -1,4 +1,53 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Mon, 12 Jun 2023 14:59:38 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Mon, 12 Jun 2023 20:59:24 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Markdown To Application</title><link>http://bit4bit.github.io/post/mdtoapp/</link><pubDate>Mon, 12 Jun 2023 20:59:24 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/mdtoapp/</guid><description>&lt;p>&lt;a href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/file?name=code/mdtoapp.rb">&lt;strong>mdotapp&lt;/strong>&lt;/a> es otra herramienta más para la programación literaria,
+pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente
+se puede crea una jerarquía de archivos de código y ejecutar el documento.&lt;/p>
+&lt;h1 id="uso">Uso&lt;/h1>
+&lt;p>se permiten los siguientes atributos en el bloque:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>file:&amp;lt;archivo&amp;gt;&lt;/code> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios.&lt;/li>
+&lt;li>&lt;code>hook:execute&lt;/code> el bloque se debe ejecutar&lt;/li>
+&lt;li>&lt;code>executable:&amp;lt;command&amp;gt;&lt;/code> indicar un comando diferente a &lt;code>sh&lt;/code> para ejecutar el bloque&lt;/li>
+&lt;li>&lt;code>@silence&lt;/code> no imprimir salida de la ejecución del bloque&lt;/li>
+&lt;/ul>
+&lt;p>la ejecución de los bloques es en el orden declarados en el documento.&lt;/p>
+&lt;h2 id="ejemplos">Ejemplos&lt;/h2>
+&lt;p>ejecutar un script&lt;/p>
+&lt;pre>
+```sh file:date.sh hook:execute
+date
+```
+&lt;/pre>
+&lt;p>se puede crear una jerarquía de archivos&lt;/p>
+&lt;pre>
+```sh file:demo/demo.sh
+echo 'hola'
+```
+&lt;/pre>
+&lt;pre>
+```sh file:run.sh hook:execute
+bash demo/demo.sh
+```
+&lt;/pre>
+&lt;p>crear un archivo de python y ejecutar las pruebas&lt;/p>
+&lt;pre>
+```python file:test.py hook:execute executable:python3
+import unittest
+class TestStringMethods(unittest.TestCase):
+def test_upper(self):
+self.assertEqual('foo'.upper(), 'FOO')
+def test_isupper(self):
+self.assertTrue('FOO'.isupper())
+self.assertFalse('Foo'.isupper())
+def test_split(self):
+s = 'hello world'
+self.assertEqual(s.split(), ['hello', 'world'])
+# check that s.split fails when the separator is not a string
+with self.assertRaises(TypeError):
+s.split(2)
+if __name__ == '__main__':
+unittest.main()
+```
+&lt;/pre></description></item><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
 &lt;p>&lt;code>Ahí más inventores que inventos dice un amigo mio&lt;/code>.&lt;/p>
 &lt;p>Como Desarrollador y Operador de plataformas de software orientadas
 a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades
@@ -16,14 +65,14 @@ para configurar y probar los servicios.&lt;/p>
 en base a una serie de requerimientos, usando una librería de pruebas automatizadas,
 en este caso usare &lt;strong>rspec&lt;/strong> y &lt;strong>ruby&lt;/strong> para el ejercicio.&lt;/p>
 &lt;p>inicializamos el entorno de pruebas de &lt;strong>rspec&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ rspec --init
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>rspec --init
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>iniciamos con una prueba fundamental y es verificar
 la sintaxis de configuración.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;spec_helper&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">validate_syntax&lt;/span>(config_path)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">%x[timeout 1 vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">%x[timeout 1 /usr/sbin/vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> $?&lt;span style="font-weight:bold">.&lt;/span>exitstatus &lt;span style="font-weight:bold">==&lt;/span> &lt;span style="color:#099">0&lt;/span> &lt;span style="font-weight:bold">||&lt;/span> $?&lt;span style="font-weight:bold">.&lt;/span>exitstatus &lt;span style="font-weight:bold">==&lt;/span> &lt;span style="color:#099">124&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -53,12 +102,12 @@ inicializa y finaliza correctamente en presencia del archivo de configuracion in
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">vsftpd_start&lt;/span>(config_path)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>spawn(&lt;span style="color:#b84">&amp;#34;vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>spawn(&lt;span style="color:#b84">&amp;#34;/usr/sbin/vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>detach(pid)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#999">sleep&lt;/span> &lt;span style="color:#099">1&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> port &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">%x{lsof -p &lt;/span>&lt;span style="color:#b84">#{&lt;/span>pid&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84"> -itcp -a -P -n}&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>chomp&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#808000">/TCP.+:(\d+)/&lt;/span>,&lt;span style="color:#099">1&lt;/span>&lt;span style="font-weight:bold">].&lt;/span>to_i
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> port &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">%x{lsof -p &lt;/span>&lt;span style="color:#b84">#{&lt;/span>pid&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84"> -itcp -a -P -n 2&amp;gt; /dev/null}&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>chomp&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#808000">/TCP.+:(\d+)/&lt;/span>,&lt;span style="color:#099">1&lt;/span>&lt;span style="font-weight:bold">].&lt;/span>to_i
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {&lt;span style="color:#b84">pid&lt;/span>: pid, &lt;span style="color:#b84">port&lt;/span>: port}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
@@ -102,7 +151,7 @@ inicializa y finaliza correctamente en presencia del archivo de configuracion in
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>los ejercicios anteriores nos da empiezan a dar una idea de como vamos a controlar
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>los ejercicios anteriores nos empiezan a dar una idea de como vamos a controlar
 el servicio durante las pruebas, ya con esto procedemos con
 nuestro primer requerimiento: &lt;code>no se permite ingreso anónimo&lt;/code>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;spec_helper&amp;#39;&lt;/span>
@@ -127,7 +176,13 @@ nuestro primer requerimiento: &lt;code>no se permite ingreso anónimo&lt;/code>&
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vsftpd_stop(server)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="más-inventores-que-inventos">Más inventores que inventos&lt;/h3>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;hellip;..&lt;/p>
+&lt;!-- mdtoapp
+```sh file:check.sh hook:execute
+rspec
+```
+-->
+&lt;h3 id="más-inventores-que-inventos">Más inventores que inventos&lt;/h3>
 &lt;ul>
 &lt;li>&lt;a href="https://developer.ibm.com/tutorials/d-bbd-guide-iac/">https://developer.ibm.com/tutorials/d-bbd-guide-iac/&lt;/a>&lt;/li>
 &lt;/ul></description></item><item><title>¿Público y/o Públicado?</title><link>http://bit4bit.github.io/post/published_vs_public/</link><pubDate>Thu, 16 Feb 2023 21:09:34 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/published_vs_public/</guid><description>&lt;p>Cuando ré/factorizamos surgen nuevos elementos de los cuales

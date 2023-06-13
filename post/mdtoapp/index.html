@@ -1,0 +1,55 @@
+<!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="mdotapp es otra herramienta más para la programación literaria, pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente se puede crea una jerarquía de archivos de código y ejecutar el documento.
+Uso se permiten los siguientes atributos en el bloque:
+file:<archivo> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios. hook:execute el bloque se debe ejecutar executable:<command> indicar un comando diferente a sh para ejecutar el bloque @silence no imprimir salida de la ejecución del bloque la ejecución de los bloques es en el orden declarados en el documento."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Markdown To Application"><meta property="og:description" content="mdotapp es otra herramienta más para la programación literaria, pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente se puede crea una jerarquía de archivos de código y ejecutar el documento.
+Uso se permiten los siguientes atributos en el bloque:
+file:<archivo> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios. hook:execute el bloque se debe ejecutar executable:<command> indicar un comando diferente a sh para ejecutar el bloque @silence no imprimir salida de la ejecución del bloque la ejecución de los bloques es en el orden declarados en el documento."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/mdtoapp/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-06-12T20:59:24-05:00"><meta property="article:modified_time" content="2023-06-12T20:59:24-05:00"><link rel=canonical href=http://bit4bit.github.io/post/mdtoapp/><meta itemprop=name content="Markdown To Application"><meta itemprop=description content="mdotapp es otra herramienta más para la programación literaria, pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente se puede crea una jerarquía de archivos de código y ejecutar el documento.
+Uso se permiten los siguientes atributos en el bloque:
+file:<archivo> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios. hook:execute el bloque se debe ejecutar executable:<command> indicar un comando diferente a sh para ejecutar el bloque @silence no imprimir salida de la ejecución del bloque la ejecución de los bloques es en el orden declarados en el documento."><meta itemprop=datePublished content="2023-06-12T20:59:24-05:00"><meta itemprop=dateModified content="2023-06-12T20:59:24-05:00"><meta itemprop=wordCount content="187"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Markdown To Application - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Markdown To Application"><meta name=twitter:description content="mdotapp es otra herramienta más para la programación literaria, pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente se puede crea una jerarquía de archivos de código y ejecutar el documento.
+Uso se permiten los siguientes atributos en el bloque:
+file:<archivo> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios. hook:execute el bloque se debe ejecutar executable:<command> indicar un comando diferente a sh para ejecutar el bloque @silence no imprimir salida de la ejecución del bloque la ejecución de los bloques es en el orden declarados en el documento."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
+<span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
+<span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>Markdown To Application</h1><article class=content><p><a href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/file?name=code/mdtoapp.rb"><strong>mdotapp</strong></a> es otra herramienta más para la programación literaria,
+pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente
+se puede crea una jerarquía de archivos de código y ejecutar el documento.</p><h1 id=uso>Uso</h1><p>se permiten los siguientes atributos en el bloque:</p><ul><li><code>file:&lt;archivo></code> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios.</li><li><code>hook:execute</code> el bloque se debe ejecutar</li><li><code>executable:&lt;command></code> indicar un comando diferente a <code>sh</code> para ejecutar el bloque</li><li><code>@silence</code> no imprimir salida de la ejecución del bloque</li></ul><p>la ejecución de los bloques es en el orden declarados en el documento.</p><h2 id=ejemplos>Ejemplos</h2><p>ejecutar un script</p><pre>
+```sh file:date.sh hook:execute
+date
+```
+</pre><p>se puede crear una jerarquía de archivos</p><pre>
+```sh file:demo/demo.sh
+echo 'hola'
+```
+</pre><pre>
+```sh file:run.sh hook:execute
+bash demo/demo.sh
+```
+</pre><p>crear un archivo de python y ejecutar las pruebas</p><pre>
+```python file:test.py hook:execute executable:python3
+import unittest
+
+class TestStringMethods(unittest.TestCase):
+
+    def test_upper(self):
+        self.assertEqual('foo'.upper(), 'FOO')
+
+    def test_isupper(self):
+        self.assertTrue('FOO'.isupper())
+        self.assertFalse('Foo'.isupper())
+
+    def test_split(self):
+        s = 'hello world'
+        self.assertEqual(s.split(), ['hello', 'world'])
+        # check that s.split fails when the separator is not a string
+        with self.assertRaises(TypeError):
+            s.split(2)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+</pre></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/infrastructure_behavior_driven_development/>← prev</a>
+<a></a></div><div class=comment></div></main><footer id=footer><div><span>© 2019</span> - <span>2023</span></div><div><span>Powered by</span>
+<a class=link href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme</span>
+<a class=link href=https://github.com/queensferryme/hugo-theme-texify>TeXify</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/bit4bit>GitHub</a> or
+<a class=link href=http://chiselapp.com/user/bit4bit/>Chiselapp</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a></span></div></footer></div></body></html>
