@@ -4,6 +4,7 @@ se puede crea una jerarquía de archivos de código y ejecutar el documento.&lt;
 &lt;h1 id="uso">Uso&lt;/h1>
 &lt;p>se permiten los siguientes atributos en el bloque:&lt;/p>
 &lt;ul>
+&lt;li>&lt;code>@mdtoapp&lt;/code> marcar el bloque para ser procesado por &lt;code>mdtoapp&lt;/code>&lt;/li>
 &lt;li>&lt;code>file:&amp;lt;archivo&amp;gt;&lt;/code> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios.&lt;/li>
 &lt;li>&lt;code>hook:execute&lt;/code> el bloque se debe ejecutar&lt;/li>
 &lt;li>&lt;code>executable:&amp;lt;command&amp;gt;&lt;/code> indicar un comando diferente a &lt;code>sh&lt;/code> para ejecutar el bloque&lt;/li>
@@ -13,24 +14,35 @@ se puede crea una jerarquía de archivos de código y ejecutar el documento.&lt;
 &lt;h2 id="ejemplos">Ejemplos&lt;/h2>
 &lt;p>ejecutar un script&lt;/p>
 &lt;pre>
-```sh file:date.sh hook:execute
+```sh @mdtoapp file:date.sh hook:execute
 date
 ```
 &lt;/pre>
 &lt;p>se puede crear una jerarquía de archivos&lt;/p>
 &lt;pre>
-```sh file:demo/demo.sh
+```sh @mdtoapp file:demo/demo.sh
 echo 'hola'
 ```
 &lt;/pre>
 &lt;pre>
-```sh file:run.sh hook:execute
+```sh @mdtoapp file:run.sh hook:execute
 bash demo/demo.sh
+```
+&lt;/pre>
+&lt;p>para agrupar diferentes bloques en un mismo archivo usar el mismo nombre de archivo&lt;/p>
+&lt;pre>
+```sh @mdtoapp file:demo.sh
+NAME=mdtoapp
+```
+&lt;/pre>
+&lt;pre>
+```sh @mdtoapp file:demo.sh hook:execute
+echo $NAME
 ```
 &lt;/pre>
 &lt;p>crear un archivo de python y ejecutar las pruebas&lt;/p>
 &lt;pre>
-```python file:test.py hook:execute executable:python3
+```python @mdtoapp file:test.py hook:execute executable:python3
 import unittest
 class TestStringMethods(unittest.TestCase):
 def test_upper(self):
@@ -47,7 +59,8 @@ s.split(2)
 if __name__ == '__main__':
 unittest.main()
 ```
-&lt;/pre></description></item><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
+&lt;/pre>
+&lt;p>&lt;code>mdtoapp &amp;lt;mi archivo markdown a ejecutar&amp;gt;&lt;/code>&lt;/p></description></item><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
 &lt;p>&lt;code>Ahí más inventores que inventos dice un amigo mio&lt;/code>.&lt;/p>
 &lt;p>Como Desarrollador y Operador de plataformas de software orientadas
 a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades
@@ -61,7 +74,7 @@ para configurar y probar los servicios.&lt;/p>
 &lt;li>que la configuración de los servicios este orientado a comportamientos esperados.&lt;/li>
 &lt;li>tener un mecanismo para obtener rápidamente feedback en la configuración de los servicios.&lt;/li>
 &lt;/ul>
-&lt;p>Para ilustrar como proceder vamos a configurar el servicio &lt;strong>vsftpd&lt;/strong>
+&lt;p>Para ilustrar como proceder vamos a configurar el servicio &lt;strong>pure-ftpd&lt;/strong>
 en base a una serie de requerimientos, usando una librería de pruebas automatizadas,
 en este caso usare &lt;strong>rspec&lt;/strong> y &lt;strong>ruby&lt;/strong> para el ejercicio.&lt;/p>
 &lt;p>inicializamos el entorno de pruebas de &lt;strong>rspec&lt;/strong>&lt;/p>
@@ -72,12 +85,12 @@ la sintaxis de configuración.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">validate_syntax&lt;/span>(config_path)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">%x[timeout 1 /usr/sbin/vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">%x[timeout 1 /usr/sbin/pure-ftpd &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">]&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> $?&lt;span style="font-weight:bold">.&lt;/span>exitstatus &lt;span style="font-weight:bold">==&lt;/span> &lt;span style="color:#099">0&lt;/span> &lt;span style="font-weight:bold">||&lt;/span> $?&lt;span style="font-weight:bold">.&lt;/span>exitstatus &lt;span style="font-weight:bold">==&lt;/span> &lt;span style="color:#099">124&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span>) }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;pure-ftpd&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;pure-ftpd&amp;#39;&lt;/span>) }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> describe &lt;span style="color:#b84">&amp;#39;configuracion&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;al verificar archivo invalido falla&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
@@ -88,7 +101,7 @@ la sintaxis de configuración.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;al verificar archivo valido ok&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;listen_ipv6=NO&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;ChrootEveryone yes&amp;#39;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(validate_syntax(conf&lt;span style="font-weight:bold">.&lt;/span>path))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">true&lt;/span>
@@ -101,8 +114,8 @@ inicializa y finaliza correctamente en presencia del archivo de configuracion in
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;spec_helper&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">vsftpd_start&lt;/span>(config_path)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>spawn(&lt;span style="color:#b84">&amp;#34;/usr/sbin/vsftpd -olisten_port=0 -olisten=YES -orun_as_launching_user=YES &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">ftpd_start&lt;/span>(config_path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>spawn(&lt;span style="color:#b84">&amp;#34;/usr/sbin/pure-ftpd &lt;/span>&lt;span style="color:#b84">#{&lt;/span>config_path&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>detach(pid)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#999">sleep&lt;/span> &lt;span style="color:#099">1&lt;/span>
@@ -112,7 +125,7 @@ inicializa y finaliza correctamente en presencia del archivo de configuracion in
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {&lt;span style="color:#b84">pid&lt;/span>: pid, &lt;span style="color:#b84">port&lt;/span>: port}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">vsftpd_alive?&lt;/span>(server)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">ftpd_alive?&lt;/span>(server)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># http://dev.housetrip.com/2014/03/24/ruby-pid-tip/&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>kill(&lt;span style="color:#099">0&lt;/span>, server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:pid&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">true&lt;/span>
@@ -120,68 +133,117 @@ inicializa y finaliza correctamente en presencia del archivo de configuracion in
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">false&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">vsftpd_stop&lt;/span>(server)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">ftpd_stop&lt;/span>(server)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Process&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>kill(&lt;span style="color:#099">9&lt;/span>, server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:pid&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">rescue&lt;/span> &lt;span style="color:#008080">Errno&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">ESRCH&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">false&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span>) }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;pure-ftpd&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;pure-ftpd&amp;#39;&lt;/span>) }
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> describe &lt;span style="color:#b84">&amp;#39;gestión del servicio&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;iniciar cuando el archivo de configuracion es correcto&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;Bind 127.0.0.1,0&amp;#39;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> vsftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> ftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(vsftpd_alive?(pid))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(ftpd_alive?(pid))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">true&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">ensure&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vsftpd_stop(pid)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftpd_stop(pid)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;not iniciar cuando el archivo de configuracion es invalido&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;asdfs&amp;#39;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> vsftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(vsftpd_alive?(pid))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">false&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pid &lt;span style="font-weight:bold">=&lt;/span> ftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect(ftpd_alive?(pid))&lt;span style="font-weight:bold">.&lt;/span>to be &lt;span style="font-weight:bold">false&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">ensure&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vsftpd_stop(pid)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftpd_stop(pid)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>los ejercicios anteriores nos empiezan a dar una idea de como vamos a controlar
-el servicio durante las pruebas, ya con esto procedemos con
-nuestro primer requerimiento: &lt;code>no se permite ingreso anónimo&lt;/code>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;spec_helper&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;tempfile&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">require&lt;/span> &lt;span style="color:#b84">&amp;#39;net/ftp&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!--
+```ruby @mdtoapp file:spec/pure-ftpd_spec.rb
+require 'spec_helper'
+require 'tempfile'
+require 'net/ftp'
+describe 'comportamiento' do
+let (:conf) { 'pure-ftpd.conf' }
+```
+```sh @mdtoapp @silence
+echo '' > pure-ftpd.users
+pure-pw mkdb pure-ftpd.pdb -f pure-ftpd.users
+```
+-->
+&lt;p>los ejercicios anteriores nos empiezan a dar una idea de como vamos a controlar
+el servicio durante las pruebas, ahora vamos a proceder a configurar el servicio
+en base los requerimientos.&lt;/p>
+&lt;p>pure-ftpd.conf&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">Bind 127.0.0.1,8021
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"># funcion de utilidad para reescribir archivos de configuracion durante las pruebas&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">substitute&lt;/span>(path, match, replace)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> content &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">File&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>read(path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">File&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>write(path, content&lt;span style="font-weight:bold">.&lt;/span>sub(match, replace))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>describe &lt;span style="color:#b84">&amp;#39;comportamiento&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> let (&lt;span style="color:#b84">:conf&lt;/span>) { &lt;span style="color:#008080">Tempfile&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>new(&lt;span style="color:#b84">&amp;#39;vsftpd&amp;#39;&lt;/span>) }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> it &lt;span style="color:#b84">&amp;#39;no se permite logeo anonimo&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>write(&lt;span style="color:#b84">&amp;#39;anonymous_enable=NO&amp;#39;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> conf&lt;span style="font-weight:bold">.&lt;/span>flush
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server &lt;span style="font-weight:bold">=&lt;/span> vsftpd_start(conf&lt;span style="font-weight:bold">.&lt;/span>path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>before { substitute(&lt;span style="color:#b84">&amp;#39;pure-ftpd.conf&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;/etc/pure-ftpd.pdb&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#34;&lt;/span>&lt;span style="color:#b84">#{&lt;/span>&lt;span style="color:#008080">Dir&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>pwd&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">/pure-ftpd.pdb&amp;#34;&lt;/span>) }
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="no-se-permite-ingreso-anonimo">no se permite ingreso anonimo&lt;/h4>
+&lt;p>pure-ftpd.conf&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">NoAnonymous yes
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>it &lt;span style="color:#b84">&amp;#39;no se permite logeo anonimo&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server &lt;span style="font-weight:bold">=&lt;/span> ftpd_start(conf)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect &lt;span style="font-weight:bold">do&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Net&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">FTP&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>open(&lt;span style="color:#b84">&amp;#34;127.0.0.1&amp;#34;&lt;/span>, &lt;span style="color:#b84">port&lt;/span>: server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:port&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> &lt;span style="font-weight:bold">|&lt;/span>ftp&lt;span style="font-weight:bold">|&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftp&lt;span style="font-weight:bold">.&lt;/span>login
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>to raise_error(&lt;span style="color:#008080">Net&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">FTPPermError&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">ensure&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> vsftpd_stop(server)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">ensure&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftpd_stop(server)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;hellip;..&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="ingreso-a-usuarios-registrados-en-archivo">ingreso a usuarios registrados en archivo&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pure-pw useradd foo -f pure-ftpd.users -u nobody -d /tmp/foo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!--
+```sh @mdtoapp file:pure-ftpd.users
+foo:$argon2id$v=19$m=8192,t=1023,p=1$0Zf62x+GpxYoM2afDVEzPg$c5bZ16UnZJM1NAkCDIoUkrvhFwR4wsVSNp4qmyfnaFc:65534:65534::/tmp/./::::::::::::
+```
+-->
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pure-pw mkdb pure-ftpd.pdb -f pure-ftpd.users
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>pure-ftpd.conf&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-conf" data-lang="conf">PureDB /etc/pure-ftpd.pdb
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>it &lt;span style="color:#b84">&amp;#39;ingreso a usuarios registrados&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server &lt;span style="font-weight:bold">=&lt;/span> ftpd_start(conf)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Net&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">FTP&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>open(&lt;span style="color:#b84">&amp;#34;127.0.0.1&amp;#34;&lt;/span>, &lt;span style="color:#b84">port&lt;/span>: server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:port&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> &lt;span style="font-weight:bold">|&lt;/span>ftp&lt;span style="font-weight:bold">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftp&lt;span style="font-weight:bold">.&lt;/span>login(&lt;span style="color:#b84">&amp;#39;foo&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;foo&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>not_to raise_error
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">ensure&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftpd_stop(server)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!--
+```ruby @mdtoapp file:spec/pure-ftpd_spec.rb
+end
+```
+-->
 &lt;!-- mdtoapp
-```sh file:check.sh hook:execute
+```sh @mdtoapp hook:execute
+cat pure-ftpd.conf
 rspec
 ```
 -->
+&lt;p>esta práctica de usar las pruebas como mecanismo para confirmar el comportamiento esperado
+del servicio puede variar en dificultad en base a:&lt;/p>
+&lt;ul>
+&lt;li>dependencias a otros servicios del sistema&lt;/li>
+&lt;li>dependencias a archivos del sistema &lt;strong>/etc/&lt;/strong>&lt;/li>
+&lt;li>configuración del servicio&lt;/li>
+&lt;/ul>
+&lt;p>&amp;hellip;..EN PROCESO&amp;hellip;.&lt;/p>
 &lt;h3 id="más-inventores-que-inventos">Más inventores que inventos&lt;/h3>
 &lt;ul>
 &lt;li>&lt;a href="https://developer.ibm.com/tutorials/d-bbd-guide-iac/">https://developer.ibm.com/tutorials/d-bbd-guide-iac/&lt;/a>&lt;/li>
