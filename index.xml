@@ -329,6 +329,19 @@ no, no están publicadas son elementos que surgieron de la refactorización y ti
 con el origen de la creación (&lt;code>Billetera&lt;/code>), posteriorme a la llegada de nuevos requerimientos se valoraría si deben ser &lt;code>publicadas&lt;/code>.&lt;/p>
 &lt;p>Ahora ¿Cómo podemos hacer explicito este concepto? ni idea (si tengo ideas), es algo que queda a la creatividad del equipo ya
 que &lt;code>depende de&lt;/code>.&lt;/p></description></item><item><title>About</title><link>http://bit4bit.github.io/about/</link><pubDate>Wed, 15 Feb 2023 21:38:19 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/about/</guid><description>&lt;p>&lt;img src="http://bit4bit.github.io/bit4bit.png" alt="bit4bit">&lt;/p>
-&lt;p>Apasionado por la enseñanza y aprendizaje del software libre,
-el desarrollo de software y desde ahora la publicación de pendejadas.&lt;/p>
-&lt;p>&lt;strong>enseña lo que sabes aprende lo que no&lt;/strong>&lt;/p></description></item></channel></rss>
+&lt;p>Apasionado por la enseñanza y aprendizaje del software libre con más de 10 años de experiencia
+en areas diversas de IT.&lt;/p>
+&lt;p>&lt;strong>enseña lo que sabes aprende lo que no&lt;/strong>&lt;/p>
+&lt;p>Consultoría en:&lt;/p>
+&lt;ul>
+&lt;li>Implementaciones de infraestructura altamente escalable de servicios VOIP (Asterisk, Freeswitch y Kamailio).&lt;/li>
+&lt;li>Implementaciones de infraestructura on-premise,serveless o cloud en AWS.&lt;/li>
+&lt;li>Soluciones integradoras telefonía sobre IP (VOIP) al negocio (conectar una linea o multiples lineas de telefonía a las operaciones de la empresa).&lt;/li>
+&lt;li>Operador de servicios IT en la nube AWS &lt;a href="https://www.credly.com/badges/2b51e642-af51-4698-9900-7d2dc0dbd3e8/public_url">Certificación&lt;/a>&lt;/li>
+&lt;li>Operador de sistemas operativo GNU/Linux.&lt;/li>
+&lt;li>Capacitación en desarrollo de software sólido.&lt;/li>
+&lt;li>Desarrollo de software en Elixir, Go, Ruby, Python, PHP u otros según cliente.&lt;/li>
+&lt;li>Adaptación y capacitación software contable &lt;a href="https://www.tryton.org">Tryton ERP&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>&lt;a href="mailto:jovany@bit4bit.in">Contactar jovany@bit4bit.in&lt;/a>&lt;/p>
+&lt;p>Ubicación - Colombia.&lt;/p></description></item></channel></rss>
