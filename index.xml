@@ -1,4 +1,343 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Mon, 12 Jun 2023 20:59:24 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Markdown To Application</title><link>http://bit4bit.github.io/post/mdtoapp/</link><pubDate>Mon, 12 Jun 2023 20:59:24 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/mdtoapp/</guid><description>&lt;p>&lt;a href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/file?name=code/mdtoapp.rb">&lt;strong>mdotapp&lt;/strong>&lt;/a> es otra herramienta más para la programación literaria,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Tue, 20 Jun 2023 16:47:56 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Básico 1</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</link><pubDate>Tue, 20 Jun 2023 16:47:56 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</guid><description>&lt;p>Tryton ERP es un excelente framework y mas su versatilidad a la hora
+de personalizar o bien escribir módulos, a continuación estudiaremos
+un poco como extender el comportamiento y la vista de los módulos el que considero
+como el primer paso para aprender a personalizar a trytond a nivel de codigo,
+asumo que se tiene conocimiento de Python, Tryton ERP y desarrollo de software en general.&lt;/p>
+&lt;p>Nuestra primera tarea es extender el modulo &lt;a href="https://docs.tryton.org/projects/modules-party/en/latest/index.html">party&lt;/a>
+y adicionar el campo &lt;a href="https://www.dane.gov.co/files/sen/nomenclatura/ciiu/CIIU_Rev_4_AC2020.pdf">CIIU&lt;/a>.&lt;/p>
+&lt;h2 id="creación-del-modulo">Creación del modulo&lt;/h2>
+&lt;p>Primero instalamos dependencias necesarias para el desarrollo del módulo.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pip3 install &lt;span style="color:#008080">trytond&lt;/span>&lt;span style="font-weight:bold">==&lt;/span>6.8.0 --user
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pip3 install proteus --user
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Ahora creamos el módulo usando plantilla por medio de &lt;a href="https://www.cookiecutter.io/">cookiecutter&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>cookiecutter git+https://gitlab.com/bit4bit/cookiecutter-tryton-module.git --directory template --no-input &lt;span style="color:#008080">module_name&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>party_ciiu &lt;span style="color:#008080">version&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>6.8.0 &lt;span style="color:#008080">test_with_scenario&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>party_ciiu.rst
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Lo anterior nos crea un directorio &lt;code>party_ciiu&lt;/code> con la estructura de un módulo de tryton.&lt;/p>
+&lt;p>Activamos el módulo en modo desarrollo.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">cd&lt;/span> party_ciiu
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>python3 setup.py develop --user
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Para confirmar que el módulo este operativo ejecutamos las pruebas.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">cd&lt;/span> party_ciiu
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Y si todo es correcto veríamos&lt;/p>
+&lt;pre>
+Ran 22 tests in 2.268s
+OK
+&lt;/pre>
+&lt;h2 id="adición-campo-ciiu_code">Adición campo &lt;code>ciiu_code&lt;/code>&lt;/h2>
+&lt;p>Nos vamos a orientador durante el desarrollo de la siguiente manera:&lt;/p>
+&lt;ul>
+&lt;li>mantener el modulo todo el tiempo en operación es decir, no deberíamos tener errores por mucho mas que unos minutos.&lt;/li>
+&lt;li>aplazar lo que mas podamos el trabajo sobre vista del modulo, ya que cuando editamos la vista se hace visible para que el usuario interactué con el modulo y si este esta incompleto abrimos el camino a las inconsistencias en el sistema.&lt;/li>
+&lt;/ul>
+&lt;p>Para avanzar y conocer el progreso de nuestro desarrollo, procederemos de la siguiente manera:&lt;/p>
+&lt;ul>
+&lt;li>describimos los escenarios o pruebas que esperamos&lt;/li>
+&lt;li>ejecutamos los escenarios o pruebas&lt;/li>
+&lt;li>corregimos el error, aclaramos la intención y volvemos al primer paso&lt;/li>
+&lt;/ul>
+&lt;p>Vamos a empezar creando el escenario que refleje nuestro objetivo de adicionar el campo &lt;code>ciiu_code&lt;/code>&lt;/p>
+&lt;p>&lt;strong>tests/scenario_create_party_with_ciiu_code.rst&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-rst" data-lang="rst">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">===================&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">Crear Party con campo ciiu_code Scenario&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">===================&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span>Dependencias&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; from proteus import Model, Wizard&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; from trytond.tests.tools import activate_modules
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>Activacion de modulos&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; config = activate_modules(&amp;#39;party_ciiu&amp;#39;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>ciiu_code es opcional al crear un nuevo party&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; Party = Model.get(&amp;#39;party.party&amp;#39;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party = Party()
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party.ciiu_code = &amp;#39;0111&amp;#39; # valor real esperados
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party.save()
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party.ciiu_code
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;#39;0111&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ejecutamos los escenarios&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>y vemos nuestro primer error&lt;/p>
+&lt;pre>
+Failed example:
+Party = Model.get('party.party')
+...
+File "/home/bit4bit/.local/lib/python3.9/site-packages/trytond/pool.py", line 190, in get
+return self._pool[self.database_name][type][name]
+KeyError: 'party.party'
+&lt;/pre>
+&lt;p>&lt;code>KeyError: 'party.party'&lt;/code> nos indica que estamos intentado acceder a un modelo que
+no esta registrado, para corregir vamos a instalar el modulo y notificar que nuestro modulo requiere del modulo &lt;code>party&lt;/code> para operar.&lt;/p>
+&lt;p>instalamos dependencia&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pip3 install trytond-party&lt;span style="font-weight:bold">==&lt;/span>6.8.0 --user
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>indicamos a trytond que requerimos del modulo &lt;code>party&lt;/code>&lt;/p>
+&lt;p>&lt;strong>tryton.cfg&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-config" data-lang="config">[tryton]
+version=6.8.0
+depends:
+ir
+party
+xml:
+&lt;/code>&lt;/pre>&lt;p>ejecutamos los escenarios&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>y vemos nuestro siguiente error&lt;/p>
+&lt;pre>
+Failed example:
+party.ciiu_code = '0110'
+Exception raised:
+Traceback (most recent call last):
+File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+exec(compile(example.source, filename, "single",
+File "&lt;doctest scenario_create_party_ciiu_code.rst[5]>", line 1, in &lt;module>
+party.ciiu_code = '0110'
+AttributeError: 'party.party' object has no attribute 'ciiu_code'
+&lt;/pre>
+&lt;p>&lt;code>AttributeError: 'party.party' object has no attribute 'ciiu_code'&lt;/code> nos indica
+que estamos intentando asignar un valor a un atributo que no existe en el modelo &lt;code>party.party&lt;/code>, para corregir necesitamos este atributo en &lt;code>party.party&lt;/code>.&lt;/p>
+&lt;p>Extendemos el modelo &lt;code>party.party&lt;/code> y adicionamos el nuevo atributo.&lt;/p>
+&lt;p>&lt;strong>party.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> PoolMeta
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> fields
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Party&lt;/span>( metaclass&lt;span style="font-weight:bold">=&lt;/span>PoolMeta):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ciiu_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;CIIU CODE&amp;#39;&lt;/span>, required&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">False&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Le indicamos a tryton el modelo que hemos extendido&lt;/p>
+&lt;p>&lt;strong>&lt;strong>init&lt;/strong>.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">.&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> party
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>__all__ &lt;span style="font-weight:bold">=&lt;/span> [&lt;span style="color:#b84">&amp;#39;register&amp;#39;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">register&lt;/span>():
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Pool&lt;span style="font-weight:bold">.&lt;/span>register(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>Party,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;party_ciiu&amp;#39;&lt;/span>, type_&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;model&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ejecutamos los escenarios&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>y por fin ya no tenemos el error&lt;/p>
+&lt;pre>
+Ran 24 tests in 9.231s
+OK
+&lt;/pre>
+&lt;p>Lo anterior nos indica que ya el &lt;code>party.party&lt;/code> tiene el nuevo atributo,
+pero aun no hemos realizado una implementacion aceptable, una implementacion
+aceptable es una implementación que se ajuste a los escenarios planteados o acordados
+con el cliente, en nuestro caso tomaremos como aceptable la implementación
+del &lt;code>ciiu_code&lt;/code> cuando este valide que el &lt;a href="https://www.dane.gov.co/files/sen/nomenclatura/ciiu/CIIU_Rev_4_AC2020.pdf">formato&lt;/a> sea el correcto y este
+entre los valores esperados según cliente.&lt;/p>
+&lt;p>&lt;strong>tests/test_entrada_es_opcional.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> RequiredValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">PartyCiiu_EntradasRequeridas_TestCase&lt;/span>(ModuleTestCase):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Test Party Ciiu module&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party_ciiu&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_ciiud_code_es_opcional&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">try&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">except&lt;/span> RequiredValidationError:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> self&lt;span style="font-weight:bold">.&lt;/span>fail(&lt;span style="color:#b84">&amp;#39;se espera campo `ciiu_code` como opcional&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">del&lt;/span> ModuleTestCase
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>siendo la salida de la ejecución&lt;/p>
+&lt;pre>
+Ran 47 tests in 12.323s
+OK
+&lt;/pre>
+&lt;p>Lo cual nos indica que no hubo errores, en nuestro caso esta prueba
+nos garantiza que si por algún motivo cambia la obligatoriedad del campo
+&lt;code>ciiu_code&lt;/code> nos alerte y tomemos las acciones pertinentes.&lt;/p>
+&lt;p>Ahora procederemos con la validación del campo, es recomendable partir de la entradas erróneas,
+al iniciar con la validación de las entradas erróneas se nos reduce el margen
+de que el programa entre en un estado inconsistente ya que en el manejo de estas
+entradas es donde usualmente se presente la mayoría de inconsistencia.&lt;/p>
+&lt;p>&lt;strong>tests/test_ciiu_code.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">PartyCiiu_ciiu_code_TestCase&lt;/span>(ModuleTestCase):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Test Party Ciiu campo ciiu_code&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party_ciiu&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_invalida_UserError&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;CIIU&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;99999&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;0&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;9999&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">del&lt;/span> ModuleTestCase
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Traceback (most recent call last):
+File "/home/bit4bit/.local/lib/python3.9/site-packages/trytond/tests/test_tryton.py", line 223, in wrapper
+result = func(*args, **kwargs)
+File "/tmp/d20230621-16221-7fnzm8/party_ciiu/tests/test_ciiu_code.py", line 18, in test_para_entrada_invalida_UserError
+party.save()
+AssertionError: ValidationError not raised
+&lt;/pre>
+&lt;p>&lt;code>AssertionError: ValidationError not raised&lt;/code> nos indica que no se lanza el error,
+ahora procederemos a corregir, como hemos visto corregir seria realizar la implementación del código o bien corregir un defecto.&lt;/p>
+&lt;p>&lt;strong>party_ciiu/party.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> PoolMeta
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> fields
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.i18n&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> gettext
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Party&lt;/span>( metaclass&lt;span style="font-weight:bold">=&lt;/span>PoolMeta):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ciiu_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;CIIU CODE&amp;#39;&lt;/span>, required&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">False&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">validate_fields&lt;/span>(cls, records, field_names):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#999">super&lt;/span>()&lt;span style="font-weight:bold">.&lt;/span>validate_fields(records, field_names)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cls&lt;span style="font-weight:bold">.&lt;/span>check_fields(records, field_names)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">check_fields&lt;/span>(cls, records, field_names):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> field_names &lt;span style="font-weight:bold">and&lt;/span> &lt;span style="font-weight:bold">not&lt;/span> (field_names &lt;span style="font-weight:bold">&amp;amp;&lt;/span> {&lt;span style="color:#b84">&amp;#39;ciiu_code&amp;#39;&lt;/span>}):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">for&lt;/span> record &lt;span style="font-weight:bold">in&lt;/span> records:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> &lt;span style="font-weight:bold">not&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>allowed_ciiu_code(record&lt;span style="font-weight:bold">.&lt;/span>ciiu_code):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">raise&lt;/span> ValidationError(gettext(&lt;span style="color:#b84">&amp;#39;party_ciiu.ciiu_code_invalid&amp;#39;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">allowed_ciiu_code&lt;/span>(cls, code):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># solo validamos los codigos de interes para nuestra implementacion&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> codes &lt;span style="font-weight:bold">=&lt;/span> [&lt;span style="font-weight:bold">None&lt;/span>, &lt;span style="color:#b84">&amp;#39;0111&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0170&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0210&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0240&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0311&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0510&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0520&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0610&amp;#39;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> code &lt;span style="font-weight:bold">in&lt;/span> codes
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Ran 70 tests in 15.363s
+OK
+&lt;/pre>
+&lt;p>ya volvimos a estar estables, ahora vamos a confirmar que el &lt;code>ciiu_code&lt;/code>
+este operativo para nuestra implementacion.&lt;/p>
+&lt;p>&lt;strong>tests/test_ciiu_code.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">PartyCiiu_ciiu_code_TestCase&lt;/span>(ModuleTestCase):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Test Party Ciiu campo ciiu_code&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party_ciiu&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_valida_no_hay_error&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;CIIU Valid&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># solo validamos los interes para nuestro cliente&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> company_codes &lt;span style="font-weight:bold">=&lt;/span> [&lt;span style="font-weight:bold">None&lt;/span>, &lt;span style="color:#b84">&amp;#39;0111&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0170&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0210&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0240&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0311&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0510&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0520&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0610&amp;#39;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">for&lt;/span> code &lt;span style="font-weight:bold">in&lt;/span> company_codes:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> code
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_invalida_UserError&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;CIIU&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;99999&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;0&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;9999&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">del&lt;/span> ModuleTestCase
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Ran 71 tests in 15.529s
+OK
+&lt;/pre>
+&lt;p>excelente ahora que hemos validado el comportamiento aceptable por el cliente,
+procedemos a activarlo en la interfaz del usuario.&lt;/p>
+&lt;p>le indicamos al tryton que vamos a extender las vista &lt;code>party.party_view_tree&lt;/code> usando el archivo &lt;code>view/party_list.xml&lt;/code> y &lt;code>party.party_view_form&lt;/code> con el archivo &lt;code>view/party_form.xml&lt;/code>&lt;/p>
+&lt;p>&lt;strong>party.xml&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;tryton&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;data&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;record&lt;/span> &lt;span style="color:#008080">model=&lt;/span>&lt;span style="color:#b84">&amp;#34;ir.ui.view&amp;#34;&lt;/span> &lt;span style="color:#008080">id=&lt;/span>&lt;span style="color:#b84">&amp;#34;party_view_tree&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;model&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>party.party&lt;span style="color:#000080">&amp;lt;/field&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;inherit&amp;#34;&lt;/span> &lt;span style="color:#008080">ref=&lt;/span>&lt;span style="color:#b84">&amp;#34;party.party_view_tree&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;name&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>party_list&lt;span style="color:#000080">&amp;lt;/field&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/record&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;record&lt;/span> &lt;span style="color:#008080">model=&lt;/span>&lt;span style="color:#b84">&amp;#34;ir.ui.view&amp;#34;&lt;/span> &lt;span style="color:#008080">id=&lt;/span>&lt;span style="color:#b84">&amp;#34;party_view_form&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;model&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>party.party&lt;span style="color:#000080">&amp;lt;/field&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;inherit&amp;#34;&lt;/span> &lt;span style="color:#008080">ref=&lt;/span>&lt;span style="color:#b84">&amp;#34;party.party_view_form&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;name&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>party_form&lt;span style="color:#000080">&amp;lt;/field&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/record&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/data&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;/tryton&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>view/party_form.xml&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;data&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;xpath&lt;/span> &lt;span style="color:#008080">expr=&lt;/span>&lt;span style="color:#b84">&amp;#34;//page[@id=&amp;#39;general&amp;#39;]&amp;#34;&lt;/span> &lt;span style="color:#008080">position=&lt;/span>&lt;span style="color:#b84">&amp;#34;after&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;ciiu_code&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/xpath&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;/data&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>view/party_list.xml&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;data&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;xpath&lt;/span> &lt;span style="color:#008080">expr=&lt;/span>&lt;span style="color:#b84">&amp;#34;//field[@name=&amp;#39;name&amp;#39;]&amp;#34;&lt;/span> &lt;span style="color:#008080">position=&lt;/span>&lt;span style="color:#b84">&amp;#34;after&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;field&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;ciiu_code&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/xpath&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;/data&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>e informamos a tryton nuestra intención sobre cambios a la vista, adicionando &lt;code>party.xml&lt;/code> a la lista &lt;code>xml&lt;/code> en &lt;code>tryton.cfg&lt;/code>&lt;/p>
+&lt;p>&lt;strong>tryton.cfg&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-config" data-lang="config">[tryton]
+version=6.8.0
+depends:
+ir
+party
+xml:
+party.xml
+&lt;/code>&lt;/pre>&lt;p>Para finalizar me gustaría comentar acerca de como usamos los dos mecanismos que ofrece &lt;strong>trytond&lt;/strong> para las pruebas, estos son:&lt;/p>
+&lt;ol>
+&lt;li>archivos &lt;strong>.rst&lt;/strong> o &lt;strong>doctests&lt;/strong>&lt;/li>
+&lt;li>pruebas por medio de &lt;strong>unittest&lt;/strong>&lt;/li>
+&lt;/ol>
+&lt;p>Usamos las pruebas &lt;strong>doctests&lt;/strong> para verificar que el modulo opere aceptable mente en los
+escenarios planteados, y usamos &lt;strong>unittest&lt;/strong> ya para verificar en detalle el comportamiento
+del modulo, diríamos que es una lupa a los escenarios de &lt;strong>doctests&lt;/strong>.&lt;/p></description></item><item><title>Markdown To Application</title><link>http://bit4bit.github.io/post/mdtoapp/</link><pubDate>Mon, 12 Jun 2023 20:59:24 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/mdtoapp/</guid><description>&lt;p>&lt;a href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/file?name=code/mdtoapp.rb">&lt;strong>mdotapp&lt;/strong>&lt;/a> es otra herramienta más para la programación literaria,
 pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente
 se puede crea una jerarquía de archivos de código y ejecutar el documento.&lt;/p>
 &lt;h1 id="uso">Uso&lt;/h1>
