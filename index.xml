@@ -50,7 +50,7 @@ OK
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; config = activate_modules(&amp;#39;party_ciiu&amp;#39;)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">
-&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>ciiu_code es opcional al crear un nuevo party&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>Party con ciiu_code&lt;span style="color:#b84">::&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; Party = Model.get(&amp;#39;party.party&amp;#39;)&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party = Party()
