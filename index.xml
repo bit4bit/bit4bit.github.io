@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Tue, 20 Jun 2023 16:47:56 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Fundamentos 1</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</link><pubDate>Tue, 20 Jun 2023 16:47:56 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</guid><description>&lt;p>Tryton ERP es un excelente framework y mas su versatilidad a la hora
-de personalizar o bien escribir módulos, a continuación estudiaremos
-un poco como extender el comportamiento y la vista de los módulos el que considero
-como el primer paso para aprender a personalizar a trytond a nivel de codigo,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Tue, 20 Jun 2023 16:47:56 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Básico 1</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</link><pubDate>Tue, 20 Jun 2023 16:47:56 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</guid><description>&lt;p>Tryton ERP además de ERP es un excelente framework y más su versatilidad a la hora
+de ser personalizado, a continuación estudiaremos
+un poco como se puede extender el comportamiento y la vista de los módulos, el que considero
+como primer paso para aprender a personalizar trytond a nivel de código,
 asumo que se tiene conocimiento de Python, Tryton ERP y desarrollo de software en general.&lt;/p>
-&lt;p>Nuestra primera tarea es extender el modulo &lt;a href="https://docs.tryton.org/projects/modules-party/en/latest/index.html">party&lt;/a>
-y adicionar el campo &lt;a href="https://www.dane.gov.co/files/sen/nomenclatura/ciiu/CIIU_Rev_4_AC2020.pdf">CIIU&lt;/a>.&lt;/p>
+&lt;p>Como ejercicio de práctica vamos a realizar la extensión del módulo &lt;a href="https://docs.tryton.org/projects/modules-party/en/latest/index.html">party&lt;/a>
+y adicionarle un campo, en nuestro caso vamos adicionar el campo &lt;a href="https://www.dane.gov.co/files/sen/nomenclatura/ciiu/CIIU_Rev_4_AC2020.pdf">CIIU&lt;/a>,
+que en Colombia se utiliza para describir la actividad económica del tercero.&lt;/p>
 &lt;h2 id="creación-del-modulo">Creación del modulo&lt;/h2>
 &lt;p>Primero instalamos dependencias necesarias para el desarrollo del módulo.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pip3 install &lt;span style="color:#008080">trytond&lt;/span>&lt;span style="font-weight:bold">==&lt;/span>6.8.0 --user
@@ -26,14 +27,14 @@ OK
 &lt;h2 id="adición-campo-ciiu_code">Adición campo &lt;code>ciiu_code&lt;/code>&lt;/h2>
 &lt;p>Nos vamos a orientador durante el desarrollo de la siguiente manera:&lt;/p>
 &lt;ul>
-&lt;li>mantener el modulo todo el tiempo en operación es decir, no deberíamos tener errores por mucho mas que unos minutos.&lt;/li>
-&lt;li>aplazar lo que mas podamos el trabajo sobre vista del modulo, ya que cuando editamos la vista se hace visible para que el usuario interactué con el modulo y si este esta incompleto abrimos el camino a las inconsistencias en el sistema.&lt;/li>
+&lt;li>mantener el módulo todo el tiempo en operación es decir, no deberíamos tener errores por mucho más que unos minutos.&lt;/li>
+&lt;li>aplazar lo que mas podamos el trabajo sobre vista del módulo, ya que cuando editamos la vista se hace visible para que el usuario interactué con el modulo y si este esta incompleto abrimos el camino a las inconsistencias en el sistema.&lt;/li>
 &lt;/ul>
 &lt;p>Para avanzar y conocer el progreso de nuestro desarrollo, procederemos de la siguiente manera:&lt;/p>
 &lt;ul>
-&lt;li>describimos los escenarios o pruebas que esperamos&lt;/li>
-&lt;li>ejecutamos los escenarios o pruebas&lt;/li>
-&lt;li>corregimos el error, aclaramos la intención y volvemos al primer paso&lt;/li>
+&lt;li>describimos los escenarios o pruebas que esperamos (etapa de especulación)&lt;/li>
+&lt;li>ejecutamos los escenarios o pruebas (etapa de ilustración)&lt;/li>
+&lt;li>corregimos el error, aclaramos la intención y volvemos al primer paso (etapa de ajuste)&lt;/li>
 &lt;/ul>
 &lt;p>Vamos a empezar creando el escenario que refleje nuestro objetivo de adicionar el campo &lt;code>ciiu_code&lt;/code>&lt;/p>
 &lt;p>&lt;strong>tests/scenario_create_party_with_ciiu_code.rst&lt;/strong>&lt;/p>
@@ -126,7 +127,7 @@ Ran 24 tests in 9.231s
 OK
 &lt;/pre>
 &lt;p>Lo anterior nos indica que ya el &lt;code>party.party&lt;/code> tiene el nuevo atributo,
-pero aun no hemos realizado una implementacion aceptable, una implementacion
+pero aun no hemos realizado una implementación aceptable, una implementación
 aceptable es una implementación que se ajuste a los escenarios planteados o acordados
 con el cliente, en nuestro caso tomaremos como aceptable la implementación
 del &lt;code>ciiu_code&lt;/code> cuando este valide que el &lt;a href="https://www.dane.gov.co/files/sen/nomenclatura/ciiu/CIIU_Rev_4_AC2020.pdf">formato&lt;/a> sea el correcto y este
@@ -161,8 +162,8 @@ nos garantiza que si por algún motivo cambia la obligatoriedad del campo
 &lt;code>ciiu_code&lt;/code> nos alerte y tomemos las acciones pertinentes.&lt;/p>
 &lt;p>Ahora procederemos con la validación del campo, es recomendable partir de la entradas erróneas,
 al iniciar con la validación de las entradas erróneas se nos reduce el margen
-de que el programa entre en un estado inconsistente ya que en el manejo de estas
-entradas es donde usualmente se presente la mayoría de inconsistencia.&lt;/p>
+de que el programa entre en un estado inconsistente, ya que en el manejo de estas
+entradas es donde usualmente se presenta la mayoría de inconsistencia.&lt;/p>
 &lt;p>&lt;strong>tests/test_ciiu_code.py&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
@@ -239,7 +240,7 @@ Ran 70 tests in 15.363s
 OK
 &lt;/pre>
 &lt;p>ya volvimos a estar estables, ahora vamos a confirmar que el &lt;code>ciiu_code&lt;/code>
-este operativo para nuestra implementacion.&lt;/p>
+este operativo según los acordado con el cliente.&lt;/p>
 &lt;p>&lt;strong>tests/test_ciiu_code.py&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
@@ -256,7 +257,7 @@ este operativo para nuestra implementacion.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;CIIU Valid&amp;#39;&lt;/span>}])
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># solo validamos los interes para nuestro cliente&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># solo validamos los de interes para nuestro cliente&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> company_codes &lt;span style="font-weight:bold">=&lt;/span> [&lt;span style="font-weight:bold">None&lt;/span>, &lt;span style="color:#b84">&amp;#39;0111&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0170&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0210&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0240&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0311&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0510&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0520&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;0610&amp;#39;&lt;/span>]
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">for&lt;/span> code &lt;span style="font-weight:bold">in&lt;/span> company_codes:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>ciiu_code &lt;span style="font-weight:bold">=&lt;/span> code
@@ -330,14 +331,26 @@ ir
 party
 xml:
 party.xml
-&lt;/code>&lt;/pre>&lt;p>Para finalizar me gustaría comentar acerca de como usamos los dos mecanismos que ofrece &lt;strong>trytond&lt;/strong> para las pruebas, estos son:&lt;/p>
+&lt;/code>&lt;/pre>&lt;p>Aclaro que el objetivo del ejercicio no era entrar en las particularidades para la creación del módulo,
+sino conocer el procedimiento en general para escribir un módulo de trytond siendo este:&lt;/p>
+&lt;ul>
+&lt;li>creación del módulo usando la plantilla&lt;/li>
+&lt;li>escribir el módulo usando el un ciclo de: especular, ilustrar y ajustar&lt;/li>
+&lt;li>plantear los escenarios aceptables acordados con el cliente en &lt;strong>doctest&lt;/strong>&lt;/li>
+&lt;li>informar a trytond nuestra intención por medio de &lt;strong>tryton.cfg&lt;/strong> y &lt;strong>&lt;strong>init&lt;/strong>.py&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>Y para finalizar me gustaría comentar acerca de como usamos los dos mecanismos que ofrece &lt;strong>trytond&lt;/strong> para las pruebas, estos son:&lt;/p>
 &lt;ol>
 &lt;li>archivos &lt;strong>.rst&lt;/strong> o &lt;strong>doctests&lt;/strong>&lt;/li>
 &lt;li>pruebas por medio de &lt;strong>unittest&lt;/strong>&lt;/li>
 &lt;/ol>
-&lt;p>Usamos las pruebas &lt;strong>doctests&lt;/strong> para verificar que el modulo opere aceptable mente en los
-escenarios planteados, y usamos &lt;strong>unittest&lt;/strong> ya para verificar en detalle el comportamiento
-del modulo, diríamos que es una lupa a los escenarios de &lt;strong>doctests&lt;/strong>.&lt;/p></description></item><item><title>Markdown To Application</title><link>http://bit4bit.github.io/post/mdtoapp/</link><pubDate>Mon, 12 Jun 2023 20:59:24 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/mdtoapp/</guid><description>&lt;p>&lt;a href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/file?name=code/mdtoapp.rb">&lt;strong>mdotapp&lt;/strong>&lt;/a> es otra herramienta más para la programación literaria,
+&lt;p>Usamos las pruebas &lt;strong>doctests&lt;/strong> para verificar que el módulo opere aceptablemente en los
+escenarios planteados acordados con el cliente, y usamos &lt;strong>unittest&lt;/strong> ya para verificar en detalle el comportamiento
+del módulo, diríamos que este último es una lupa a los escenarios de &lt;strong>doctests&lt;/strong>.&lt;/p>
+&lt;h3 id="agradecimientos">Agradecimientos&lt;/h3>
+&lt;ul>
+&lt;li>&lt;code>@rakolnivok28&lt;/code> por las sugerencias&lt;/li>
+&lt;/ul></description></item><item><title>Markdown To Application</title><link>http://bit4bit.github.io/post/mdtoapp/</link><pubDate>Mon, 12 Jun 2023 20:59:24 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/mdtoapp/</guid><description>&lt;p>&lt;a href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/file?name=code/mdtoapp.rb">&lt;strong>mdotapp&lt;/strong>&lt;/a> es otra herramienta más para la programación literaria,
 pero con un objetivo practico: hacer ejecutable los post de este sitio, la diferencia fundamental con otras herramientas es que fácilmente
 podemos crear una aplicación de software es decir múltiples archivos con código ejecutable.&lt;/p>
 &lt;h1 id="uso">Uso&lt;/h1>
