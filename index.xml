@@ -338,14 +338,14 @@ party.xml
 &lt;p>Usamos las pruebas &lt;strong>doctests&lt;/strong> para verificar que el modulo opere aceptable mente en los
 escenarios planteados, y usamos &lt;strong>unittest&lt;/strong> ya para verificar en detalle el comportamiento
 del modulo, diríamos que es una lupa a los escenarios de &lt;strong>doctests&lt;/strong>.&lt;/p></description></item><item><title>Markdown To Application</title><link>http://bit4bit.github.io/post/mdtoapp/</link><pubDate>Mon, 12 Jun 2023 20:59:24 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/mdtoapp/</guid><description>&lt;p>&lt;a href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/file?name=code/mdtoapp.rb">&lt;strong>mdotapp&lt;/strong>&lt;/a> es otra herramienta más para la programación literaria,
-pero con un objetivo practico: hacer ejecutable los post de este blog, la diferencia fundamental con otras herramientas es que fácilmente
-se puede crea una jerarquía de archivos de código y ejecutar el documento.&lt;/p>
+pero con un objetivo practico: hacer ejecutable los post de este sitio, la diferencia fundamental con otras herramientas es que fácilmente
+podemos crear una aplicación de software es decir múltiples archivos con código ejecutable.&lt;/p>
 &lt;h1 id="uso">Uso&lt;/h1>
 &lt;p>se permiten los siguientes atributos en el bloque:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>@mdtoapp&lt;/code> marcar el bloque para ser procesado por &lt;code>mdtoapp&lt;/code>&lt;/li>
 &lt;li>&lt;code>file:&amp;lt;archivo&amp;gt;&lt;/code> escribir contenido en el archivo indicado, se puede indicar una ruta de directorios.&lt;/li>
-&lt;li>&lt;code>hook:execute&lt;/code> el bloque se debe ejecutar&lt;/li>
+&lt;li>&lt;code>@execute&lt;/code> el bloque se debe ejecutar&lt;/li>
 &lt;li>&lt;code>executable:&amp;lt;command&amp;gt;&lt;/code> indicar un comando diferente a &lt;code>sh&lt;/code> para ejecutar el bloque&lt;/li>
 &lt;li>&lt;code>@silence&lt;/code> no imprimir salida de la ejecución del bloque&lt;/li>
 &lt;/ul>
@@ -353,7 +353,7 @@ se puede crea una jerarquía de archivos de código y ejecutar el documento.&lt;
 &lt;h2 id="ejemplos">Ejemplos&lt;/h2>
 &lt;p>ejecutar un script&lt;/p>
 &lt;pre>
-```sh @mdtoapp file:date.sh hook:execute
+```sh @mdtoapp file:date.sh @execute
 date
 ```
 &lt;/pre>
@@ -364,7 +364,7 @@ echo 'hola'
 ```
 &lt;/pre>
 &lt;pre>
-```sh @mdtoapp file:run.sh hook:execute
+```sh @mdtoapp file:run.sh @execute
 bash demo/demo.sh
 ```
 &lt;/pre>
@@ -375,13 +375,13 @@ NAME=mdtoapp
 ```
 &lt;/pre>
 &lt;pre>
-```sh @mdtoapp file:demo.sh hook:execute
+```sh @mdtoapp file:demo.sh @execute
 echo $NAME
 ```
 &lt;/pre>
 &lt;p>crear un archivo de python y ejecutar las pruebas&lt;/p>
 &lt;pre>
-```python @mdtoapp file:test.py hook:execute executable:python3
+```python @mdtoapp file:test.py @execute executable:python3
 import unittest
 class TestStringMethods(unittest.TestCase):
 def test_upper(self):
@@ -399,7 +399,9 @@ if __name__ == '__main__':
 unittest.main()
 ```
 &lt;/pre>
-&lt;p>&lt;code>mdtoapp &amp;lt;mi archivo markdown a ejecutar&amp;gt;&lt;/code>&lt;/p></description></item><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
+&lt;p>&lt;code>ruby mdtoapp.rb &amp;lt;mi archivo markdown a ejecutar&amp;gt;&lt;/code>&lt;/p>
+&lt;p>los post de este sitio pueden ser ejecutados usando &lt;strong>mdtoapp.rb&lt;/strong>, ejemplo&lt;/p>
+&lt;p>&lt;code>ruby mdtoapp.rb 'https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&amp;amp;filename=content/post%2fmdtoapp.md'&lt;/code>&lt;/p></description></item><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
 &lt;p>&lt;code>Ahí más inventores que inventos dice un amigo mio&lt;/code>.&lt;/p>
 &lt;p>Como Desarrollador y Operador de plataformas de software orientadas
 a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades
