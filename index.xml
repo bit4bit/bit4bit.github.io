@@ -1,4 +1,349 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Tue, 20 Jun 2023 16:47:56 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Básico 1</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</link><pubDate>Tue, 20 Jun 2023 16:47:56 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</guid><description>&lt;p>Tryton ERP además de ERP es un excelente framework y más su versatilidad a la hora
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Thu, 22 Jun 2023 16:40:04 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Básico 2 (TODO)</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</link><pubDate>Thu, 22 Jun 2023 16:40:04 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</guid><description>&lt;p>&amp;hellip;EN PROGRESO&amp;hellip;&lt;/p>
+&lt;p>Ahora el siguiente paso para personalizar trytond a nivel de codigo es la creacion de modelos, ahora para una solucion efectiva al problema en desarrollo con el cliente
+es usar la comunicacion entre modelos para expresar la solucion, es decir
+la solucion no esta en los modelos en si sino en la conversacion entre estos,
+cuando hablo de conversacion entre modelos tecnicamente seria la llamada
+de los metodos de los objetos representativos de los modelos, veamos un poco
+mas complejo que el presentado en &lt;strong>Basico 1&lt;/strong>.&lt;/p>
+&lt;p>Digamos que nuestro cliente vende minutos de telefonia y mensajes de texto SMS,
+se encuentra con el inconveniente que no tiene una plataforma para llevar
+control de la facturacion y una vez se ha conversado sobre el asunto
+se llega a la conclusion de que:&lt;/p>
+&lt;ul>
+&lt;li>Tryton ERP es el software adecuado&lt;/li>
+&lt;li>se debe vincular Tryton ERP a la plataforma de telefonia para llevar la tarificacion&lt;/li>
+&lt;/ul>
+&lt;p>En la siguiente conversacion con el equipo de telefonia, nos comentan
+que diariamente a las 00:00-05 suben el archivo a un servidor y nos podrian
+dar acceso por media de HTTP para descargar el archivo de nombre formateado &lt;code>yyyy-mm-dd.csv&lt;/code>
+| client_code | billsec | sms | day |
+| AB123 | 1000 | 1 | 2023-06-22 |
+| CP535 | 2000 | 100 | 2023-06-22 |&lt;/p>
+&lt;p>Con la informacion anterior se plantean los siguientes escenarios con el cliente
+para coordinar la entregar del proyecto:&lt;/p>
+&lt;ul>
+&lt;li>Como administrador debo ser capaz de asociar Party a un cliente de telefonia.&lt;/li>
+&lt;li>Como servicio autonomo concilio diariamente los saldos entregados por telefonia.&lt;/li>
+&lt;li>Como administrador debo ser capaz de determinar que saldos de telefonia no estan asociados a un Party.&lt;/li>
+&lt;li>Como administrador debo ser capaz de generar una factura en borrador usando
+los saldos de telefonia de un rango de fechas indicado.&lt;/li>
+&lt;/ul>
+&lt;h3 id="creamos-el-modulo">creamos el modulo&lt;/h3>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pip3 install &lt;span style="color:#008080">trytond&lt;/span>&lt;span style="font-weight:bold">==&lt;/span>6.8.0 --user
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>pip3 install proteus --user
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>cookiecutter git+https://gitlab.com/bit4bit/cookiecutter-tryton-module.git --directory template --no-input &lt;span style="color:#008080">module_name&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>charging_tel &lt;span style="color:#008080">version&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>6.8.0 &lt;span style="color:#008080">test_with_scenario&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>charging_tel.rst
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">cd&lt;/span> charging_tel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>python3 setup.py develop --user
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>confirmamos que tengamos operatividad&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">cd&lt;/span> charging_tel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Ran 23 tests in 4.381s
+OK
+&lt;/pre>
+&lt;h1 id="como-administrador-debo-ser-capaz-de-asociar-party-a-un-cliente-de-telefonia">Como administrador debo ser capaz de asociar Party a un cliente de telefonia.&lt;/h1>
+&lt;p>&lt;strong>tests/scenario_administrator_create_party_with_client_code.rst&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-rst" data-lang="rst">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">===================&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">Administrador Crear Party con campo client_code Scenario&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">===================&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span>Dependencias&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; from proteus import Model, Wizard&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; from trytond.tests.tools import activate_modules
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>Activacion de modulos&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; config = activate_modules(&amp;#39;charging_tel&amp;#39;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>Party con client_code&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; Party = Model.get(&amp;#39;party.party&amp;#39;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party = Party()
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party.client_code = &amp;#39;AB123&amp;#39; # valor real uno de los entregados
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party.save()
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; party.client_code
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;#39;AB123&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Failed example:
+Party = Model.get('party.party')
+...
+return self._pool[self.database_name][type][name]
+KeyError: 'party.party'
+&lt;/pre>
+&lt;p>&lt;code>KeyError: 'party.party'&lt;/code> ya conocemos que debemos hacer&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pip3 install trytond-party&lt;span style="font-weight:bold">==&lt;/span>6.8.0 --user
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>tryton.cfg&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-config" data-lang="config">[tryton]
+version=6.8.0
+depends:
+ir
+party
+xml:
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Failed example:
+party.client_code = 'AB123' # valor real uno de los entregados
+Exception raised:
+Traceback (most recent call last):
+File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+exec(compile(example.source, filename, "single",
+File "&lt;doctest scenario_party_with_client_code.rst[5]>", line 1, in &lt;module>
+party.client_code = 'AB123' # valor real uno de los entregados
+AttributeError: 'party.party' object has no attribute 'client_code'
+&lt;/pre>
+&lt;p>&lt;code>AttributeError: 'party.party'&lt;/code> ya conocemos que debemos hacer&lt;/p>
+&lt;p>&lt;strong>party.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> PoolMeta
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> fields
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Party&lt;/span>(metaclass&lt;span style="font-weight:bold">=&lt;/span>PoolMeta):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># campo para relacionar party con el cliente de telefonia&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;Client Code&amp;#39;&lt;/span>, required&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">False&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Le indicamos a tryton el modelo que hemos extendido&lt;/p>
+&lt;p>&lt;strong>&lt;strong>init&lt;/strong>.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">.&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> party
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>__all__ &lt;span style="font-weight:bold">=&lt;/span> [&lt;span style="color:#b84">&amp;#39;register&amp;#39;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">register&lt;/span>():
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Pool&lt;span style="font-weight:bold">.&lt;/span>register(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>Party,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;charging_tel&amp;#39;&lt;/span>, type_&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;model&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Ran 24 tests in 8.997s
+OK
+&lt;/pre>
+&lt;p>por ahora dejare por fuera la gestion de permisos por usuario, ya
+que los usuarios no administrador no deberian ser capaces de cambiar el campo
+&lt;code>client_code&lt;/code>&lt;/p>
+&lt;h2 id="ahora-pasamos-a-verificar-que-el-client_code-sea-en-el-formato-esperado">ahora pasamos a verificar que el client_code sea en el formato esperado&lt;/h2>
+&lt;p>&lt;strong>tests/test_party_client_code.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Party_client_code_TestCase&lt;/span>(ModuleTestCase):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Test Party client_code&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;charging_tel&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_invalida_hay_error&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TEL&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;123546&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;3515ABC&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;_535&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;A535.&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_valida_no_hay_error&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TELO&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;AB123&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;CP535&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">del&lt;/span> ModuleTestCase
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Traceback (most recent call last):
+File "/home/bit4bit/.local/lib/python3.9/site-packages/trytond/tests/test_tryton.py", line 223, in wrapper
+result = func(*args, **kwargs)
+File "/tmp/d20230622-6588-e3ry82/charging_tel/tests/test_party_client_code.py", line 18, in test_para_entrada_invalida_UserError
+party.save()
+AssertionError: ValidationError not raised
+&lt;/pre>
+&lt;p>&lt;code>AssertionError: ValidationError not raised&lt;/code> ya conocemos como proceder&lt;/p>
+&lt;p>&lt;strong>party.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#555">re&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> PoolMeta
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> fields
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.i18n&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> gettext
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Party&lt;/span>(metaclass&lt;span style="font-weight:bold">=&lt;/span>PoolMeta):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># relacionamos party con cliente de telefonia&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;Client Code&amp;#39;&lt;/span>, required&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">False&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">validate_fields&lt;/span>(cls, records, field_names):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#999">super&lt;/span>()&lt;span style="font-weight:bold">.&lt;/span>validate_fields(records, field_names)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cls&lt;span style="font-weight:bold">.&lt;/span>check_fields(records, field_names)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">check_fields&lt;/span>(cls, records, field_names):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> field_names &lt;span style="font-weight:bold">and&lt;/span> &lt;span style="font-weight:bold">not&lt;/span> (field_names &lt;span style="font-weight:bold">&amp;amp;&lt;/span> {&lt;span style="color:#b84">&amp;#39;client_code&amp;#39;&lt;/span>}):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">for&lt;/span> record &lt;span style="font-weight:bold">in&lt;/span> records:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> &lt;span style="font-weight:bold">not&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>is_allowed_client_code(record&lt;span style="font-weight:bold">.&lt;/span>client_code):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">raise&lt;/span> ValidationError(gettext(&lt;span style="color:#b84">&amp;#39;charging_tel.client_code_invalid&amp;#39;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">is_allowed_client_code&lt;/span>(cls, code):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># opcional&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> code &lt;span style="font-weight:bold">is&lt;/span> &lt;span style="font-weight:bold">None&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Ran 47 tests in 11.937s
+OK
+&lt;/pre>
+&lt;p>a este punto nos preguntamos si &lt;code>client_code&lt;/code> debe ser unico por cliente,
+lo cual es luego confirmado por el equipo tecnico de telefonia,
+entonces procedemos confirmar esta restriccion.&lt;/p>
+&lt;p>&lt;strong>tests/test_party_client_code.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Party_client_code_TestCase&lt;/span>(ModuleTestCase):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Test Party client_code&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;charging_tel&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_valida_debe_ser_unico&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _, party &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TEL A&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;code&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;AB123&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TEL B&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(&lt;span style="color:#900;font-weight:bold">Exception&lt;/span>):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;AB123&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_invalida_hay_error&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TEL&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;123546&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;3515ABC&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;_535&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(ValidationError):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;A535.&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_para_entrada_valida_no_hay_error&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party, &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TELO&amp;#39;&lt;/span>}])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;AB123&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>client_code &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;CP535&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>save()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">del&lt;/span> ModuleTestCase
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Traceback (most recent call last):
+File "/home/bit4bit/.local/lib/python3.9/site-packages/trytond/tests/test_tryton.py", line 223, in wrapper
+result = func(*args, **kwargs)
+File "/tmp/d20230622-7701-1wybgva/charging_tel/tests/test_party_client_code.py", line 99, in test_para_entrada_valida_debe_ser_unico
+party.save()
+AssertionError: Exception not raised
+&lt;/pre>
+&lt;p>aja ya sabemos que hacer ;)&lt;/p>
+&lt;p>&lt;strong>party.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#555">re&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> PoolMeta
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> (Unique, fields)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.i18n&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> gettext
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model.exceptions&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ValidationError
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">Party&lt;/span>(metaclass&lt;span style="font-weight:bold">=&lt;/span>PoolMeta):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># relacionamos party con cliente de telefonia&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;Client Code&amp;#39;&lt;/span>, required&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">False&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">__setup__&lt;/span>(cls):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#999">super&lt;/span>()&lt;span style="font-weight:bold">.&lt;/span>__setup__()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># ver https://docs.tryton.org/projects/server/en/latest/ref/models.html#trytond.model.ModelSQL._sql_constraints&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> t &lt;span style="font-weight:bold">=&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>__table__()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># hacemos efectiva la restriccion desde base de datos&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cls&lt;span style="font-weight:bold">.&lt;/span>_sql_constraints &lt;span style="font-weight:bold">=&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#b84">&amp;#39;client_code_unique&amp;#39;&lt;/span>, Unique(t, t&lt;span style="font-weight:bold">.&lt;/span>client_code),
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;charging_tel.msg_client_code_unique&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">validate_fields&lt;/span>(cls, records, field_names):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#999">super&lt;/span>()&lt;span style="font-weight:bold">.&lt;/span>validate_fields(records, field_names)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cls&lt;span style="font-weight:bold">.&lt;/span>check_fields(records, field_names)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">check_fields&lt;/span>(cls, records, field_names):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> field_names &lt;span style="font-weight:bold">and&lt;/span> &lt;span style="font-weight:bold">not&lt;/span> (field_names &lt;span style="font-weight:bold">&amp;amp;&lt;/span> {&lt;span style="color:#b84">&amp;#39;client_code&amp;#39;&lt;/span>}):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">for&lt;/span> record &lt;span style="font-weight:bold">in&lt;/span> records:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> &lt;span style="font-weight:bold">not&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>is_allowed_client_code(record&lt;span style="font-weight:bold">.&lt;/span>client_code):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">raise&lt;/span> ValidationError(gettext(&lt;span style="color:#b84">&amp;#39;charging_tel.client_code_invalid&amp;#39;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">is_allowed_client_code&lt;/span>(cls, code):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># opcional&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> code &lt;span style="font-weight:bold">is&lt;/span> &lt;span style="font-weight:bold">None&lt;/span>:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+&lt;/pre></description></item><item><title>Escribiendo un Modulo de Tryton ERP Básico 1</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</link><pubDate>Tue, 20 Jun 2023 16:47:56 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</guid><description>&lt;p>Tryton ERP además de ERP es un excelente framework y más su versatilidad a la hora
 de ser personalizado, a continuación estudiaremos
 un poco como se puede extender el comportamiento y la vista de los módulos, el que considero
 como primer paso para aprender a personalizar trytond a nivel de código,
