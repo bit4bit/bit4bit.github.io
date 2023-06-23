@@ -239,7 +239,7 @@ entonces procedemos confirmar esta restriccion.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Party &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;party.party&amp;#39;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _, party &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TEL A&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;code&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;AB123&amp;#39;&lt;/span>},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> _, party &lt;span style="font-weight:bold">=&lt;/span> Party&lt;span style="font-weight:bold">.&lt;/span>create([{&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TEL A&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;client_code&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;AB123&amp;#39;&lt;/span>},
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {&lt;span style="color:#b84">&amp;#39;name&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;TEL B&amp;#39;&lt;/span>}])
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> self&lt;span style="font-weight:bold">.&lt;/span>assertRaises(&lt;span style="color:#900;font-weight:bold">Exception&lt;/span>):
@@ -314,7 +314,7 @@ AssertionError: Exception not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># ver https://docs.tryton.org/projects/server/en/latest/ref/models.html#trytond.model.ModelSQL._sql_constraints&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> t &lt;span style="font-weight:bold">=&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>__table__()
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># hacemos efectiva la restriccion desde base de datos&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cls&lt;span style="font-weight:bold">.&lt;/span>_sql_constraints &lt;span style="font-weight:bold">=&lt;/span> [
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cls&lt;span style="font-weight:bold">.&lt;/span>_sql_constraints &lt;span style="font-weight:bold">+=&lt;/span> [
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#b84">&amp;#39;client_code_unique&amp;#39;&lt;/span>, Unique(t, t&lt;span style="font-weight:bold">.&lt;/span>client_code),
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;charging_tel.msg_client_code_unique&amp;#39;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ]
@@ -343,7 +343,204 @@ AssertionError: Exception not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
-&lt;/pre></description></item><item><title>Escribiendo un Modulo de Tryton ERP Básico 1</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</link><pubDate>Tue, 20 Jun 2023 16:47:56 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</guid><description>&lt;p>Tryton ERP además de ERP es un excelente framework y más su versatilidad a la hora
+Ran 49 tests in 12.318s
+OK
+&lt;/pre>
+&lt;h1 id="como-servicio-autonomo-concilio-diariamente-los-saldos-entregados-por-telefonia">Como servicio autonomo concilio diariamente los saldos entregados por telefonia.&lt;/h1>
+&lt;p>&lt;strong>tests/scenario_create_recharge_tel.rst&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-rst" data-lang="rst">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">===================&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">Crear Cargo de Telefonia&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999">===================&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span>Dependencias&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; from proteus import Model, Wizard&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; from trytond.tests.tools import activate_modules
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>Activacion de modulos&lt;span style="color:#b84">::&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84"> &amp;gt;&amp;gt;&amp;gt; config = activate_modules(&amp;#39;charging_tel&amp;#39;)&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#b84">&lt;/span>Crear cargo de telefonia:&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span> &amp;gt;&amp;gt;&amp;gt; example_csv = open(&amp;#39;tests/tel_2023-06-23.csv&amp;#39;).read().encode()&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span> &amp;gt;&amp;gt;&amp;gt; ChargeTel = Model.get(&amp;#39;charging_tel.charge_tel&amp;#39;)&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span> &amp;gt;&amp;gt;&amp;gt; ChargeTel.import_csv(example_csv)&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span> &amp;gt;&amp;gt;&amp;gt; len(ChargeTel.find())&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a61717;background-color:#e3d2d2">&lt;/span> 2&lt;span style="color:#a61717;background-color:#e3d2d2">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Failed example:
+example_csv = open('tests/tel_2023-06-23.csv').read().encode()
+Exception raised:
+Traceback (most recent call last):
+File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+exec(compile(example.source, filename, "single",
+File "&lt;doctest scenario_create_charge_tel.rst[3]>", line 1, in &lt;module>
+example_csv = open('tests/tel_2023-06-23.csv').read().encode()
+FileNotFoundError: [Errno 2] No such file or directory: 'tests/tel_2023-06-23.csv'
+&lt;/pre>
+&lt;p>Efectivamente nos informa que no tenemos el archivo de muestra, vamos a crearlo&lt;/p>
+&lt;p>&lt;strong>tests/tel_2023-06-23.csv&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-csv" data-lang="csv">client_code,billsec,sms,day
+ABC123,1000,1,2023-06-22
+CP535,2000,100,2023-06-22
+&lt;/code>&lt;/pre>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Failed example:
+ChargeTel = Model.get('charging_tel.charge_tel')
+...
+return self._pool[self.database_name][type][name]
+KeyError: 'charging_tel.charge_tel'
+&lt;/pre>
+&lt;p>Aja, ya vamos volviendos habiles en esto, ya sabemos que debemos hacer.&lt;/p>
+&lt;p>&lt;strong>charge_tel.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModelView, ModelSQL, fields
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">ChargeTel&lt;/span>(ModelSQL, ModelView):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Charge Tel&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;charging_tel.charge_tel&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># habilitamos `readonly` para indicar que no puede ser editado luego de creado&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;Client Code&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> billsec &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;Billsec&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sms &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;SMS&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> day &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Date(&lt;span style="color:#b84">&amp;#39;DAY&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>&lt;strong>init&lt;/strong>.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">.&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> party
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">.&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> charge_tel
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>__all__ &lt;span style="font-weight:bold">=&lt;/span> [&lt;span style="color:#b84">&amp;#39;register&amp;#39;&lt;/span>]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">register&lt;/span>():
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Pool&lt;span style="font-weight:bold">.&lt;/span>register(
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> party&lt;span style="font-weight:bold">.&lt;/span>Party,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> charge_tel&lt;span style="font-weight:bold">.&lt;/span>ChargeTel,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;charging_tel&amp;#39;&lt;/span>, type_&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;model&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Failed example:
+ChargeTel.import_csv(example_csv)
+Exception raised:
+Traceback (most recent call last):
+File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+exec(compile(example.source, filename, "single",
+File "&lt;doctest scenario_create_charge_tel.rst[5]>", line 1, in &lt;module>
+ChargeTel.import_csv(example_csv)
+AttributeError: type object 'charging_tel.charge_tel' has no attribute 'import_csv'
+&lt;/pre>
+&lt;p>&lt;strong>charge_tel.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModelView, ModelSQL, fields
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">ChargeTel&lt;/span>(ModelSQL, ModelView):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Charge Tel&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;charging_tel.charge_tel&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># habilitamos `readonly` para indicar que no puede ser editado luego de creado&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;Client Code&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> billsec &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;Billsec&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sms &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;SMS&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> day &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Date(&lt;span style="color:#b84">&amp;#39;DAY&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">import_csv&lt;/span>(cls, path):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">pass&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Failed example:
+ChargeTel.import_csv(example_csv)
+Exception raised:
+Traceback (most recent call last):
+File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+exec(compile(example.source, filename, "single",
+File "&lt;doctest scenario_create_charge_tel.rst[5]>", line 1, in &lt;module>
+ChargeTel.import_csv(example_csv)
+AttributeError: type object 'charging_tel.charge_tel' has no attribute 'import_csv'
+&lt;/pre>
+&lt;p>uuu nos indica que el modelo no tiene el atributo &lt;code>import_csv&lt;/code>, que en nuestro caso
+esperamos sea el metodo de importacion, podriamos hacer accesible este metodo a proteus usando el mecanismo &lt;strong>RPC&lt;/strong> de trytond pero en nuestro caso publicariamos
+este metodo solo con el objetivo de realizar la prueba, estas situaciones
+es un indicio que el camino que hemos tomado no es el mas adecuado sea que
+la prueba que planteamos es confusa o bien el mecanismo para probar no es el mas adecuado,
+vamos a transladar la prueba como prueba de unidad.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>rm -f tests/scenario_create_charge_tel.rst
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>tests/test_create_charge_tel.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#555">datetime&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.tests.test_tryton&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModuleTestCase, with_transaction
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.pool&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> Pool
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">CreateChargeTel&lt;/span>(ModuleTestCase):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Test Create Charge Tel&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> module &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;charging_tel&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @with_transaction()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">test_crear_cargos_desde_csv&lt;/span>(self):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ChargeTel &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;charging_tel.charge_tel&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ChargeTel&lt;span style="font-weight:bold">.&lt;/span>import_csv(&lt;span style="color:#b84">&amp;#39;tests/tel_2023-06-23.csv&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> charges &lt;span style="font-weight:bold">=&lt;/span> ChargeTel&lt;span style="font-weight:bold">.&lt;/span>search([])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> got &lt;span style="font-weight:bold">=&lt;/span> [{&lt;span style="color:#b84">&amp;#39;client_code&amp;#39;&lt;/span>: c&lt;span style="font-weight:bold">.&lt;/span>client_code,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;billsec&amp;#39;&lt;/span>: c&lt;span style="font-weight:bold">.&lt;/span>billsec,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;sms&amp;#39;&lt;/span>: c&lt;span style="font-weight:bold">.&lt;/span>sms,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;day&amp;#39;&lt;/span>: c&lt;span style="font-weight:bold">.&lt;/span>day} &lt;span style="font-weight:bold">for&lt;/span> c &lt;span style="font-weight:bold">in&lt;/span> charges]
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> self&lt;span style="font-weight:bold">.&lt;/span>assertListEqual([
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {&lt;span style="color:#b84">&amp;#39;client_code&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;ABC123&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;billsec&amp;#39;&lt;/span>: &lt;span style="color:#099">1000&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;sms&amp;#39;&lt;/span>: &lt;span style="color:#099">1&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;day&amp;#39;&lt;/span>: datetime&lt;span style="font-weight:bold">.&lt;/span>date(&lt;span style="color:#099">2023&lt;/span>, &lt;span style="color:#099">6&lt;/span>, &lt;span style="color:#099">22&lt;/span>)},
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {&lt;span style="color:#b84">&amp;#39;client_code&amp;#39;&lt;/span>: &lt;span style="color:#b84">&amp;#39;CP535&amp;#39;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;billsec&amp;#39;&lt;/span>: &lt;span style="color:#099">2000&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;sms&amp;#39;&lt;/span>: &lt;span style="color:#099">100&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#39;day&amp;#39;&lt;/span>: datetime&lt;span style="font-weight:bold">.&lt;/span>date(&lt;span style="color:#099">2023&lt;/span>, &lt;span style="color:#099">6&lt;/span>, &lt;span style="color:#099">22&lt;/span>)}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ], got)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">del&lt;/span> ModuleTestCase
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Traceback (most recent call last):
+File "/home/bit4bit/.local/lib/python3.9/site-packages/trytond/tests/test_tryton.py", line 223, in wrapper
+result = func(*args, **kwargs)
+File "/tmp/d20230623-7356-1tmqcx4/charging_tel/tests/test_create_charge_tel.py", line 16, in test_crear_cargos_desde_csv
+self.assertEqual(len(charges), 2)
+AssertionError: 0 != 2
+----------------------------------------------------------------------
+Ran 72 tests in 15.397s
+FAILED (failures=1, errors=1)
+&lt;/pre>
+&lt;p>excelente ya nos reconcio el metodo &lt;code>import_csv&lt;/code> y ya con la prueba ilustrandonos,
+procedemos a realizar los ajustes sobre el metodo &lt;code>import_csv&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>charge_tel.py&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">import&lt;/span> &lt;span style="color:#555">csv&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">from&lt;/span> &lt;span style="color:#555">trytond.model&lt;/span> &lt;span style="font-weight:bold">import&lt;/span> ModelView, ModelSQL, fields
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">ChargeTel&lt;/span>(ModelSQL, ModelView):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">&amp;#34;Charge Tel&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> __name__ &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;charging_tel.charge_tel&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># habilitamos `readonly` para indicar que no puede ser editado luego de creado&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;Client Code&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> billsec &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;Billsec&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sms &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;SMS&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> day &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Date(&lt;span style="color:#b84">&amp;#39;DAY&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">import_csv&lt;/span>(cls, path):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># https://docs.python.org/3/library/csv.html&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> &lt;span style="color:#999">open&lt;/span>(path, newline&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;&amp;#39;&lt;/span>) &lt;span style="font-weight:bold">as&lt;/span> csvfile:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> reader &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#999">list&lt;/span>(csv&lt;span style="font-weight:bold">.&lt;/span>DictReader(csvfile))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>create(reader)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
+Ran 72 tests in 15.477s
+OK
+&lt;/pre>
+&lt;p>muy bien, ya tenemos la funcion que nos importaria desde csv los cargos de telefonia&lt;/p></description></item><item><title>Escribiendo un Modulo de Tryton ERP Básico 1</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</link><pubDate>Tue, 20 Jun 2023 16:47:56 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_1/</guid><description>&lt;p>Tryton ERP además de ERP es un excelente framework y más su versatilidad a la hora
 de ser personalizado, a continuación estudiaremos
 un poco como se puede extender el comportamiento y la vista de los módulos, el que considero
 como primer paso para aprender a personalizar trytond a nivel de código,

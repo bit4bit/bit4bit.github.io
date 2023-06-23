@@ -1,7 +1,7 @@
 <!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="&mldr;EN PROGRESO&mldr;
 Ahora el siguiente paso para personalizar trytond a nivel de codigo es la creacion de modelos, ahora para una solucion efectiva al problema en desarrollo con el cliente es usar la comunicacion entre modelos para expresar la solucion, es decir la solucion no esta en los modelos en si sino en la conversacion entre estos, cuando hablo de conversacion entre modelos tecnicamente seria la llamada de los metodos de los objetos representativos de los modelos, veamos un poco mas complejo que el presentado en Basico 1."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Escribiendo un Modulo de Tryton ERP Básico 2 (TODO)"><meta property="og:description" content="&mldr;EN PROGRESO&mldr;
 Ahora el siguiente paso para personalizar trytond a nivel de codigo es la creacion de modelos, ahora para una solucion efectiva al problema en desarrollo con el cliente es usar la comunicacion entre modelos para expresar la solucion, es decir la solucion no esta en los modelos en si sino en la conversacion entre estos, cuando hablo de conversacion entre modelos tecnicamente seria la llamada de los metodos de los objetos representativos de los modelos, veamos un poco mas complejo que el presentado en Basico 1."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/writing_module_trytond_basics_2/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-06-22T16:40:04-05:00"><meta property="article:modified_time" content="2023-06-22T16:40:04-05:00"><link rel=canonical href=http://bit4bit.github.io/post/writing_module_trytond_basics_2/><meta itemprop=name content="Escribiendo un Modulo de Tryton ERP Básico 2 (TODO)"><meta itemprop=description content="&mldr;EN PROGRESO&mldr;
-Ahora el siguiente paso para personalizar trytond a nivel de codigo es la creacion de modelos, ahora para una solucion efectiva al problema en desarrollo con el cliente es usar la comunicacion entre modelos para expresar la solucion, es decir la solucion no esta en los modelos en si sino en la conversacion entre estos, cuando hablo de conversacion entre modelos tecnicamente seria la llamada de los metodos de los objetos representativos de los modelos, veamos un poco mas complejo que el presentado en Basico 1."><meta itemprop=datePublished content="2023-06-22T16:40:04-05:00"><meta itemprop=dateModified content="2023-06-22T16:40:04-05:00"><meta itemprop=wordCount content="1102"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Escribiendo un Modulo de Tryton ERP Básico 2 (TODO) - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Escribiendo un Modulo de Tryton ERP Básico 2 (TODO)"><meta name=twitter:description content="&mldr;EN PROGRESO&mldr;
+Ahora el siguiente paso para personalizar trytond a nivel de codigo es la creacion de modelos, ahora para una solucion efectiva al problema en desarrollo con el cliente es usar la comunicacion entre modelos para expresar la solucion, es decir la solucion no esta en los modelos en si sino en la conversacion entre estos, cuando hablo de conversacion entre modelos tecnicamente seria la llamada de los metodos de los objetos representativos de los modelos, veamos un poco mas complejo que el presentado en Basico 1."><meta itemprop=datePublished content="2023-06-22T16:40:04-05:00"><meta itemprop=dateModified content="2023-06-22T16:40:04-05:00"><meta itemprop=wordCount content="1745"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Escribiendo un Modulo de Tryton ERP Básico 2 (TODO) - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Escribiendo un Modulo de Tryton ERP Básico 2 (TODO)"><meta name=twitter:description content="&mldr;EN PROGRESO&mldr;
 Ahora el siguiente paso para personalizar trytond a nivel de codigo es la creacion de modelos, ahora para una solucion efectiva al problema en desarrollo con el cliente es usar la comunicacion entre modelos para expresar la solucion, es decir la solucion no esta en los modelos en si sino en la conversacion entre estos, cuando hablo de conversacion entre modelos tecnicamente seria la llamada de los metodos de los objetos representativos de los modelos, veamos un poco mas complejo que el presentado en Basico 1."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
 <span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
 <span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>Escribiendo un Modulo de Tryton ERP Básico 2 (TODO)</h1><article class=content><p>&mldr;EN PROGRESO&mldr;</p><p>Ahora el siguiente paso para personalizar trytond a nivel de codigo es la creacion de modelos, ahora para una solucion efectiva al problema en desarrollo con el cliente
@@ -210,7 +210,7 @@ entonces procedemos confirmar esta restriccion.</p><p><strong>tests/test_party_c
 </span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
 </span></span><span style=display:flex><span>        Party <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;party.party&#39;</span>)
 </span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        _, party <span style=font-weight:700>=</span> Party<span style=font-weight:700>.</span>create([{<span style=color:#b84>&#39;name&#39;</span>: <span style=color:#b84>&#39;TEL A&#39;</span>, <span style=color:#b84>&#39;code&#39;</span>: <span style=color:#b84>&#39;AB123&#39;</span>},
+</span></span><span style=display:flex><span>        _, party <span style=font-weight:700>=</span> Party<span style=font-weight:700>.</span>create([{<span style=color:#b84>&#39;name&#39;</span>: <span style=color:#b84>&#39;TEL A&#39;</span>, <span style=color:#b84>&#39;client_code&#39;</span>: <span style=color:#b84>&#39;AB123&#39;</span>},
 </span></span><span style=display:flex><span>                                 {<span style=color:#b84>&#39;name&#39;</span>: <span style=color:#b84>&#39;TEL B&#39;</span>}])
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> self<span style=font-weight:700>.</span>assertRaises(<span style=color:#900;font-weight:700>Exception</span>):
@@ -282,7 +282,7 @@ AssertionError: Exception not raised
 </span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># ver https://docs.tryton.org/projects/server/en/latest/ref/models.html#trytond.model.ModelSQL._sql_constraints</span>
 </span></span><span style=display:flex><span>        t <span style=font-weight:700>=</span> cls<span style=font-weight:700>.</span>__table__()
 </span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># hacemos efectiva la restriccion desde base de datos</span>
-</span></span><span style=display:flex><span>        cls<span style=font-weight:700>.</span>_sql_constraints <span style=font-weight:700>=</span> [
+</span></span><span style=display:flex><span>        cls<span style=font-weight:700>.</span>_sql_constraints <span style=font-weight:700>+=</span> [
 </span></span><span style=display:flex><span>            (<span style=color:#b84>&#39;client_code_unique&#39;</span>, Unique(t, t<span style=font-weight:700>.</span>client_code),
 </span></span><span style=display:flex><span>             <span style=color:#b84>&#39;charging_tel.msg_client_code_unique&#39;</span>)
 </span></span><span style=display:flex><span>        ]
@@ -311,7 +311,190 @@ AssertionError: Exception not raised
 </span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> <span style=color:#999>bool</span>(re<span style=font-weight:700>.</span><span style=font-weight:700>match</span>(<span style=color:#b84>r</span><span style=color:#b84>&#34;^[A-Z]{2,10}[0-9]{2,8}$&#34;</span>, code))
 </span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
 </span></span></code></pre></div><pre>
-</pre></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/writing_module_trytond_basics_1/>← prev</a>
+Ran 49 tests in 12.318s
+
+OK
+</pre><h1 id=como-servicio-autonomo-concilio-diariamente-los-saldos-entregados-por-telefonia>Como servicio autonomo concilio diariamente los saldos entregados por telefonia.</h1><p><strong>tests/scenario_create_recharge_tel.rst</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rst data-lang=rst><span style=display:flex><span><span style=color:#999>===================</span>
+</span></span><span style=display:flex><span><span style=color:#999>Crear Cargo de Telefonia</span>
+</span></span><span style=display:flex><span><span style=color:#999>===================</span>
+</span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>Dependencias<span style=color:#b84>::</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#b84>    &gt;&gt;&gt; from proteus import Model, Wizard</span>
+</span></span><span style=display:flex><span><span style=color:#b84>    &gt;&gt;&gt; from trytond.tests.tools import activate_modules
+</span></span></span><span style=display:flex><span><span style=color:#b84>
+</span></span></span><span style=display:flex><span><span style=color:#b84></span>Activacion de modulos<span style=color:#b84>::</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#b84>    &gt;&gt;&gt; config = activate_modules(&#39;charging_tel&#39;)</span>
+</span></span><span style=display:flex><span><span style=color:#b84>
+</span></span></span><span style=display:flex><span><span style=color:#b84></span>Crear cargo de telefonia:<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>    &gt;&gt;&gt; example_csv = open(&#39;tests/tel_2023-06-23.csv&#39;).read().encode()<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>    &gt;&gt;&gt; ChargeTel = Model.get(&#39;charging_tel.charge_tel&#39;)<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; ChargeTel.import_csv(example_csv)<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; len(ChargeTel.find())<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	2<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Failed example:
+    example_csv = open('tests/tel_2023-06-23.csv').read().encode()
+Exception raised:
+    Traceback (most recent call last):
+      File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest scenario_create_charge_tel.rst[3]>", line 1, in <module>
+        example_csv = open('tests/tel_2023-06-23.csv').read().encode()
+    FileNotFoundError: [Errno 2] No such file or directory: 'tests/tel_2023-06-23.csv'
+</pre><p>Efectivamente nos informa que no tenemos el archivo de muestra, vamos a crearlo</p><p><strong>tests/tel_2023-06-23.csv</strong></p><pre tabindex=0><code class=language-csv data-lang=csv>client_code,billsec,sms,day
+ABC123,1000,1,2023-06-22
+CP535,2000,100,2023-06-22
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Failed example:
+    ChargeTel = Model.get('charging_tel.charge_tel')
+	...
+		return self._pool[self.database_name][type][name]
+    KeyError: 'charging_tel.charge_tel'
+
+</pre><p>Aja, ya vamos volviendos habiles en esto, ya sabemos que debemos hacer.</p><p><strong>charge_tel.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> ModelView, ModelSQL, fields
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTel</span>(ModelSQL, ModelView):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#998;font-style:italic># habilitamos `readonly` para indicar que no puede ser editado luego de creado</span>
+</span></span><span style=display:flex><span>    client_code <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Char(<span style=color:#b84>&#39;Client Code&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    billsec <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;Billsec&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    sms <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;SMS&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    day <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Date(<span style=color:#b84>&#39;DAY&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span></code></pre></div><p><strong><strong>init</strong>.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>.</span> <span style=font-weight:700>import</span> party
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>.</span> <span style=font-weight:700>import</span> charge_tel
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>__all__ <span style=font-weight:700>=</span> [<span style=color:#b84>&#39;register&#39;</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>register</span>():
+</span></span><span style=display:flex><span>    Pool<span style=font-weight:700>.</span>register(
+</span></span><span style=display:flex><span>        party<span style=font-weight:700>.</span>Party,
+</span></span><span style=display:flex><span>        charge_tel<span style=font-weight:700>.</span>ChargeTel,
+</span></span><span style=display:flex><span>        module<span style=font-weight:700>=</span><span style=color:#b84>&#39;charging_tel&#39;</span>, type_<span style=font-weight:700>=</span><span style=color:#b84>&#39;model&#39;</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Failed example:
+    ChargeTel.import_csv(example_csv)
+Exception raised:
+    Traceback (most recent call last):
+      File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest scenario_create_charge_tel.rst[5]>", line 1, in <module>
+        ChargeTel.import_csv(example_csv)
+    AttributeError: type object 'charging_tel.charge_tel' has no attribute 'import_csv'
+</pre><p><strong>charge_tel.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> ModelView, ModelSQL, fields
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTel</span>(ModelSQL, ModelView):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#998;font-style:italic># habilitamos `readonly` para indicar que no puede ser editado luego de creado</span>
+</span></span><span style=display:flex><span>    client_code <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Char(<span style=color:#b84>&#39;Client Code&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    billsec <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;Billsec&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    sms <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;SMS&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    day <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Date(<span style=color:#b84>&#39;DAY&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_csv</span>(cls, path):
+</span></span><span style=display:flex><span>        <span style=font-weight:700>pass</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Failed example:
+    ChargeTel.import_csv(example_csv)
+Exception raised:
+    Traceback (most recent call last):
+      File "/usr/lib/python3.9/doctest.py", line 1336, in __run
+        exec(compile(example.source, filename, "single",
+      File "<doctest scenario_create_charge_tel.rst[5]>", line 1, in <module>
+        ChargeTel.import_csv(example_csv)
+    AttributeError: type object 'charging_tel.charge_tel' has no attribute 'import_csv'
+</pre><p>uuu nos indica que el modelo no tiene el atributo <code>import_csv</code>, que en nuestro caso
+esperamos sea el metodo de importacion, podriamos hacer accesible este metodo a proteus usando el mecanismo <strong>RPC</strong> de trytond pero en nuestro caso publicariamos
+este metodo solo con el objetivo de realizar la prueba, estas situaciones
+es un indicio que el camino que hemos tomado no es el mas adecuado sea que
+la prueba que planteamos es confusa o bien el mecanismo para probar no es el mas adecuado,
+vamos a transladar la prueba como prueba de unidad.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>rm -f tests/scenario_create_charge_tel.rst
+</span></span></code></pre></div><p><strong>tests/test_create_charge_tel.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>datetime</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.tests.test_tryton</span> <span style=font-weight:700>import</span> ModuleTestCase, with_transaction
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>CreateChargeTel</span>(ModuleTestCase):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Test Create Charge Tel&#34;</span>
+</span></span><span style=display:flex><span>    module <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @with_transaction()
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>test_crear_cargos_desde_csv</span>(self):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        ChargeTel <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        ChargeTel<span style=font-weight:700>.</span>import_csv(<span style=color:#b84>&#39;tests/tel_2023-06-23.csv&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        charges <span style=font-weight:700>=</span> ChargeTel<span style=font-weight:700>.</span>search([])
+</span></span><span style=display:flex><span>        got <span style=font-weight:700>=</span> [{<span style=color:#b84>&#39;client_code&#39;</span>: c<span style=font-weight:700>.</span>client_code,
+</span></span><span style=display:flex><span>                          <span style=color:#b84>&#39;billsec&#39;</span>: c<span style=font-weight:700>.</span>billsec,
+</span></span><span style=display:flex><span>                          <span style=color:#b84>&#39;sms&#39;</span>: c<span style=font-weight:700>.</span>sms,
+</span></span><span style=display:flex><span>                          <span style=color:#b84>&#39;day&#39;</span>: c<span style=font-weight:700>.</span>day} <span style=font-weight:700>for</span> c <span style=font-weight:700>in</span> charges]
+</span></span><span style=display:flex><span>        self<span style=font-weight:700>.</span>assertListEqual([
+</span></span><span style=display:flex><span>            {<span style=color:#b84>&#39;client_code&#39;</span>: <span style=color:#b84>&#39;ABC123&#39;</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;billsec&#39;</span>: <span style=color:#099>1000</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;sms&#39;</span>: <span style=color:#099>1</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;day&#39;</span>: datetime<span style=font-weight:700>.</span>date(<span style=color:#099>2023</span>, <span style=color:#099>6</span>, <span style=color:#099>22</span>)},
+</span></span><span style=display:flex><span>            {<span style=color:#b84>&#39;client_code&#39;</span>: <span style=color:#b84>&#39;CP535&#39;</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;billsec&#39;</span>: <span style=color:#099>2000</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;sms&#39;</span>: <span style=color:#099>100</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;day&#39;</span>: datetime<span style=font-weight:700>.</span>date(<span style=color:#099>2023</span>, <span style=color:#099>6</span>, <span style=color:#099>22</span>)}
+</span></span><span style=display:flex><span>        ], got)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>del</span> ModuleTestCase
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Traceback (most recent call last):
+  File "/home/bit4bit/.local/lib/python3.9/site-packages/trytond/tests/test_tryton.py", line 223, in wrapper
+    result = func(*args, **kwargs)
+  File "/tmp/d20230623-7356-1tmqcx4/charging_tel/tests/test_create_charge_tel.py", line 16, in test_crear_cargos_desde_csv
+    self.assertEqual(len(charges), 2)
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 72 tests in 15.397s
+
+FAILED (failures=1, errors=1)
+</pre><p>excelente ya nos reconcio el metodo <code>import_csv</code> y ya con la prueba ilustrandonos,
+procedemos a realizar los ajustes sobre el metodo <code>import_csv</code>.</p><p><strong>charge_tel.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>csv</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> ModelView, ModelSQL, fields
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTel</span>(ModelSQL, ModelView):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#998;font-style:italic># habilitamos `readonly` para indicar que no puede ser editado luego de creado</span>
+</span></span><span style=display:flex><span>    client_code <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Char(<span style=color:#b84>&#39;Client Code&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    billsec <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;Billsec&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    sms <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;SMS&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    day <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Date(<span style=color:#b84>&#39;DAY&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_csv</span>(cls, path):
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># https://docs.python.org/3/library/csv.html</span>
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> <span style=color:#999>open</span>(path, newline<span style=font-weight:700>=</span><span style=color:#b84>&#39;&#39;</span>) <span style=font-weight:700>as</span> csvfile:
+</span></span><span style=display:flex><span>            reader <span style=font-weight:700>=</span> <span style=color:#999>list</span>(csv<span style=font-weight:700>.</span>DictReader(csvfile))
+</span></span><span style=display:flex><span>            <span style=font-weight:700>return</span> cls<span style=font-weight:700>.</span>create(reader)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Ran 72 tests in 15.477s
+
+OK
+</pre><p>muy bien, ya tenemos la funcion que nos importaria desde csv los cargos de telefonia</p></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/writing_module_trytond_basics_1/>← prev</a>
 <a class=link target=history href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/finfo?name=content/post%2fwriting_module_trytond_basics_2.md">history</a>
 <a class=link href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&filename=content/post%2fwriting_module_trytond_basics_2.md">source</a>
 <a></a></div><div class=comment></div></main><footer id=footer><div><span>© 2019</span> - <span>2023</span></div><div><span>Powered by</span>
