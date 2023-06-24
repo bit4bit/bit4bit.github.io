@@ -19,11 +19,11 @@ se llega a la conclusión de que:&lt;/p>
 &lt;/ul>
 &lt;p>En la siguiente conversación con el equipo de telefonía, nos comentan
 que diariamente a las 00:00-05 suben el archivo a un servidor y nos podrían
-dar acceso por medio de HTTP para descargar el archivo de nombre formateado &lt;code>yyyy-mm-dd.csv&lt;/code>
-| client_code | billsec | sms | day |
-| AB123 | 1000 | 1 | 2023-06-22 |
-| CP535 | 2000 | 100 | 2023-06-22 |&lt;/p>
-&lt;p>Con la información anterior se plantean los siguientes escenarios con el cliente
+dar acceso por medio de HTTP para descargar el archivo de nombre formateado &lt;code>yyyy-mm-dd.csv&lt;/code>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-csv" data-lang="csv">client_code,billsec,sms,day
+AB123,1000,1,2023-06-22
+CP535,2000,100,2023-06-22
+&lt;/code>&lt;/pre>&lt;p>Con la información anterior se plantean los siguientes escenarios con el cliente
 para coordinar la entregar del proyecto:&lt;/p>
 &lt;ul>
 &lt;li>Como administrador debo ser capaz de asociar Party a un cliente de telefonía.&lt;/li>
