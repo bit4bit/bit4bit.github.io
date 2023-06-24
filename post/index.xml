@@ -1,8 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Thu, 22 Jun 2023 16:40:04 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Básico 2</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</link><pubDate>Thu, 22 Jun 2023 16:40:04 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</guid><description>&lt;p>Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, ahora para una solución efectiva al problema en desarrollo con el cliente
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Thu, 22 Jun 2023 16:40:04 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Básico 2</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</link><pubDate>Thu, 22 Jun 2023 16:40:04 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</guid><description>&lt;p>Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos,
+para una solución efectiva al problema en desarrollo con el cliente
 es usar la comunicación entre modelos para expresar la solución, es decir
 la solución no esta en los modelos en si sino en la conversación entre estos,
+lo anterior es importante ternelo presente cuando modelamos ya que trytond
+sigue el patron &lt;a href="https://martinfowler.com/eaaCatalog/activeRecord.html">Active Record&lt;/a> el
+cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir,
+en vez de preguntarle a otro &lt;a href="https://www.martinfowler.com/bliki/TellDontAsk.html">modelo por informacion lo que hacemos es decirle que hacer&lt;/a>,
 cuando hablo de conversación entre modelos técnicamente seria la llamada
-de los métodos de los objetos representativos de los modelos, veamos un poco
+de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco
 mas complejo que el presentado en &lt;strong>Básico 1&lt;/strong>.&lt;/p>
 &lt;p>Digamos que nuestro cliente vende minutos de telefonía y mensajes de texto SMS,
 se encuentra con el inconveniente que no tiene una plataforma para llevar
@@ -10,11 +15,11 @@ control de la facturación y una vez se ha conversado sobre el asunto
 se llega a la conclusión de que:&lt;/p>
 &lt;ul>
 &lt;li>Tryton ERP es el software adecuado&lt;/li>
-&lt;li>se debe vincular Tryton ERP a la plataforma de telefonía para llevar la oficionario&lt;/li>
+&lt;li>se debe vincular Tryton ERP a la plataforma de telefonía para llevar el control.&lt;/li>
 &lt;/ul>
 &lt;p>En la siguiente conversación con el equipo de telefonía, nos comentan
 que diariamente a las 00:00-05 suben el archivo a un servidor y nos podrían
-dar acceso por media de HTTP para descargar el archivo de nombre formateado &lt;code>yyyy-mm-dd.csv&lt;/code>
+dar acceso por medio de HTTP para descargar el archivo de nombre formateado &lt;code>yyyy-mm-dd.csv&lt;/code>
 | client_code | billsec | sms | day |
 | AB123 | 1000 | 1 | 2023-06-22 |
 | CP535 | 2000 | 100 | 2023-06-22 |&lt;/p>
@@ -118,7 +123,7 @@ Ran 24 tests in 8.997s
 OK
 &lt;/pre>
 &lt;p>por ahora dejare por fuera la gestión de permisos por usuario, ya
-que los usuarios no administrador no deberían ser capaces de cambiar el campo
+que los usuarios no administradores no deberían ser capaces de cambiar el campo
 &lt;code>client_code&lt;/code>&lt;/p>
 &lt;h2 id="ahora-pasamos-a-verificar-que-el-client_code-sea-en-el-formato-esperado">ahora pasamos a verificar que el client_code sea en el formato esperado&lt;/h2>
 &lt;p>&lt;strong>tests/test_party_client_code.py&lt;/strong>&lt;/p>
@@ -658,7 +663,8 @@ decir vamos a sustituir los &lt;code>pass&lt;/code> por nuestra primera versión
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># habilitamos `readonly` para indicar que no puede ser editado luego de creado&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># si esto es un requerimiento por parte del cliente, debemos realizar&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># una prueba para garantizar este comportamiento&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># una prueba para garantizar este comportamiento.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># TODO: como procedemos si la codificacion es incorrecta a la entregada?&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> client_code &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Char(&lt;span style="color:#b84">&amp;#39;Client Code&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> billsec &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;Billsec&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sms &lt;span style="font-weight:bold">=&lt;/span> fields&lt;span style="font-weight:bold">.&lt;/span>Integer(&lt;span style="color:#b84">&amp;#39;SMS&amp;#39;&lt;/span>, readonly&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">True&lt;/span>)
