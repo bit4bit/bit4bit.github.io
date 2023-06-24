@@ -1,4 +1,4 @@
-<!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Escribiendo un Modulo de Tryton ERP Básico 2"><meta property="og:description" content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/writing_module_trytond_basics_2/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-06-22T16:40:04-05:00"><meta property="article:modified_time" content="2023-06-22T16:40:04-05:00"><link rel=canonical href=http://bit4bit.github.io/post/writing_module_trytond_basics_2/><meta itemprop=name content="Escribiendo un Modulo de Tryton ERP Básico 2"><meta itemprop=description content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><meta itemprop=datePublished content="2023-06-22T16:40:04-05:00"><meta itemprop=dateModified content="2023-06-22T16:40:04-05:00"><meta itemprop=wordCount content="2534"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Escribiendo un Modulo de Tryton ERP Básico 2 - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Escribiendo un Modulo de Tryton ERP Básico 2"><meta name=twitter:description content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
+<!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Escribiendo un Modulo de Tryton ERP Básico 2"><meta property="og:description" content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/writing_module_trytond_basics_2/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-06-22T16:40:04-05:00"><meta property="article:modified_time" content="2023-06-22T16:40:04-05:00"><link rel=canonical href=http://bit4bit.github.io/post/writing_module_trytond_basics_2/><meta itemprop=name content="Escribiendo un Modulo de Tryton ERP Básico 2"><meta itemprop=description content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><meta itemprop=datePublished content="2023-06-22T16:40:04-05:00"><meta itemprop=dateModified content="2023-06-22T16:40:04-05:00"><meta itemprop=wordCount content="3689"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Escribiendo un Modulo de Tryton ERP Básico 2 - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Escribiendo un Modulo de Tryton ERP Básico 2"><meta name=twitter:description content="Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos, para una solución efectiva al problema en desarrollo con el cliente es usar la comunicación entre modelos para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos, lo anterior es importante ternelo presente cuando modelamos ya que trytond sigue el patron Active Record el cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir, en vez de preguntarle a otro modelo por informacion lo que hacemos es decirle que hacer, cuando hablo de conversación entre modelos técnicamente seria la llamada de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco mas complejo que el presentado en Básico 1."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
 <span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
 <span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>Escribiendo un Modulo de Tryton ERP Básico 2</h1><article class=content><p>Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos,
 para una solución efectiva al problema en desarrollo con el cliente
@@ -617,29 +617,15 @@ decir vamos a sustituir los <code>pass</code> por nuestra primera versión de c�
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    @classmethod
 </span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_csv</span>(cls, path):
-</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># https://docs.python.org/3/library/csv.html</span>
-</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> <span style=color:#999>open</span>(path, newline<span style=font-weight:700>=</span><span style=color:#b84>&#39;&#39;</span>) <span style=font-weight:700>as</span> csvfile:
-</span></span><span style=display:flex><span>            reader <span style=font-weight:700>=</span> <span style=color:#999>list</span>(csv<span style=font-weight:700>.</span>DictReader(csvfile))
-</span></span><span style=display:flex><span>            <span style=font-weight:700>return</span> cls<span style=font-weight:700>.</span>create(reader)
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        Importer <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>)
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> Importer<span style=font-weight:700>.</span>import_csv(path)
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>    @classmethod
 </span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_remote</span>(cls, downloader<span style=font-weight:700>=</span><span style=font-weight:700>None</span>):
 </span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
-</span></span><span style=display:flex><span>        Date <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;ir.date&#39;</span>)
-</span></span><span style=display:flex><span>        today <span style=font-weight:700>=</span> Date<span style=font-weight:700>.</span>today()
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        content <span style=font-weight:700>=</span> cls<span style=font-weight:700>.</span>_downloader(year<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>year,
-</span></span><span style=display:flex><span>                                  month<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>month,
-</span></span><span style=display:flex><span>                                  day<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>day)
-</span></span><span style=display:flex><span>        
-</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> tempfile<span style=font-weight:700>.</span>NamedTemporaryFile(prefix<span style=font-weight:700>=</span><span style=color:#b84>&#39;charge-tel&#39;</span>) <span style=font-weight:700>as</span> f:
-</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>write(content)
-</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>flush()
-</span></span><span style=display:flex><span>            cls<span style=font-weight:700>.</span>import_csv(f<span style=font-weight:700>.</span>name)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    @classmethod
-</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_downloader</span>(cls, year, month, day):
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> urllib<span style=font-weight:700>.</span>request<span style=font-weight:700>.</span>urlopen(<span style=color:#b84>f</span><span style=color:#b84>&#34;http://example.com/</span><span style=color:#b84>{</span>year<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>month<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>day<span style=color:#b84>}</span><span style=color:#b84>.csv&#34;</span>)<span style=font-weight:700>.</span>read()
+</span></span><span style=display:flex><span>        Importer <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>)
+</span></span><span style=display:flex><span>        Importer<span style=font-weight:700>.</span>import_remote(downloader<span style=font-weight:700>=</span>downloader)
 </span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
 </span></span></code></pre></div><pre>
 Ran 95 tests in 0.579s
@@ -647,7 +633,34 @@ Ran 95 tests in 0.579s
 OK
 </pre><p>uii yuiyuii, volvimos a estar estable y ya mas cerca de cerrar este escenario,
 ahora para hacer la importación diaria podemos usar <a href=https://docs.tryton.org/projects/server/en/latest/topics/cron.html>Cron</a> de trytond que nos facilita
-programar acciones.</p><p><strong>cron.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> PoolMeta
+programar acciones.</p><p><strong>tests/scenario_cron_importer.rst</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rst data-lang=rst><span style=display:flex><span><span style=color:#999>=====================</span>
+</span></span><span style=display:flex><span><span style=color:#999>Cron Charge Importer</span>
+</span></span><span style=display:flex><span><span style=color:#999>=====================</span>
+</span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>Dependencias<span style=color:#b84>::</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#b84>    &gt;&gt;&gt; from proteus import Model, Wizard</span>
+</span></span><span style=display:flex><span><span style=color:#b84>    &gt;&gt;&gt; from trytond.tests.tools import activate_modules
+</span></span></span><span style=display:flex><span><span style=color:#b84>
+</span></span></span><span style=display:flex><span><span style=color:#b84></span>Activacion de modulos<span style=color:#b84>::</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#b84>	&gt;&gt;&gt; config = activate_modules(&#39;charging_tel&#39;)</span>
+</span></span><span style=display:flex><span><span style=color:#b84>
+</span></span></span><span style=display:flex><span><span style=color:#b84></span>Disparar importador desde Cron::<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>    &gt;&gt;&gt; Cron = Model.get(&#39;ir.cron&#39;)<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron = Cron()<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.method = &#39;charging_tel.charge_tel|import_remote&#39;<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.interval_number = 1<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.interval_type = &#39;days&#39;<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.save()<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.click(&#39;run_once&#39;)<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+       raise SelectionValidationError(gettext(
+    trytond.model.modelstorage.SelectionValidationError: The value "charging_tel.charge_tel" for field "Method" in "4" of "Cron" is not one of the allowed options. -
+</pre><p>como nos indica el mensaje de error no logra ubicar ese valor, el ajuste que podemos
+hacer es indicarle a <code>Cron</code> acerca de nuestro interés.</p><p><strong>cron.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> PoolMeta
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTelCron</span>(metaclass<span style=font-weight:700>=</span>PoolMeta):
 </span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;ir.cron&#39;</span>
@@ -677,9 +690,347 @@ programar acciones.</p><p><strong>cron.py</strong></p><div class=highlight><pre 
 Ran 95 tests in 0.585s
 
 OK
-</pre><p>muy bien todo sigue operativa y ademas ya hemos indicado a trytond nuestra
-intención de poder registrar un Cron para importar los registros del servidor remoto.</p><p>Con la ultima implementación daríamos por cerrado los escenarios planteados
-con el cliente donde ademas quedamos con una suite de pruebas para garantizar lo acordado y documentación de como el software participa de los objetivos del cliente.</p><p>Por ultimo dejo como ejercicio al lector la implementación de las vistas.</p><ul><li>creación del módulo usando la plantilla</li><li>escribir el módulo usando el un ciclo de: especular, ilustrar y ajustar</li><li>plantear los escenarios aceptables acordados con el cliente en <strong>doctest</strong></li><li>informar a trytond nuestra intención por medio de <strong>tryton.cfg</strong> y <strong><strong>init</strong>.py</strong></li><li>extender modelo usando <em>PoolMeta</em></li><li>crear nuevo modelo usando <em>ModelSQL</em> y <em>ModelView</em></li><li>informar a trytond por medio <code>ir.cron</code> la posibilidad de programar tareas recurrentes.</li></ul><p>si deseas generar el proyecto creado en este post u otro post, puede usar <a href=/post/mdtoapp>mdtoapp</a></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:teal>ARTIFACT</span><span style=font-weight:700>=</span><span style=color:#099>1</span> <span style=color:teal>TO</span><span style=font-weight:700>=</span>/tmp/basico-2 ruby mdtoapp.rb <span style=color:#b84>&#39;https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&amp;filename=content/post%2fwriting_module_trytond_basics_2.md&#39;</span>
+</pre><p>muy bien todo sigue operativo y ademas ya hemos indicado a trytond nuestra
+intención de poder registrar un Cron para importar los registros del servidor remoto.</p><p>Ahora aunque tenemos una implementación trabajando no necesariamente es la mas adecuada,
+este punto es crucial ya que si continuamos adicionando caracteristicas sin reajustar el código
+a nuevos conceptos o eliminando los que ya cambiaron, rápidamente perderíamos el control
+sobre la mantenibilidad y legibilidad, las palabras que usamos en clases, métodos,variables,archivos o carpetas
+nos crean un vocabulario y si este vocabulario es obsoleto o distorsionado se nos dificultaría
+entender que es lo que el software esta realizando o bien este como participa de los objetivos del cliente,
+lo anterior es llamado <a href=https://martinfowler.com/tags/refactoring.html>Refactorizacion</a>, si queremos
+construir un software solido debemos constantemente estar refactorizando.</p><p>Como vemos el modelo <strong>ChargeTel</strong> tienen los métodos <strong>import_csv</strong> y <strong>import_remote</strong> que tiene en común importar un archivo de formato csv,
+con los cargos de telefonía? nada, cuando tenemos un comportamiento que no aporta al modelo, movemos este comportamiento por fuera del modelo.</p><p><strong>charge_tel_importer.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> Model
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTelImporter</span>(Model):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel Importer&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_csv</span>(cls, path):
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># https://docs.python.org/3/library/csv.html</span>
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> <span style=color:#999>open</span>(path, newline<span style=font-weight:700>=</span><span style=color:#b84>&#39;&#39;</span>) <span style=font-weight:700>as</span> csvfile:
+</span></span><span style=display:flex><span>            reader <span style=font-weight:700>=</span> <span style=color:#999>list</span>(csv<span style=font-weight:700>.</span>DictReader(csvfile))
+</span></span><span style=display:flex><span>            <span style=font-weight:700>return</span> cls<span style=font-weight:700>.</span>create(reader)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_remote</span>(cls, downloader<span style=font-weight:700>=</span><span style=font-weight:700>None</span>):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        Date <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;ir.date&#39;</span>)
+</span></span><span style=display:flex><span>        today <span style=font-weight:700>=</span> Date<span style=font-weight:700>.</span>today()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        content <span style=font-weight:700>=</span> cls<span style=font-weight:700>.</span>_downloader(year<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>year,
+</span></span><span style=display:flex><span>                                  month<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>month,
+</span></span><span style=display:flex><span>                                  day<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>day)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> tempfile<span style=font-weight:700>.</span>NamedTemporaryFile(prefix<span style=font-weight:700>=</span><span style=color:#b84>&#39;charge-tel&#39;</span>) <span style=font-weight:700>as</span> f:
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>write(content)
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>flush()
+</span></span><span style=display:flex><span>            cls<span style=font-weight:700>.</span>import_csv(f<span style=font-weight:700>.</span>name)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_downloader</span>(cls, year, month, day):
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> urllib<span style=font-weight:700>.</span>request<span style=font-weight:700>.</span>urlopen(<span style=color:#b84>f</span><span style=color:#b84>&#34;http://example.com/</span><span style=color:#b84>{</span>year<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>month<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>day<span style=color:#b84>}</span><span style=color:#b84>.csv&#34;</span>)<span style=font-weight:700>.</span>read()
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+  File "/home/bit4bit/.local/lib/python3.9/site-packages/trytond/pool.py", line 190, in get
+    return self._pool[self.database_name][type][name]
+KeyError: 'charging_tel.charge_tel_importer'
+</pre><p>ya hemos visto anteriormente este error.</p><p><strong><strong>init</strong>.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>.</span> <span style=font-weight:700>import</span> party
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>.</span> <span style=font-weight:700>import</span> charge_tel
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>.</span> <span style=font-weight:700>import</span> cron
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>.</span> <span style=font-weight:700>import</span> charge_tel_importer
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>__all__ <span style=font-weight:700>=</span> [<span style=color:#b84>&#39;register&#39;</span>]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>register</span>():
+</span></span><span style=display:flex><span>    Pool<span style=font-weight:700>.</span>register(
+</span></span><span style=display:flex><span>        party<span style=font-weight:700>.</span>Party,
+</span></span><span style=display:flex><span>        charge_tel<span style=font-weight:700>.</span>ChargeTel,
+</span></span><span style=display:flex><span>        cron<span style=font-weight:700>.</span>ChargeTelCron,
+</span></span><span style=display:flex><span>        charge_tel_importer<span style=font-weight:700>.</span>ChargeTelImporter,
+</span></span><span style=display:flex><span>        module<span style=font-weight:700>=</span><span style=color:#b84>&#39;charging_tel&#39;</span>, type_<span style=font-weight:700>=</span><span style=color:#b84>&#39;model&#39;</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+    reader = list(csv.DictReader(csvfile))
+NameError: name 'csv' is not defined
+...
+    return urllib.request.urlopen(f"http://example.com/{year}-{month}-{day}.csv").read()
+NameError: name 'urllib' is not defined
+</pre><p>uuups faltaron importar las dependencias</p><p><strong>charge_tel_importer.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>csv</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>urllib</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> Model
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTelImporter</span>(Model):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel Importer&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_csv</span>(cls, path):
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># https://docs.python.org/3/library/csv.html</span>
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> <span style=color:#999>open</span>(path, newline<span style=font-weight:700>=</span><span style=color:#b84>&#39;&#39;</span>) <span style=font-weight:700>as</span> csvfile:
+</span></span><span style=display:flex><span>            reader <span style=font-weight:700>=</span> <span style=color:#999>list</span>(csv<span style=font-weight:700>.</span>DictReader(csvfile))
+</span></span><span style=display:flex><span>            <span style=font-weight:700>return</span> cls<span style=font-weight:700>.</span>create(reader)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_remote</span>(cls, downloader<span style=font-weight:700>=</span><span style=font-weight:700>None</span>):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        Date <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;ir.date&#39;</span>)
+</span></span><span style=display:flex><span>        today <span style=font-weight:700>=</span> Date<span style=font-weight:700>.</span>today()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        content <span style=font-weight:700>=</span> cls<span style=font-weight:700>.</span>_downloader(year<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>year,
+</span></span><span style=display:flex><span>                                  month<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>month,
+</span></span><span style=display:flex><span>                                  day<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>day)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> tempfile<span style=font-weight:700>.</span>NamedTemporaryFile(prefix<span style=font-weight:700>=</span><span style=color:#b84>&#39;charge-tel&#39;</span>) <span style=font-weight:700>as</span> f:
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>write(content)
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>flush()
+</span></span><span style=display:flex><span>            cls<span style=font-weight:700>.</span>import_csv(f<span style=font-weight:700>.</span>name)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_downloader</span>(cls, year, month, day):
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> urllib<span style=font-weight:700>.</span>request<span style=font-weight:700>.</span>urlopen(<span style=color:#b84>f</span><span style=color:#b84>&#34;http://example.com/</span><span style=color:#b84>{</span>year<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>month<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>day<span style=color:#b84>}</span><span style=color:#b84>.csv&#34;</span>)<span style=font-weight:700>.</span>read()
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+    return cls.create(reader)
+AttributeError: type object 'charging_tel.charge_tel_importer' has no attribute 'create'
+</pre><p>epa, eso nos pasa por duplicar el código.</p><p><strong>charge_tel_importer.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>csv</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>urllib</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> Model
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTelImporter</span>(Model):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel Importer&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_csv</span>(cls, path):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        ChargeTel <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># https://docs.python.org/3/library/csv.html</span>
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> <span style=color:#999>open</span>(path, newline<span style=font-weight:700>=</span><span style=color:#b84>&#39;&#39;</span>) <span style=font-weight:700>as</span> csvfile:
+</span></span><span style=display:flex><span>            reader <span style=font-weight:700>=</span> <span style=color:#999>list</span>(csv<span style=font-weight:700>.</span>DictReader(csvfile))
+</span></span><span style=display:flex><span>            <span style=font-weight:700>return</span> ChargeTel<span style=font-weight:700>.</span>create(reader)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_remote</span>(cls, downloader<span style=font-weight:700>=</span><span style=font-weight:700>None</span>):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        Date <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;ir.date&#39;</span>)
+</span></span><span style=display:flex><span>        today <span style=font-weight:700>=</span> Date<span style=font-weight:700>.</span>today()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        content <span style=font-weight:700>=</span> cls<span style=font-weight:700>.</span>_downloader(year<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>year,
+</span></span><span style=display:flex><span>                                  month<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>month,
+</span></span><span style=display:flex><span>                                  day<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>day)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> tempfile<span style=font-weight:700>.</span>NamedTemporaryFile(prefix<span style=font-weight:700>=</span><span style=color:#b84>&#39;charge-tel&#39;</span>) <span style=font-weight:700>as</span> f:
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>write(content)
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>flush()
+</span></span><span style=display:flex><span>            cls<span style=font-weight:700>.</span>import_csv(f<span style=font-weight:700>.</span>name)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_downloader</span>(cls, year, month, day):
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> urllib<span style=font-weight:700>.</span>request<span style=font-weight:700>.</span>urlopen(<span style=color:#b84>f</span><span style=color:#b84>&#34;http://example.com/</span><span style=color:#b84>{</span>year<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>month<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>day<span style=color:#b84>}</span><span style=color:#b84>.csv&#34;</span>)<span style=font-weight:700>.</span>read()
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+  File "/usr/lib/python3.9/urllib/request.py", line 641, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 404: Not Found
+</pre><p><code>urllib.error.HTTPError: HTTP Error 404: Not Found</code> nos informa que el un hubo respuesta del servidor,esto nos esta indicando
+que la prueba esta haciendo la petición al servidor el cual no existe.</p><p><strong>tests/test_import_remote_charge_tel.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>datetime</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>unittest</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.tests.test_tryton</span> <span style=font-weight:700>import</span> ModuleTestCase, with_transaction
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ImportFromRemoteChargeTel</span>(ModuleTestCase):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Import from remote endpoint Charge Tel&#34;</span>
+</span></span><span style=display:flex><span>    module <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @with_transaction()
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>test_importar_cargos_desde_servicio_remote</span>(self):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        ChargeTel <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>)
+</span></span><span style=display:flex><span>        ChargeTelImporter <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># sustituimos el metodo de descarga por una version</span>
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># ajustada para las pruebas, evitamos las acciones sobre</span>
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># el servicio remoto</span>
+</span></span><span style=display:flex><span>        ChargeTelImporter<span style=font-weight:700>.</span>_downloader <span style=font-weight:700>=</span> self<span style=font-weight:700>.</span>_fake_downloader
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        ChargeTelImporter<span style=font-weight:700>.</span>import_remote()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        charges <span style=font-weight:700>=</span> ChargeTel<span style=font-weight:700>.</span>search([])
+</span></span><span style=display:flex><span>        got <span style=font-weight:700>=</span> [{<span style=color:#b84>&#39;client_code&#39;</span>: c<span style=font-weight:700>.</span>client_code,
+</span></span><span style=display:flex><span>                          <span style=color:#b84>&#39;billsec&#39;</span>: c<span style=font-weight:700>.</span>billsec,
+</span></span><span style=display:flex><span>                          <span style=color:#b84>&#39;sms&#39;</span>: c<span style=font-weight:700>.</span>sms,
+</span></span><span style=display:flex><span>                          <span style=color:#b84>&#39;day&#39;</span>: c<span style=font-weight:700>.</span>day} <span style=font-weight:700>for</span> c <span style=font-weight:700>in</span> charges]
+</span></span><span style=display:flex><span>        self<span style=font-weight:700>.</span>assertListEqual([
+</span></span><span style=display:flex><span>            {<span style=color:#b84>&#39;client_code&#39;</span>: <span style=color:#b84>&#39;ABC123&#39;</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;billsec&#39;</span>: <span style=color:#099>1000</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;sms&#39;</span>: <span style=color:#099>1</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;day&#39;</span>: datetime<span style=font-weight:700>.</span>date(<span style=color:#099>2023</span>, <span style=color:#099>6</span>, <span style=color:#099>22</span>)},
+</span></span><span style=display:flex><span>            {<span style=color:#b84>&#39;client_code&#39;</span>: <span style=color:#b84>&#39;CP535&#39;</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;billsec&#39;</span>: <span style=color:#099>2000</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;sms&#39;</span>: <span style=color:#099>100</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;day&#39;</span>: datetime<span style=font-weight:700>.</span>date(<span style=color:#099>2023</span>, <span style=color:#099>6</span>, <span style=color:#099>22</span>)}
+</span></span><span style=display:flex><span>        ], got)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_fake_downloader</span>(self, year, month, day):
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> <span style=color:#999>open</span>(<span style=color:#b84>&#39;tests/tel_2023-06-23.csv&#39;</span>) <span style=font-weight:700>as</span> f:
+</span></span><span style=display:flex><span>            <span style=font-weight:700>return</span> f<span style=font-weight:700>.</span>read()<span style=font-weight:700>.</span>encode()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>del</span> ModuleTestCase    
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+  File "/tmp/d20230624-6103-16gzx79/charging_tel/charge_tel_importer.py", line 29, in import_remote
+    with tempfile.NamedTemporaryFile(prefix='charge-tel') as f:
+NameError: name 'tempfile' is not defined
+</pre><p><code>NameError: name 'tempfile' is not defined</code> de nuevo una dependencia que no trasladamos al crear el importador, acá se lo
+importante de las pruebas, Python es un código interpretado y hasta que el interprete no ejecute la linea en cuestión no nos enteraríamos
+que el comportamiento es inconsistente o bien hasta que el usuario del software lo reporte.</p><p><strong>charge_tel_importer.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>csv</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>urllib</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>tempfile</span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> Model
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTelImporter</span>(Model):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel Importer&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_csv</span>(cls, path):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        ChargeTel <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#998;font-style:italic># https://docs.python.org/3/library/csv.html</span>
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> <span style=color:#999>open</span>(path, newline<span style=font-weight:700>=</span><span style=color:#b84>&#39;&#39;</span>) <span style=font-weight:700>as</span> csvfile:
+</span></span><span style=display:flex><span>            reader <span style=font-weight:700>=</span> <span style=color:#999>list</span>(csv<span style=font-weight:700>.</span>DictReader(csvfile))
+</span></span><span style=display:flex><span>            <span style=font-weight:700>return</span> ChargeTel<span style=font-weight:700>.</span>create(reader)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>import_remote</span>(cls, downloader<span style=font-weight:700>=</span><span style=font-weight:700>None</span>):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        Date <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;ir.date&#39;</span>)
+</span></span><span style=display:flex><span>        today <span style=font-weight:700>=</span> Date<span style=font-weight:700>.</span>today()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        content <span style=font-weight:700>=</span> cls<span style=font-weight:700>.</span>_downloader(year<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>year,
+</span></span><span style=display:flex><span>                                  month<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>month,
+</span></span><span style=display:flex><span>                                  day<span style=font-weight:700>=</span>today<span style=font-weight:700>.</span>day)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>        <span style=font-weight:700>with</span> tempfile<span style=font-weight:700>.</span>NamedTemporaryFile(prefix<span style=font-weight:700>=</span><span style=color:#b84>&#39;charge-tel&#39;</span>) <span style=font-weight:700>as</span> f:
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>write(content)
+</span></span><span style=display:flex><span>            f<span style=font-weight:700>.</span>flush()
+</span></span><span style=display:flex><span>            cls<span style=font-weight:700>.</span>import_csv(f<span style=font-weight:700>.</span>name)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>_downloader</span>(cls, year, month, day):
+</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> urllib<span style=font-weight:700>.</span>request<span style=font-weight:700>.</span>urlopen(<span style=color:#b84>f</span><span style=color:#b84>&#34;http://example.com/</span><span style=color:#b84>{</span>year<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>month<span style=color:#b84>}</span><span style=color:#b84>-</span><span style=color:#b84>{</span>day<span style=color:#b84>}</span><span style=color:#b84>.csv&#34;</span>)<span style=font-weight:700>.</span>read()
+</span></span></code></pre></div><p><strong>charge_tel.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.model</span> <span style=font-weight:700>import</span> ModelView, ModelSQL, fields
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTel</span>(ModelSQL, ModelView):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Charge Tel&#34;</span>
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#998;font-style:italic># habilitamos `readonly` para indicar que no puede ser editado luego de creado</span>
+</span></span><span style=display:flex><span>    client_code <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Char(<span style=color:#b84>&#39;Client Code&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    billsec <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;Billsec&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    sms <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Integer(<span style=color:#b84>&#39;SMS&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span><span style=display:flex><span>    day <span style=font-weight:700>=</span> fields<span style=font-weight:700>.</span>Date(<span style=color:#b84>&#39;DAY&#39;</span>, readonly<span style=font-weight:700>=</span><span style=font-weight:700>True</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Ran 95 tests in 0.597s
+
+OK
+</pre><p>ahora renombramos la prueba para hacer la aclaración de que el responsable de importar es <code>ChargeTelImporter</code>.</p><p><strong>tests/test_charge_tel_importer.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>import</span> <span style=color:#555>datetime</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.tests.test_tryton</span> <span style=font-weight:700>import</span> ModuleTestCase, with_transaction
+</span></span><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> Pool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTelImporter</span>(ModuleTestCase):
+</span></span><span style=display:flex><span>    <span style=color:#b84>&#34;Test Charge Tel Importer&#34;</span>
+</span></span><span style=display:flex><span>    module <span style=font-weight:700>=</span> <span style=color:#b84>&#39;charging_tel&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @with_transaction()
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>test_crear_cargos_desde_csv</span>(self):
+</span></span><span style=display:flex><span>        pool <span style=font-weight:700>=</span> Pool()
+</span></span><span style=display:flex><span>        ChargeTel <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel&#39;</span>)
+</span></span><span style=display:flex><span>        ChargeTelImporter <span style=font-weight:700>=</span> pool<span style=font-weight:700>.</span>get(<span style=color:#b84>&#39;charging_tel.charge_tel_importer&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        ChargeTelImporter<span style=font-weight:700>.</span>import_csv(<span style=color:#b84>&#39;tests/tel_2023-06-23.csv&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        charges <span style=font-weight:700>=</span> ChargeTel<span style=font-weight:700>.</span>search([])
+</span></span><span style=display:flex><span>        got <span style=font-weight:700>=</span> [{<span style=color:#b84>&#39;client_code&#39;</span>: c<span style=font-weight:700>.</span>client_code,
+</span></span><span style=display:flex><span>                <span style=color:#b84>&#39;billsec&#39;</span>: c<span style=font-weight:700>.</span>billsec,
+</span></span><span style=display:flex><span>                <span style=color:#b84>&#39;sms&#39;</span>: c<span style=font-weight:700>.</span>sms,
+</span></span><span style=display:flex><span>                <span style=color:#b84>&#39;day&#39;</span>: c<span style=font-weight:700>.</span>day} <span style=font-weight:700>for</span> c <span style=font-weight:700>in</span> charges]
+</span></span><span style=display:flex><span>        self<span style=font-weight:700>.</span>assertListEqual([
+</span></span><span style=display:flex><span>            {<span style=color:#b84>&#39;client_code&#39;</span>: <span style=color:#b84>&#39;ABC123&#39;</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;billsec&#39;</span>: <span style=color:#099>1000</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;sms&#39;</span>: <span style=color:#099>1</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;day&#39;</span>: datetime<span style=font-weight:700>.</span>date(<span style=color:#099>2023</span>, <span style=color:#099>6</span>, <span style=color:#099>22</span>)},
+</span></span><span style=display:flex><span>            {<span style=color:#b84>&#39;client_code&#39;</span>: <span style=color:#b84>&#39;CP535&#39;</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;billsec&#39;</span>: <span style=color:#099>2000</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;sms&#39;</span>: <span style=color:#099>100</span>,
+</span></span><span style=display:flex><span>             <span style=color:#b84>&#39;day&#39;</span>: datetime<span style=font-weight:700>.</span>date(<span style=color:#099>2023</span>, <span style=color:#099>6</span>, <span style=color:#099>22</span>)}
+</span></span><span style=display:flex><span>        ], got)
+</span></span><span style=display:flex><span>        
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>del</span> ModuleTestCase
+</span></span></code></pre></div><p>eliminamos la prueba obsoleta.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>rm tests/test_create_charge_tel.py
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Ran 95 tests in 0.623s
+
+OK
+</pre><p>Excelente ya estamos estables nuevamente, ahora vamos actualizar el cron para usar el importador.</p><p><strong>cron.py</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=font-weight:700>from</span> <span style=color:#555>trytond.pool</span> <span style=font-weight:700>import</span> PoolMeta
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>ChargeTelCron</span>(metaclass<span style=font-weight:700>=</span>PoolMeta):
+</span></span><span style=display:flex><span>    __name__ <span style=font-weight:700>=</span> <span style=color:#b84>&#39;ir.cron&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    @classmethod
+</span></span><span style=display:flex><span>    <span style=font-weight:700>def</span> <span style=color:#900;font-weight:700>__setup__</span>(cls):
+</span></span><span style=display:flex><span>        <span style=color:#999>super</span>()<span style=font-weight:700>.</span>__setup__()
+</span></span><span style=display:flex><span>        cls<span style=font-weight:700>.</span>method<span style=font-weight:700>.</span>selection<span style=font-weight:700>.</span>append(
+</span></span><span style=display:flex><span>            (<span style=color:#b84>&#39;charging_tel.charge_tel_importer|import_remote&#39;</span>, <span style=color:#b84>&#34;Import Charges From Remote Server&#34;</span>),
+</span></span><span style=display:flex><span>            )
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+File "/tmp/d20230624-9646-5mhmjy/charging_tel/tests/scenario_cron_importer.rst", line 21, in scenario_cron_importer.rst
+Failed example:
+    cron.save()
+	...
+        raise SelectionValidationError(gettext(
+    trytond.model.modelstorage.SelectionValidationError: The value "charging_tel.charge_tel|import_remote" for field "Method" in "4" of "Cron" is not one of the allowed options. - 
+</pre><p>efectivamente ya Cron no puede ubicar el método, debemos actualizar la prueba ya que cambio el método de importación</p><p><strong>tests/scenario_cron_importer.rst</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rst data-lang=rst><span style=display:flex><span><span style=color:#999>======================</span>
+</span></span><span style=display:flex><span><span style=color:#999>Cron Charge Importer</span>
+</span></span><span style=display:flex><span><span style=color:#999>======================</span>
+</span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>Dependencias<span style=color:#b84>::</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#b84>    &gt;&gt;&gt; from proteus import Model, Wizard</span>
+</span></span><span style=display:flex><span><span style=color:#b84>    &gt;&gt;&gt; from trytond.tests.tools import activate_modules
+</span></span></span><span style=display:flex><span><span style=color:#b84>
+</span></span></span><span style=display:flex><span><span style=color:#b84></span>Activacion de modulos<span style=color:#b84>::</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#b84>	&gt;&gt;&gt; config = activate_modules(&#39;charging_tel&#39;)</span>
+</span></span><span style=display:flex><span><span style=color:#b84>
+</span></span></span><span style=display:flex><span><span style=color:#b84></span>Disparar importador desde Cron::<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>    &gt;&gt;&gt; Cron = Model.get(&#39;ir.cron&#39;)<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron = Cron()<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.method = &#39;charging_tel.charge_tel_importer|import_remote&#39;<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.interval_number = 1<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.interval_type = &#39;days&#39;<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.save()<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span><span style=display:flex><span><span style=color:#a61717;background-color:#e3d2d2></span>	&gt;&gt;&gt; cron.click(&#39;run_once&#39;)<span style=color:#a61717;background-color:#e3d2d2>
+</span></span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>python3 -munittest
+</span></span></code></pre></div><pre>
+Ran 96 tests in 0.695s
+
+OK
+</pre><p>Con la ultima implementación daríamos por cerrado los escenarios planteados
+con el cliente ademas quedamos con una suite de pruebas para garantizar lo acordado y documentación de como el software participa de los objetivos del cliente.</p><p>Por ultimo dejo como ejercicio al lector la implementación de las vistas.</p><p>En resumen:</p><ul><li>creación del módulo usando la plantilla</li><li>escribir el módulo usando el un ciclo de: especular, ilustrar y ajustar</li><li>plantear los escenarios aceptables acordados con el cliente en <strong>doctest</strong></li><li>informar a trytond nuestra intención por medio de <strong>tryton.cfg</strong> y <strong><strong>init</strong>.py</strong></li><li>extender modelo usando <em>PoolMeta</em></li><li>crear nuevo modelo usando <em>ModelSQL</em> y <em>ModelView</em></li><li>informar a trytond por medio <code>ir.cron</code> la posibilidad de programar tareas recurrentes.</li></ul><p>si deseas generar el proyecto creado en este post puedes usar <a href=/post/mdtoapp>mdtoapp</a></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:teal>ARTIFACT</span><span style=font-weight:700>=</span><span style=color:#099>1</span> <span style=color:teal>TO</span><span style=font-weight:700>=</span>/tmp/basico-2 ruby mdtoapp.rb <span style=color:#b84>&#39;https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&amp;filename=content/post%2fwriting_module_trytond_basics_2.md&#39;</span>
 </span></span></code></pre></div></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/writing_module_trytond_basics_1/>← prev</a>
 <a class=link target=history href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/finfo?name=content/post%2fwriting_module_trytond_basics_2.md">history</a>
 <a class=link href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&filename=content/post%2fwriting_module_trytond_basics_2.md">source</a>
