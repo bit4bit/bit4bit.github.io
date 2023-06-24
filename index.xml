@@ -1497,6 +1497,8 @@ podemos crear una aplicación de software es decir múltiples archivos con códi
 &lt;li>&lt;code>@execute&lt;/code> el bloque se debe ejecutar&lt;/li>
 &lt;li>&lt;code>executable:&amp;lt;command&amp;gt;&lt;/code> indicar un comando diferente a &lt;code>sh&lt;/code> para ejecutar el bloque&lt;/li>
 &lt;li>&lt;code>@silence&lt;/code> no imprimir salida de la ejecución del bloque&lt;/li>
+&lt;li>&lt;code>@tdd&lt;/code> el bloque se debe ejecutar en modo TDD&lt;/li>
+&lt;li>&lt;code>@artifact&lt;/code> el bloque se ejecutar en modo ARTIFACT&lt;/li>
 &lt;/ul>
 &lt;p>la ejecución de los bloques es en el orden declarados en el documento.&lt;/p>
 &lt;h2 id="ejemplos">Ejemplos&lt;/h2>
