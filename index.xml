@@ -1554,7 +1554,7 @@ unittest.main()
 &lt;p>los post de este sitio pueden ser ejecutados usando &lt;strong>mdtoapp.rb&lt;/strong>, ejemplo&lt;/p>
 &lt;p>&lt;code>ruby mdtoapp.rb 'https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&amp;amp;filename=content/post%2fmdtoapp.md'&lt;/code>&lt;/p>
 &lt;p>si solo el interes es generar los archivos puedes usar&lt;/p>
-&lt;p>&lt;code>TO=/tmp/out ARTIFACT=1 ruby mdtoapp.rb 'https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&amp;amp;filename=content/post%2fmdtoapp.md'&lt;/code>&lt;/p></description></item><item><title>Infrastructure Behavior Driven-Development (WIP)</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
+&lt;p>&lt;code>TO=/tmp/out ARTIFACT=1 ruby mdtoapp.rb 'https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&amp;amp;filename=content/post%2fmdtoapp.md'&lt;/code>&lt;/p></description></item><item><title>Infrastructure Behavior Driven-Development</title><link>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</link><pubDate>Mon, 12 Jun 2023 14:59:38 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/infrastructure_behavior_driven_development/</guid><description>&lt;p>(WIP)&lt;/p>
 &lt;p>&lt;code>Ahí más inventores que inventos dice un amigo mio&lt;/code>.&lt;/p>
 &lt;p>Como Desarrollador y Operador de plataformas de software orientadas
 a telefonía (VOIP) y como practicante de TDD, me he visto envuelto en mayores responsabilidades
@@ -1698,7 +1698,7 @@ en base los requerimientos.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">ensure&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftpd_stop(server)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="ingreso-a-usuarios-registrados-en-archivo">ingreso a usuarios registrados en archivo&lt;/h4>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="ingreso-solo-a-usuarios-autorizados">ingreso solo a usuarios autorizados&lt;/h4>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pure-pw useradd foo -f pure-ftpd.users -u nobody -d /tmp/foo
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!--
 ```sh @mdtoapp file:pure-ftpd.users
@@ -1719,25 +1719,38 @@ foo:$argon2id$v=19$m=8192,t=1023,p=1$0Zf62x+GpxYoM2afDVEzPg$c5bZ16UnZJM1NAkCDIoU
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">ensure&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftpd_stop(server)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ruby" data-lang="ruby">&lt;span style="display:flex;">&lt;span>it &lt;span style="color:#b84">&amp;#39;subir archivos solo usuarios registrados&amp;#39;&lt;/span> &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> server &lt;span style="font-weight:bold">=&lt;/span> ftpd_start(conf)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> expect &lt;span style="font-weight:bold">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">Net&lt;/span>&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">FTP&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>open(&lt;span style="color:#b84">&amp;#34;127.0.0.1&amp;#34;&lt;/span>, &lt;span style="color:#b84">port&lt;/span>: server&lt;span style="font-weight:bold">[&lt;/span>&lt;span style="color:#b84">:port&lt;/span>&lt;span style="font-weight:bold">]&lt;/span>) &lt;span style="font-weight:bold">do&lt;/span> &lt;span style="font-weight:bold">|&lt;/span>ftp&lt;span style="font-weight:bold">|&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftp&lt;span style="font-weight:bold">.&lt;/span>login(&lt;span style="color:#b84">&amp;#39;foo&amp;#39;&lt;/span>, &lt;span style="color:#b84">&amp;#39;foo&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftp&lt;span style="font-weight:bold">.&lt;/span>puttextfile(__FILE__, &lt;span style="color:#b84">&amp;#39;demo.txt&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">end&lt;/span>&lt;span style="font-weight:bold">.&lt;/span>not_to raise_error
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">ensure&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ftpd_stop(server)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">end&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!--
 ```ruby @mdtoapp file:spec/pure-ftpd_spec.rb
 end
 ```
 -->
 &lt;!-- mdtoapp
-```sh @mdtoapp hook:execute
+```sh @mdtoapp @execute
+pwd
 cat pure-ftpd.conf
 rspec
 ```
 -->
-&lt;p>esta práctica de usar las pruebas como mecanismo para confirmar el comportamiento esperado
-del servicio puede variar en dificultad en base a:&lt;/p>
+&lt;p>Como vemos es posible usar las pruebas automatizadas como mecanismo para confirmar el comportamiento esperado
+del servicio, algunos beneficios que tenemos son:&lt;/p>
 &lt;ul>
-&lt;li>dependencias a otros servicios del sistema&lt;/li>
-&lt;li>dependencias a archivos del sistema &lt;strong>/etc/&lt;/strong>&lt;/li>
-&lt;li>configuración del servicio&lt;/li>
+&lt;li>pruebas automatizadas de confirmación.&lt;/li>
+&lt;li>verificar que el servicio siempre inicie (cuantas veces nos ha pasado que hemos modificado incorrectamente un archivo de configuración
+y luego no inicia?).&lt;/li>
+&lt;li>nos incentiva a llevar los archivos de configuraciones en control de versiones.&lt;/li>
 &lt;/ul>
-&lt;p>&amp;hellip;..EN PROCESO&amp;hellip;.&lt;/p>
 &lt;h3 id="más-inventores-que-inventos">Más inventores que inventos&lt;/h3>
 &lt;ul>
 &lt;li>&lt;a href="https://developer.ibm.com/tutorials/d-bbd-guide-iac/">https://developer.ibm.com/tutorials/d-bbd-guide-iac/&lt;/a>&lt;/li>
