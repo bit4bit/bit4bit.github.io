@@ -748,6 +748,7 @@ con el cliente donde ademas quedamos con una suite de pruebas para garantizar lo
 &lt;li>informar a trytond nuestra intención por medio de &lt;strong>tryton.cfg&lt;/strong> y &lt;strong>&lt;strong>init&lt;/strong>.py&lt;/strong>&lt;/li>
 &lt;li>extender modelo usando &lt;em>PoolMeta&lt;/em>&lt;/li>
 &lt;li>crear nuevo modelo usando &lt;em>ModelSQL&lt;/em> y &lt;em>ModelView&lt;/em>&lt;/li>
+&lt;li>informar a trytond por medio &lt;code>ir.cron&lt;/code> la posibilidad de programar tareas recurrentes.&lt;/li>
 &lt;/ul>
 &lt;p>si deseas generar el proyecto creado en este post u otro post, puede usar &lt;a href="http://bit4bit.github.io/post/mdtoapp">mdtoapp&lt;/a>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#008080">ARTIFACT&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#099">1&lt;/span> &lt;span style="color:#008080">TO&lt;/span>&lt;span style="font-weight:bold">=&lt;/span>/tmp/basico-2 ruby mdtoapp.rb &lt;span style="color:#b84">&amp;#39;https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&amp;amp;filename=content/post%2fwriting_module_trytond_basics_2.md&amp;#39;&lt;/span>
