@@ -849,15 +849,29 @@ decir vamos a sustituir los &lt;code>pass&lt;/code> por nuestra primera versión
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">import_csv&lt;/span>(cls, path):
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Importer &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;charging_tel.charge_tel_importer&amp;#39;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> Importer&lt;span style="font-weight:bold">.&lt;/span>import_csv(path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># https://docs.python.org/3/library/csv.html&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> &lt;span style="color:#999">open&lt;/span>(path, newline&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;&amp;#39;&lt;/span>) &lt;span style="font-weight:bold">as&lt;/span> csvfile:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> reader &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#999">list&lt;/span>(csv&lt;span style="font-weight:bold">.&lt;/span>DictReader(csvfile))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>create(reader)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">import_remote&lt;/span>(cls, downloader&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="font-weight:bold">None&lt;/span>):
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> pool &lt;span style="font-weight:bold">=&lt;/span> Pool()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Importer &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;charging_tel.charge_tel_importer&amp;#39;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Importer&lt;span style="font-weight:bold">.&lt;/span>import_remote(downloader&lt;span style="font-weight:bold">=&lt;/span>downloader)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Date &lt;span style="font-weight:bold">=&lt;/span> pool&lt;span style="font-weight:bold">.&lt;/span>get(&lt;span style="color:#b84">&amp;#39;ir.date&amp;#39;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> today &lt;span style="font-weight:bold">=&lt;/span> Date&lt;span style="font-weight:bold">.&lt;/span>today()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> content &lt;span style="font-weight:bold">=&lt;/span> cls&lt;span style="font-weight:bold">.&lt;/span>_downloader(year&lt;span style="font-weight:bold">=&lt;/span>today&lt;span style="font-weight:bold">.&lt;/span>year,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> month&lt;span style="font-weight:bold">=&lt;/span>today&lt;span style="font-weight:bold">.&lt;/span>month,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> day&lt;span style="font-weight:bold">=&lt;/span>today&lt;span style="font-weight:bold">.&lt;/span>day)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">with&lt;/span> tempfile&lt;span style="font-weight:bold">.&lt;/span>NamedTemporaryFile(prefix&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;charge-tel&amp;#39;&lt;/span>) &lt;span style="font-weight:bold">as&lt;/span> f:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> f&lt;span style="font-weight:bold">.&lt;/span>write(content)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> f&lt;span style="font-weight:bold">.&lt;/span>flush()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> cls&lt;span style="font-weight:bold">.&lt;/span>import_csv(f&lt;span style="font-weight:bold">.&lt;/span>name)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> @classmethod
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">def&lt;/span> &lt;span style="color:#900;font-weight:bold">_downloader&lt;/span>(cls, year, month, day):
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> urllib&lt;span style="font-weight:bold">.&lt;/span>request&lt;span style="font-weight:bold">.&lt;/span>urlopen(&lt;span style="color:#b84">f&lt;/span>&lt;span style="color:#b84">&amp;#34;http://example.com/&lt;/span>&lt;span style="color:#b84">{&lt;/span>year&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">-&lt;/span>&lt;span style="color:#b84">{&lt;/span>month&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">-&lt;/span>&lt;span style="color:#b84">{&lt;/span>day&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">.csv&amp;#34;&lt;/span>)&lt;span style="font-weight:bold">.&lt;/span>read()
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
 Ran 95 tests in 0.579s
@@ -1143,7 +1157,7 @@ File "/tmp/d20230624-6103-16gzx79/charging_tel/charge_tel_importer.py", line 29,
 with tempfile.NamedTemporaryFile(prefix='charge-tel') as f:
 NameError: name 'tempfile' is not defined
 &lt;/pre>
-&lt;p>&lt;code>NameError: name 'tempfile' is not defined&lt;/code> de nuevo una dependencia que no trasladamos al crear el importador, acá se lo
+&lt;p>&lt;code>NameError: name 'tempfile' is not defined&lt;/code> de nuevo una dependencia que no trasladamos al crear el importador, acá se ve lo
 importante de las pruebas, Python es un código interpretado y hasta que el interprete no ejecute la linea en cuestión no nos enteraríamos
 que el comportamiento es inconsistente o bien hasta que el usuario del software lo reporte.&lt;/p>
 &lt;p>&lt;strong>charge_tel_importer.py&lt;/strong>&lt;/p>
