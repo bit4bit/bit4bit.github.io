@@ -1,0 +1,207 @@
+<!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en Kamailio as SBC for MS Teams.
+Escenario confirmado.
+flowchart LR MSTeams[&#34;MS Teams v.2023.6.21.5 &#34;] Kamailio[&#34;Kamailio v5.4.4 RTPEngine 11.3.1.4 &#34;] PBX[&#34;FreeSWITCH v1.10.9 &#34;] MSTeams ---|TLS/PUBLIC IP| Kamailio Kamailio ---|UDP/PUBLIC IP| PBX Funcionalidades confirmadas:
+Llamadas MSTeams a PBX Llamadas PBX a MSTeams MSTeams Hold MSTeams Park MSTeams Unpark Para que esta configuracion sea efectiva debes conectar Kamailio a MS Teams y una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la configuracion entregada."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Kamailio SBC MS Teams"><meta property="og:description" content="Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en Kamailio as SBC for MS Teams.
+Escenario confirmado.
+flowchart LR MSTeams[&#34;MS Teams v.2023.6.21.5 &#34;] Kamailio[&#34;Kamailio v5.4.4 RTPEngine 11.3.1.4 &#34;] PBX[&#34;FreeSWITCH v1.10.9 &#34;] MSTeams ---|TLS/PUBLIC IP| Kamailio Kamailio ---|UDP/PUBLIC IP| PBX Funcionalidades confirmadas:
+Llamadas MSTeams a PBX Llamadas PBX a MSTeams MSTeams Hold MSTeams Park MSTeams Unpark Para que esta configuracion sea efectiva debes conectar Kamailio a MS Teams y una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la configuracion entregada."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/kamailio_sbc_msteams/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-06-25T09:11:44-05:00"><meta property="article:modified_time" content="2023-06-25T09:11:44-05:00"><link rel=canonical href=http://bit4bit.github.io/post/kamailio_sbc_msteams/><meta itemprop=name content="Kamailio SBC MS Teams"><meta itemprop=description content="Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en Kamailio as SBC for MS Teams.
+Escenario confirmado.
+flowchart LR MSTeams[&#34;MS Teams v.2023.6.21.5 &#34;] Kamailio[&#34;Kamailio v5.4.4 RTPEngine 11.3.1.4 &#34;] PBX[&#34;FreeSWITCH v1.10.9 &#34;] MSTeams ---|TLS/PUBLIC IP| Kamailio Kamailio ---|UDP/PUBLIC IP| PBX Funcionalidades confirmadas:
+Llamadas MSTeams a PBX Llamadas PBX a MSTeams MSTeams Hold MSTeams Park MSTeams Unpark Para que esta configuracion sea efectiva debes conectar Kamailio a MS Teams y una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la configuracion entregada."><meta itemprop=datePublished content="2023-06-25T09:11:44-05:00"><meta itemprop=dateModified content="2023-06-25T09:11:44-05:00"><meta itemprop=wordCount content="456"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Kamailio SBC MS Teams - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Kamailio SBC MS Teams"><meta name=twitter:description content="Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en Kamailio as SBC for MS Teams.
+Escenario confirmado.
+flowchart LR MSTeams[&#34;MS Teams v.2023.6.21.5 &#34;] Kamailio[&#34;Kamailio v5.4.4 RTPEngine 11.3.1.4 &#34;] PBX[&#34;FreeSWITCH v1.10.9 &#34;] MSTeams ---|TLS/PUBLIC IP| Kamailio Kamailio ---|UDP/PUBLIC IP| PBX Funcionalidades confirmadas:
+Llamadas MSTeams a PBX Llamadas PBX a MSTeams MSTeams Hold MSTeams Park MSTeams Unpark Para que esta configuracion sea efectiva debes conectar Kamailio a MS Teams y una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la configuracion entregada."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
+<span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
+<span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>Kamailio SBC MS Teams</h1><article class=content><p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en <a href=https://skalatan.de/en/blog/kamailio-sbc-teams>Kamailio as SBC for MS Teams</a>.</p><p>Escenario confirmado.</p><div class=mermaid>flowchart LR
+MSTeams["MS Teams
+v.2023.6.21.5
+"]
+Kamailio["Kamailio
+v5.4.4
+RTPEngine 11.3.1.4
+"]
+PBX["FreeSWITCH
+v1.10.9
+"]
+MSTeams ---|TLS/PUBLIC IP| Kamailio
+Kamailio ---|UDP/PUBLIC IP| PBX</div><p>Funcionalidades confirmadas:</p><ul><li><input checked disabled type=checkbox> Llamadas MSTeams a PBX</li><li><input checked disabled type=checkbox> Llamadas PBX a MSTeams</li><li><input checked disabled type=checkbox> MSTeams Hold</li><li><input checked disabled type=checkbox> MSTeams Park</li><li><input checked disabled type=checkbox> MSTeams Unpark</li></ul><p>Para que esta configuracion sea efectiva debes conectar <a href=https://skalatan.de/en/blog/kamailio-sbc-teams>Kamailio a MS Teams</a> y
+una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la configuracion entregada.</p><p><strong>kamailio/kamailio.cfg</strong></p><pre tabindex=0><code class=language-kamailio data-lang=kamailio>#!KAMAILIO
+#
+# Asesorias y Consultorias a jovany@bit4bit.in
+
+
+# ACTUALIZAR LOS VALORES A CONTINUACION
+#!substdef &#34;!SIPS_PORT!7062!g&#34;
+#!substdef &#34;!SIP_PORT!5073!g&#34;
+#!substdef &#34;!PBX_IP!3.3.3.3!g&#34;
+#!substdef &#34;!PBX_SIP_PORT!5060!g&#34;
+#!substdef &#34;!EXTERNAL_IP!2.2.2.2!g&#34;
+#!substdef &#34;!EXTERNAL_FQDN!demo.bit4bit.in!g&#34;
+
+debug=2
+log_stderror=no
+log_facility=LOG_LOCAL0
+log_prefix=&#34;{$mt $hdr(CSeq) $ci} &#34;
+children=8
+alias=EXTERNAL_FQDN:SIPS_PORT
+alias=EXTERNAL_FQDN:SIP_PORT
+listen=tls:EXTERNAL_IP:SIPS_PORT advertise EXTERNAL_FQDN:SIPS_PORT
+listen=udp:EXTERNAL_IP:SIP_PORT advertise EXTERNAL_FQDN:SIP_PORT
+enable_tls=yes
+tls_max_connections=2048
+enable_sctp=no
+
+loadmodule &#34;kex.so&#34;
+loadmodule &#34;corex.so&#34;
+loadmodule &#34;tm.so&#34;
+loadmodule &#34;tmx.so&#34;
+loadmodule &#34;sl.so&#34;
+loadmodule &#34;rr.so&#34;
+loadmodule &#34;pv.so&#34;
+loadmodule &#34;maxfwd.so&#34;
+loadmodule &#34;textops.so&#34;
+loadmodule &#34;textopsx.so&#34;
+loadmodule &#34;siputils.so&#34;
+loadmodule &#34;xlog.so&#34;
+loadmodule &#34;ctl.so&#34;
+loadmodule &#34;dispatcher.so&#34;
+loadmodule &#34;rtpengine.so&#34;
+loadmodule &#34;nathelper.so&#34;
+loadmodule &#34;tls.so&#34;
+
+modparam(&#34;rtpengine&#34;, &#34;rtpengine_sock&#34;, &#34;udp:127.0.0.1:2223&#34;)
+modparam(&#34;tls&#34;, &#34;config&#34;, &#34;/etc/kamailio/tls.cfg&#34;)
+modparam(&#34;dispatcher&#34;, &#34;list_file&#34;, &#34;/etc/kamailio/dispatcher.list&#34;)
+modparam(&#34;dispatcher&#34;, &#34;ds_probing_mode&#34;, 1)
+modparam(&#34;dispatcher&#34;, &#34;ds_ping_interval&#34;, 10)
+	
+####### Routing Logic ########
+
+request_route {
+	if (!mf_process_maxfwd_header(&#34;10&#34;)) {
+		sl_send_reply(&#34;483&#34;,&#34;Too Many Hops&#34;);
+		exit;
+	}
+
+	if(is_method(&#34;OPTIONS&#34;) &amp;&amp; uri==myself &amp;&amp; $rU==$null) {
+		sl_send_reply(&#34;200&#34;,&#34;Keepalive&#34;);
+		exit;
+	}
+
+    # FROM MSTEAMS
+	if($hdr(User-Agent) =~ &#34;Microsoft.PSTNHub&#34;) {
+		$du = &#34;sip:PBX_IP:PBX_SIP_PORT;transport=udp&#34;;
+    }
+    # TO MSTEAMS
+    else {
+		$du = &#34;sip:sip.pstnhub.microsoft.com;transport=tls&#34;;
+    }
+
+    if ($rU==$null) {
+		sl_send_reply(&#34;484&#34;,&#34;Address Incomplete&#34;);
+		exit;
+    }
+
+    record_route();
+
+    route(RELAY);
+  }
+
+route[RELAY] {
+	route(REFER);
+  
+	if (is_method(&#34;INVITE|BYE|CANCEL&#34;)) {
+		if(!t_is_set(&#34;branch_route&#34;)) t_on_branch(&#34;MANAGE_BRANCH&#34;);
+	}
+	if (is_method(&#34;INVITE&#34;)) {
+		if(!t_is_set(&#34;onreply_route&#34;)) t_on_reply(&#34;MANAGE_REPLY&#34;);
+	}
+
+	if (!t_relay()) {
+		sl_reply_error();
+	}
+	
+	exit;
+}
+
+route[RTPMANAGE] {
+	if (!has_body(&#34;application/sdp&#34;)) {
+		return;
+	}
+
+
+	if($dd =~ &#34;sip.pstnhub.microsoft.com&#34;) {
+		rtpengine_offer(&#34;trust-address replace-origin replace-session-connection ICE=force transcode-PCMU transcode-G722 RTP/SAVP&#34;);
+	} else {
+		rtpengine_answer(&#34;trust-address replace-origin replace-session-connection ICE=remove RTP/AVP&#34;);
+	}
+	
+	return;
+}
+
+route[RTPREPLY] {
+	if (!has_body(&#34;application/sdp&#34;)) {
+		return;
+	}
+
+	if ($fd == &#34;PBX_IP&#34;) {
+		rtpengine_offer(&#34;trust-address replace-origin replace-session-connection ICE=remove RTP/AVP&#34;);
+	} else {
+		rtpengine_answer(&#34;trust-address replace-origin replace-session-connection ICE=force transcode-PCMU transcode-G722 RTP/SAVP&#34;);
+	}
+	
+	return;
+}
+
+route[REFER] {
+	exclude_hf_value(&#34;Allow&#34;, &#34;REFER&#34;);
+	return;
+}
+
+branch_route[MANAGE_BRANCH] {
+	route(RTPMANAGE);
+}
+
+onreply_route[MANAGE_REPLY] {
+	route(REFER);
+
+	if(status=~&#34;[12][0-9][0-9]&#34;) {
+		route(RTPREPLY);
+	}
+}
+
+event_route[tm:local-request] {
+	if (is_method(&#34;OPTIONS&#34;) &amp;&amp; $ru =~ &#34;pstnhub.microsoft.com&#34;) {
+		append_hf(&#34;Contact: &lt;sip:$fd:SIPS_PORT;transport=tls&gt;\r\n&#34;);
+	}
+}
+</code></pre><p><strong>kamailio/tls.cfg</strong></p><pre tabindex=0><code class=language-kamailio data-lang=kamailio>[server:default]
+method = TLSv1.2+
+verify_certificate = no
+require_certificate = no
+private_key = HERE YOUR PRIVATE KEY
+certificate = HERE YOUR CERTIFICATE
+
+[client:default]
+method = TLSv1.2+
+verify_certificate = no
+require_certificate = no
+private_key = HERE YOUR PRIVATE KEY
+certificate = HERE YOUR CERTIFICATE
+</code></pre><p><strong>kamailio/dispatcher.list</strong></p><pre tabindex=0><code class=language-csv data-lang=csv># setid(integer) destination(sip uri) flags (integer, optional), priority(int,opt), attrs (str,optional)
+1 sip:sip.pstnhub.microsoft.com;transport=tls 0 3 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
+1 sip:sip2.pstnhub.microsoft.com;transport=tls 0 2 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
+1 sip:sip3.pstnhub.microsoft.com;transport=tls 0 1 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
+</code></pre><p>Para escenarios más complejos o funcionalidades no presentes puedes contactarme a <a href=mailto:jovany@bit4bit.in>jovany@bit4bit.in</a>.</p><h2 id=referencias>Referencias</h2><ul><li><a href=https://skalatan.de/en/blog/kamailio-sbc-teams>Kamailio as SBC for MS Teams</a>.</li><li><a href=https://github.com/dOpensource/dsiprouter/blob/master/kamailio/configs/kamailio.cfg>DSIPRouter kamailio.cfg</a></li></ul></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/writing_module_trytond_basics_2/>← prev</a>
+<a class=link target=history href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/finfo?name=content/post%2fkamailio_sbc_msteams.md">history</a>
+<a class=link href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&filename=content/post%2fkamailio_sbc_msteams.md">source</a>
+<a></a></div><div class=comment></div></main><script type=module>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script><footer id=footer><div><span>© 2019</span> - <span>2023</span></div><div><span>Powered by</span>
+<a class=link href=https://gohugo.io/>Hugo</a>
+<span>🍦 Theme</span>
+<a class=link href=https://github.com/queensferryme/hugo-theme-texify>TeXify</a></div><div class=footnote><span>Follow me on <a class=link href=https://github.com/bit4bit>GitHub</a> or
+<a class=link href=http://chiselapp.com/user/bit4bit/>Chiselapp</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a><pre>fossil open https://chiselapp.com/user/bit4bit/repository/bit4bit_website --workdir website</pre></span></div></footer></div></body></html>

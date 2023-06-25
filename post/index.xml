@@ -1,4 +1,181 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Thu, 22 Jun 2023 16:40:04 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Escribiendo un Modulo de Tryton ERP Básico 2</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</link><pubDate>Thu, 22 Jun 2023 16:40:04 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</guid><description>&lt;p>Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos,
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Sun, 25 Jun 2023 09:11:44 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Kamailio SBC MS Teams</title><link>http://bit4bit.github.io/post/kamailio_sbc_msteams/</link><pubDate>Sun, 25 Jun 2023 09:11:44 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/kamailio_sbc_msteams/</guid><description>&lt;p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/p>
+&lt;p>Escenario confirmado.&lt;/p>
+&lt;div class="mermaid">flowchart LR
+MSTeams["MS Teams
+v.2023.6.21.5
+"]
+Kamailio["Kamailio
+v5.4.4
+RTPEngine 11.3.1.4
+"]
+PBX["FreeSWITCH
+v1.10.9
+"]
+MSTeams ---|TLS/PUBLIC IP| Kamailio
+Kamailio ---|UDP/PUBLIC IP| PBX
+&lt;/div>
+&lt;p>Funcionalidades confirmadas:&lt;/p>
+&lt;ul>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> Llamadas MSTeams a PBX&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> Llamadas PBX a MSTeams&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> MSTeams Hold&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> MSTeams Park&lt;/li>
+&lt;li>&lt;input checked="" disabled="" type="checkbox"> MSTeams Unpark&lt;/li>
+&lt;/ul>
+&lt;p>Para que esta configuracion sea efectiva debes conectar &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio a MS Teams&lt;/a> y
+una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la configuracion entregada.&lt;/p>
+&lt;p>&lt;strong>kamailio/kamailio.cfg&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-kamailio" data-lang="kamailio">#!KAMAILIO
+#
+# Asesorias y Consultorias a jovany@bit4bit.in
+# ACTUALIZAR LOS VALORES A CONTINUACION
+#!substdef &amp;#34;!SIPS_PORT!7062!g&amp;#34;
+#!substdef &amp;#34;!SIP_PORT!5073!g&amp;#34;
+#!substdef &amp;#34;!PBX_IP!3.3.3.3!g&amp;#34;
+#!substdef &amp;#34;!PBX_SIP_PORT!5060!g&amp;#34;
+#!substdef &amp;#34;!EXTERNAL_IP!2.2.2.2!g&amp;#34;
+#!substdef &amp;#34;!EXTERNAL_FQDN!demo.bit4bit.in!g&amp;#34;
+debug=2
+log_stderror=no
+log_facility=LOG_LOCAL0
+log_prefix=&amp;#34;{$mt $hdr(CSeq) $ci} &amp;#34;
+children=8
+alias=EXTERNAL_FQDN:SIPS_PORT
+alias=EXTERNAL_FQDN:SIP_PORT
+listen=tls:EXTERNAL_IP:SIPS_PORT advertise EXTERNAL_FQDN:SIPS_PORT
+listen=udp:EXTERNAL_IP:SIP_PORT advertise EXTERNAL_FQDN:SIP_PORT
+enable_tls=yes
+tls_max_connections=2048
+enable_sctp=no
+loadmodule &amp;#34;kex.so&amp;#34;
+loadmodule &amp;#34;corex.so&amp;#34;
+loadmodule &amp;#34;tm.so&amp;#34;
+loadmodule &amp;#34;tmx.so&amp;#34;
+loadmodule &amp;#34;sl.so&amp;#34;
+loadmodule &amp;#34;rr.so&amp;#34;
+loadmodule &amp;#34;pv.so&amp;#34;
+loadmodule &amp;#34;maxfwd.so&amp;#34;
+loadmodule &amp;#34;textops.so&amp;#34;
+loadmodule &amp;#34;textopsx.so&amp;#34;
+loadmodule &amp;#34;siputils.so&amp;#34;
+loadmodule &amp;#34;xlog.so&amp;#34;
+loadmodule &amp;#34;ctl.so&amp;#34;
+loadmodule &amp;#34;dispatcher.so&amp;#34;
+loadmodule &amp;#34;rtpengine.so&amp;#34;
+loadmodule &amp;#34;nathelper.so&amp;#34;
+loadmodule &amp;#34;tls.so&amp;#34;
+modparam(&amp;#34;rtpengine&amp;#34;, &amp;#34;rtpengine_sock&amp;#34;, &amp;#34;udp:127.0.0.1:2223&amp;#34;)
+modparam(&amp;#34;tls&amp;#34;, &amp;#34;config&amp;#34;, &amp;#34;/etc/kamailio/tls.cfg&amp;#34;)
+modparam(&amp;#34;dispatcher&amp;#34;, &amp;#34;list_file&amp;#34;, &amp;#34;/etc/kamailio/dispatcher.list&amp;#34;)
+modparam(&amp;#34;dispatcher&amp;#34;, &amp;#34;ds_probing_mode&amp;#34;, 1)
+modparam(&amp;#34;dispatcher&amp;#34;, &amp;#34;ds_ping_interval&amp;#34;, 10)
+####### Routing Logic ########
+request_route {
+if (!mf_process_maxfwd_header(&amp;#34;10&amp;#34;)) {
+sl_send_reply(&amp;#34;483&amp;#34;,&amp;#34;Too Many Hops&amp;#34;);
+exit;
+}
+if(is_method(&amp;#34;OPTIONS&amp;#34;) &amp;amp;&amp;amp; uri==myself &amp;amp;&amp;amp; $rU==$null) {
+sl_send_reply(&amp;#34;200&amp;#34;,&amp;#34;Keepalive&amp;#34;);
+exit;
+}
+# FROM MSTEAMS
+if($hdr(User-Agent) =~ &amp;#34;Microsoft.PSTNHub&amp;#34;) {
+$du = &amp;#34;sip:PBX_IP:PBX_SIP_PORT;transport=udp&amp;#34;;
+}
+# TO MSTEAMS
+else {
+$du = &amp;#34;sip:sip.pstnhub.microsoft.com;transport=tls&amp;#34;;
+}
+if ($rU==$null) {
+sl_send_reply(&amp;#34;484&amp;#34;,&amp;#34;Address Incomplete&amp;#34;);
+exit;
+}
+record_route();
+route(RELAY);
+}
+route[RELAY] {
+route(REFER);
+if (is_method(&amp;#34;INVITE|BYE|CANCEL&amp;#34;)) {
+if(!t_is_set(&amp;#34;branch_route&amp;#34;)) t_on_branch(&amp;#34;MANAGE_BRANCH&amp;#34;);
+}
+if (is_method(&amp;#34;INVITE&amp;#34;)) {
+if(!t_is_set(&amp;#34;onreply_route&amp;#34;)) t_on_reply(&amp;#34;MANAGE_REPLY&amp;#34;);
+}
+if (!t_relay()) {
+sl_reply_error();
+}
+exit;
+}
+route[RTPMANAGE] {
+if (!has_body(&amp;#34;application/sdp&amp;#34;)) {
+return;
+}
+if($dd =~ &amp;#34;sip.pstnhub.microsoft.com&amp;#34;) {
+rtpengine_offer(&amp;#34;trust-address replace-origin replace-session-connection ICE=force transcode-PCMU transcode-G722 RTP/SAVP&amp;#34;);
+} else {
+rtpengine_answer(&amp;#34;trust-address replace-origin replace-session-connection ICE=remove RTP/AVP&amp;#34;);
+}
+return;
+}
+route[RTPREPLY] {
+if (!has_body(&amp;#34;application/sdp&amp;#34;)) {
+return;
+}
+if ($fd == &amp;#34;PBX_IP&amp;#34;) {
+rtpengine_offer(&amp;#34;trust-address replace-origin replace-session-connection ICE=remove RTP/AVP&amp;#34;);
+} else {
+rtpengine_answer(&amp;#34;trust-address replace-origin replace-session-connection ICE=force transcode-PCMU transcode-G722 RTP/SAVP&amp;#34;);
+}
+return;
+}
+route[REFER] {
+exclude_hf_value(&amp;#34;Allow&amp;#34;, &amp;#34;REFER&amp;#34;);
+return;
+}
+branch_route[MANAGE_BRANCH] {
+route(RTPMANAGE);
+}
+onreply_route[MANAGE_REPLY] {
+route(REFER);
+if(status=~&amp;#34;[12][0-9][0-9]&amp;#34;) {
+route(RTPREPLY);
+}
+}
+event_route[tm:local-request] {
+if (is_method(&amp;#34;OPTIONS&amp;#34;) &amp;amp;&amp;amp; $ru =~ &amp;#34;pstnhub.microsoft.com&amp;#34;) {
+append_hf(&amp;#34;Contact: &amp;lt;sip:$fd:SIPS_PORT;transport=tls&amp;gt;\r\n&amp;#34;);
+}
+}
+&lt;/code>&lt;/pre>&lt;p>&lt;strong>kamailio/tls.cfg&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-kamailio" data-lang="kamailio">[server:default]
+method = TLSv1.2+
+verify_certificate = no
+require_certificate = no
+private_key = HERE YOUR PRIVATE KEY
+certificate = HERE YOUR CERTIFICATE
+[client:default]
+method = TLSv1.2+
+verify_certificate = no
+require_certificate = no
+private_key = HERE YOUR PRIVATE KEY
+certificate = HERE YOUR CERTIFICATE
+&lt;/code>&lt;/pre>&lt;p>&lt;strong>kamailio/dispatcher.list&lt;/strong>&lt;/p>
+&lt;pre tabindex="0">&lt;code class="language-csv" data-lang="csv"># setid(integer) destination(sip uri) flags (integer, optional), priority(int,opt), attrs (str,optional)
+1 sip:sip.pstnhub.microsoft.com;transport=tls 0 3 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
+1 sip:sip2.pstnhub.microsoft.com;transport=tls 0 2 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
+1 sip:sip3.pstnhub.microsoft.com;transport=tls 0 1 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
+&lt;/code>&lt;/pre>&lt;!--
+```sh @mdtoapp @execute
+/usr/sbin/kamailio -d 0 -D -c -f kamailio/kamailio.cfg
+```
+-->
+&lt;p>Para escenarios más complejos o funcionalidades no presentes puedes contactarme a &lt;a href="mailto:jovany@bit4bit.in">jovany@bit4bit.in&lt;/a>.&lt;/p>
+&lt;h2 id="referencias">Referencias&lt;/h2>
+&lt;ul>
+&lt;li>&lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/li>
+&lt;li>&lt;a href="https://github.com/dOpensource/dsiprouter/blob/master/kamailio/configs/kamailio.cfg">DSIPRouter kamailio.cfg&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Escribiendo un Modulo de Tryton ERP Básico 2</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</link><pubDate>Thu, 22 Jun 2023 16:40:04 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</guid><description>&lt;p>Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos,
 para una solución efectiva al problema en desarrollo con el cliente
 es usar la comunicación entre modelos para expresar la solución, es decir
 la solución no esta en los modelos en si sino en la conversación entre estos,
