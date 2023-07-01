@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Sun, 25 Jun 2023 09:11:44 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Kamailio SBC MS Teams</title><link>http://bit4bit.github.io/post/kamailio_sbc_msteams/</link><pubDate>Sun, 25 Jun 2023 09:11:44 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/kamailio_sbc_msteams/</guid><description>&lt;p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Sun, 25 Jun 2023 09:11:44 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Kamailio as SBC for MS Teams</title><link>http://bit4bit.github.io/post/kamailio_sbc_msteams/</link><pubDate>Sun, 25 Jun 2023 09:11:44 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/kamailio_sbc_msteams/</guid><description>&lt;p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/p>
 &lt;p>Escenario confirmado.&lt;/p>
 &lt;div class="mermaid">flowchart LR
 MSTeams["MS Teams
@@ -175,20 +175,20 @@ certificate = HERE YOUR CERTIFICATE
 &lt;ul>
 &lt;li>&lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/li>
 &lt;li>&lt;a href="https://github.com/dOpensource/dsiprouter/blob/master/kamailio/configs/kamailio.cfg">DSIPRouter kamailio.cfg&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>Escribiendo un Modulo de Tryton ERP Básico 2</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</link><pubDate>Thu, 22 Jun 2023 16:40:04 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</guid><description>&lt;p>Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos,
-para una solución efectiva al problema en desarrollo con el cliente
-es usar la comunicación entre modelos para expresar la solución, es decir
-la solución no esta en los modelos en si sino en la conversación entre estos,
+&lt;/ul></description></item><item><title>Escribiendo un Módulo de Tryton ERP Básico 2</title><link>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</link><pubDate>Thu, 22 Jun 2023 16:40:04 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/writing_module_trytond_basics_2/</guid><description>&lt;p>Ahora el siguiente paso para personalizar trytond a nivel de código es la creación de modelos,
+para una solución efectiva al problema vamos a dar prioridad a la comunicación entre modelos
+para expresar la solución, es decir la solución no esta en los modelos en si sino en la conversación entre estos,
 lo anterior es importante ternelo presente cuando modelamos ya que trytond
 sigue el patron &lt;a href="https://martinfowler.com/eaaCatalog/activeRecord.html">Active Record&lt;/a> el
-cual nos invita que el comportamiento debe estar junto a la data que lo contiene es decir,
-en vez de preguntarle a otro &lt;a href="https://www.martinfowler.com/bliki/TellDontAsk.html">modelo por informacion lo que hacemos es decirle que hacer&lt;/a>,
+cual nos invita a adherir la solución (comportamiento) a las carácteristicas (attributos)
+y apoyados &lt;a href="https://www.martinfowler.com/bliki/TellDontAsk.html">en indicar que hacer en vez de preguntar que hacer&lt;/a>
+podemos hacer más flexible el modelado antes los cambios, ahora
 cuando hablo de conversación entre modelos técnicamente seria la llamada
 de los métodos de los objetos representativos de los modelos, veamos un ejercicio un poco
-mas complejo que el presentado en &lt;strong>Básico 1&lt;/strong>.&lt;/p>
+más complejo que el presentado en &lt;strong>Básico 1&lt;/strong>.&lt;/p>
 &lt;p>Digamos que nuestro cliente vende minutos de telefonía y mensajes de texto SMS,
-se encuentra con el inconveniente que no tiene una plataforma para llevar
-control de la facturación y una vez se ha conversado sobre el asunto
+actualmente se encuentra con el inconveniente que no tiene una plataforma para llevar
+control de la facturación y una vez conversado sobre el asunto
 se llega a la conclusión de que:&lt;/p>
 &lt;ul>
 &lt;li>Tryton ERP es el software adecuado&lt;/li>
@@ -203,8 +203,8 @@ CP535,2000,100,2023-06-22
 &lt;/code>&lt;/pre>&lt;p>Con la información anterior se plantean los siguientes escenarios con el cliente
 para coordinar la entregar del proyecto:&lt;/p>
 &lt;ul>
-&lt;li>Como administrador debo ser capaz de asociar Party a un cliente de telefonía.&lt;/li>
-&lt;li>Como servicio autónomo concilio diariamente los saldos entregados por telefonía.&lt;/li>
+&lt;li>Como administrador debo ser capaz de asociar tercero a un cliente de telefonía.&lt;/li>
+&lt;li>Diariamente conciliar los saldos entregados por telefonía.&lt;/li>
 &lt;/ul>
 &lt;h3 id="creamos-el-modulo">creamos el modulo&lt;/h3>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>pip3 install &lt;span style="color:#008080">trytond&lt;/span>&lt;span style="font-weight:bold">==&lt;/span>6.8.0 --user
@@ -394,7 +394,7 @@ AssertionError: ValidationError not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>match(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
 Ran 47 tests in 11.937s
@@ -518,7 +518,7 @@ AssertionError: Exception not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>match(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
 Ran 49 tests in 12.318s
