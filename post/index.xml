@@ -1,4 +1,48 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Sun, 25 Jun 2023 09:11:44 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Kamailio as SBC for MS Teams</title><link>http://bit4bit.github.io/post/kamailio_sbc_msteams/</link><pubDate>Sun, 25 Jun 2023 09:11:44 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/kamailio_sbc_msteams/</guid><description>&lt;p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Sat, 01 Jul 2023 16:15:01 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Freeswitch Integración - event2dial (TODO)</title><link>http://bit4bit.github.io/post/freeswitch_integration_event2dial/</link><pubDate>Sat, 01 Jul 2023 16:15:01 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/freeswitch_integration_event2dial/</guid><description>&lt;p>Una de las funcionalidades más prácticas o almenos más usadas por empresas
+en la gestión de sus usuarios es un mecanimo que conecte al usuario
+con un agente ante un evento, los eventos más comunes son:&lt;/p>
+&lt;ul>
+&lt;li>el usuario solicita que lo contacten (ejemplo al diligenciar un formulario)&lt;/li>
+&lt;li>un agente solicita contactar con otro usuario sin conocer el número destino (ejemplo gestión en un CRM).&lt;/li>
+&lt;li>contactar a usuario ante una campaña de mercadeo.
+&amp;hellip;.&lt;/li>
+&lt;/ul>
+&lt;p>Para FreeSWITCH tenemos muy poca documentación de como realizar este tipo de
+integraciones así que vamos a realizar una implementación de este tipo de servicio (event2dial)
+desde FreeSWITCH.&lt;/p>
+&lt;p>Nuestro escenario sería:&lt;/p>
+&lt;ul>
+&lt;li>Como consumidor debo estar en la capacidad de solicitar que me contacten lo más antes posible.&lt;/li>
+&lt;/ul>
+&lt;p>Vamos asumir que el escenario anterior es sobre un ambiente web, donde el usuario interesado
+en un producto diligencia un formulario para ser contactado.&lt;/p>
+&lt;p>FreeSWITCH es un softswitch extenso el cual ofrece diferentes medios para realizar
+integraciónes, donde por nombrar algunos:&lt;/p>
+&lt;ul>
+&lt;li>por medio de &lt;strong>mod_event_socket&lt;/strong>&lt;/li>
+&lt;li>por medio de algunos del soporte de alguno de los lenguages como: &lt;strong>mod_lua&lt;/strong>, &lt;strong>mod_erlang&lt;/strong>&lt;/li>
+&lt;li>por medio de &lt;strong>mod_xml_curl&lt;/strong>&lt;/li>
+&lt;li>por medio de &lt;strong>mod_xml_rpc&lt;/strong>&lt;/li>
+&lt;li>por medio de &lt;strong>mod_httapi&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;p>para esta implementación usaremos &lt;strong>mod_xml_rpc&lt;/strong> el cual nos ofrece un &lt;strong>rpc&lt;/strong> para comandar al FreeSWITCH
+y la realizaremos de forma sincronica es decir al comandar esperaremos por el cambio de estado de llamada,
+para unas decenas de llamadas por minuto esto es suficiente pero para superar estos limites necesitariamos otra
+estrategia diferente.&lt;/p>
+&lt;p>nociones importantes antes de empezar:&lt;/p>
+&lt;ul>
+&lt;li>conocer como instalar y operar un FreeSWITCH&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>autoload_configs/xml_rpc.conf.xml&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;configuration&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;xml_rpc.conf&amp;#34;&lt;/span> &lt;span style="color:#008080">description=&lt;/span>&lt;span style="color:#b84">&amp;#34;XML RPC&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;settings&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;param&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;http-port&amp;#34;&lt;/span> &lt;span style="color:#008080">value=&lt;/span>&lt;span style="color:#b84">&amp;#34;8080&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;param&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;auth-realm&amp;#34;&lt;/span> &lt;span style="color:#008080">value=&lt;/span>&lt;span style="color:#b84">&amp;#34;freeswitch&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;param&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;auth-user&amp;#34;&lt;/span> &lt;span style="color:#008080">value=&lt;/span>&lt;span style="color:#b84">&amp;#34;freeswitch&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;param&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;auth-pass&amp;#34;&lt;/span> &lt;span style="color:#008080">value=&lt;/span>&lt;span style="color:#b84">&amp;#34;works&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/settings&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;/configuration&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Kamailio as SBC for MS Teams</title><link>http://bit4bit.github.io/post/kamailio_sbc_msteams/</link><pubDate>Sun, 25 Jun 2023 09:11:44 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/kamailio_sbc_msteams/</guid><description>&lt;p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/p>
 &lt;p>Escenario confirmado.&lt;/p>
 &lt;div class="mermaid">flowchart LR
 MSTeams["MS Teams
