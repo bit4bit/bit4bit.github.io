@@ -33,58 +33,8 @@ estrategia diferente.&lt;/p>
 &lt;ul>
 &lt;li>conocer como instalar y operar un FreeSWITCH&lt;/li>
 &lt;li>ejecutable &lt;strong>freeswitch 1.10.9&lt;/strong> con los modulos &lt;strong>mod_xml_rpc&lt;/strong> y &lt;strong>mod_sofia&lt;/strong>&lt;/li>
-&lt;li>ejecutable &lt;strong>php &amp;gt;= 7.4&lt;/strong>&lt;/li>
-&lt;li>ejectuable &lt;strong>phpunit&lt;/strong>&lt;/li>
 &lt;/ul>
-&lt;p>Esta implementación la realizaremos desde 2 frentes:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>outside -&amp;gt; in&lt;/strong> donde especularemos sobre el comportamiento desde el usuario&lt;/li>
-&lt;li>&lt;strong>inside -&amp;gt; out&lt;/strong> donde nos ilustraremos del detalle del implementación&lt;/li>
-&lt;/ul>
-&lt;p>Empecemos por construir un mecanimos que nos permita interactuar con FreeSWITCH
-desde el ambiente de pruebas.&lt;/p>
-&lt;p>&lt;strong>tests/FreeswitchServiceTest.php&lt;/strong>*&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-php" data-lang="php">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">&amp;lt;?&lt;/span>php &lt;span style="font-weight:bold">declare&lt;/span>(strict_types&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#099">1&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">require&lt;/span>(&lt;span style="color:#b84">&amp;#39;support.php&amp;#39;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">use&lt;/span> PHPUnit\Framework\TestCase;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">FreeswitchServiceTest&lt;/span> &lt;span style="font-weight:bold">extends&lt;/span> TestCase
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">private&lt;/span> &lt;span style="color:#008080">$freeswitch&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">/** @test */&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">actividad_rpc&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$resp&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">rpc&lt;/span>()&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">call&lt;/span>(&lt;span style="color:#b84">&amp;#34;uptime&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">assertTrue&lt;/span>(is_string(&lt;span style="color:#008080">$resp&lt;/span>));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#b84">/** @test */&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">llamada_rpc_con_argumento&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$resp&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">rpc&lt;/span>()&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">call&lt;/span>(&lt;span style="color:#b84">&amp;#34;show&amp;#34;&lt;/span>, &lt;span style="color:#b84">&amp;#34;modules&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">assertStringContainsString&lt;/span>(&lt;span style="color:#b84">&amp;#39;timer&amp;#39;&lt;/span>, &lt;span style="color:#008080">$resp&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">protected&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">setUp&lt;/span>()&lt;span style="font-weight:bold">:&lt;/span> void
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">freeswitch&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> FreeswitchService&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">start&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">protected&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">tearDown&lt;/span>()&lt;span style="font-weight:bold">:&lt;/span> void
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">freeswitch&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">stop&lt;/span>();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">private&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">rpc&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">new&lt;/span> FreeswitchRPC(&lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">freeswitch&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>freeswitch.xml.php&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>freeswitch.xml&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-xml" data-lang="xml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#999;font-weight:bold">&amp;lt;?xml version=&amp;#34;1.0&amp;#34;?&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;document&lt;/span> &lt;span style="color:#008080">type=&lt;/span>&lt;span style="color:#b84">&amp;#34;freeswitch/xml&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;section&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;configuration&amp;#34;&lt;/span> &lt;span style="color:#008080">description=&lt;/span>&lt;span style="color:#b84">&amp;#34;Various Configuration&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
@@ -97,99 +47,70 @@ desde el ambiente de pruebas.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/modules&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/configuration&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- configuracion minima para xml_rpc.conf OJO actualmente escucha en todas la interfaz bloquear acceso por iptables --&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;configuration&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;xml_rpc.conf&amp;#34;&lt;/span> &lt;span style="color:#008080">description=&lt;/span>&lt;span style="color:#b84">&amp;#34;XML RPC&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;settings&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;param&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;http-port&amp;#34;&lt;/span> &lt;span style="color:#008080">value=&lt;/span>&lt;span style="color:#b84">&amp;#34;&amp;lt;?= $env[&amp;#39;http_port&amp;#39;]?&amp;gt;&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;param&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;http-port&amp;#34;&lt;/span> &lt;span style="color:#008080">value=&lt;/span>&lt;span style="color:#b84">&amp;#34;8080&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/settings&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/configuration&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/section&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;section&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;dialplan&amp;#34;&lt;/span> &lt;span style="color:#008080">description=&lt;/span>&lt;span style="color:#b84">&amp;#34;Regex/XML Dialplan&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;context&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;event2dial&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- acciones a realizar una vez se logro contactar al usuario --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;extension&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;event2dial&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;condition&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- todas las llamadas son testadas por el agente 1000 --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;action&lt;/span> &lt;span style="color:#008080">application=&lt;/span>&lt;span style="color:#b84">&amp;#34;set&amp;#34;&lt;/span> &lt;span style="color:#008080">data=&lt;/span>&lt;span style="color:#b84">&amp;#34;hangup_after_bridge=true&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;action&lt;/span> &lt;span style="color:#008080">application=&lt;/span>&lt;span style="color:#b84">&amp;#34;bridge&amp;#34;&lt;/span> &lt;span style="color:#008080">data=&lt;/span>&lt;span style="color:#b84">&amp;#34;user/1000&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;action&lt;/span> &lt;span style="color:#008080">application=&lt;/span>&lt;span style="color:#b84">&amp;#34;hangup&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/condition&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/extension&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/context&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/section&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#000080">&amp;lt;/document&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>infrastructure.php&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-php" data-lang="php">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">&amp;lt;?&lt;/span>php
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">interface&lt;/span> FreeswitchEndpoint
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">rpc_endpoint&lt;/span>(&lt;span style="color:#008080">$webapi&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">FreeswitchRPC&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> __construct(&lt;span style="color:#008080">$endpoint&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">endpoint&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">$endpoint&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">call&lt;/span>(&lt;span style="color:#008080">$cmd&lt;/span>, &lt;span style="color:#008080">$arg&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#39;&amp;#39;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$ch&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> curl_init();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> curl_setopt(&lt;span style="color:#008080">$ch&lt;/span>, CURLOPT_URL, &lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">endpoint&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">rpc_endpoint&lt;/span>(&lt;span style="color:#b84">&amp;#34;xmlapi/&amp;#34;&lt;/span> &lt;span style="font-weight:bold">.&lt;/span> &lt;span style="color:#008080">$cmd&lt;/span> &lt;span style="font-weight:bold">.&lt;/span> &lt;span style="color:#b84">&amp;#34;?&lt;/span>&lt;span style="color:#b84">{&lt;/span>&lt;span style="color:#008080">$arg&lt;/span>&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> curl_setopt(&lt;span style="color:#008080">$ch&lt;/span>, CURLOPT_CUSTOMREQUEST, &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> curl_setopt(&lt;span style="color:#008080">$ch&lt;/span>, CURLOPT_RETURNTRANSFER, &lt;span style="font-weight:bold">true&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> chop(curl_exec(&lt;span style="color:#008080">$ch&lt;/span>));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>support.php&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-php" data-lang="php">&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">&amp;lt;?&lt;/span>php
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">require&lt;/span>(&lt;span style="color:#b84">&amp;#39;infrastructure.php&amp;#39;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">final&lt;/span> &lt;span style="font-weight:bold">class&lt;/span> &lt;span style="color:#458;font-weight:bold">FreeswitchService&lt;/span> &lt;span style="font-weight:bold">implements&lt;/span> FreeswitchEndpoint
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>{
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">static&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">start&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$run_dir&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> chop(system(&lt;span style="color:#b84">&amp;#34;mktemp -d&amp;#34;&lt;/span>));
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$cfgname&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#b84">&amp;#34;&lt;/span>&lt;span style="color:#b84">$run_dir&lt;/span>&lt;span style="color:#b84">/freeswitch.xml&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$http_port&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#099">8080&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> self&lt;span style="font-weight:bold">::&lt;/span>&lt;span style="color:#008080">render_configuration&lt;/span>(&lt;span style="color:#008080">$cfgname&lt;/span>, [&lt;span style="color:#b84">&amp;#34;http_port&amp;#34;&lt;/span> &lt;span style="font-weight:bold">=&amp;gt;&lt;/span> &lt;span style="color:#008080">$http_port&lt;/span>]);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$process&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> proc_open(&lt;span style="color:#b84">&amp;#34;freeswitch -lp -nonat -nort -cfgname freeswitch.xml -log &lt;/span>&lt;span style="color:#b84">${&lt;/span>&lt;span style="color:#008080">run_dir&lt;/span>&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84"> -db &lt;/span>&lt;span style="color:#b84">${&lt;/span>&lt;span style="color:#008080">run_dir&lt;/span>&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84"> -conf &lt;/span>&lt;span style="color:#b84">${&lt;/span>&lt;span style="color:#008080">run_dir&lt;/span>&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84"> -run &lt;/span>&lt;span style="color:#b84">${&lt;/span>&lt;span style="color:#008080">run_dir&lt;/span>&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>, [], &lt;span style="color:#008080">$pipes&lt;/span>, &lt;span style="color:#008080">$run_dir&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> must(is_resource(&lt;span style="color:#008080">$process&lt;/span>), &lt;span style="color:#b84">&amp;#34;fails to initialize freeswitch&amp;#34;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$srv&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="font-weight:bold">new&lt;/span> self();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$srv&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">process&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">$process&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">$srv&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">http_port&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="color:#008080">$http_port&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#008080">$srv&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">rpc_endpoint&lt;/span>(&lt;span style="color:#008080">$webapi&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#b84">&amp;#34;http://localhost:&lt;/span>&lt;span style="color:#b84">{&lt;/span>&lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">http_port&lt;/span>&lt;span style="color:#b84">}&lt;/span>&lt;span style="color:#b84">/&lt;/span>&lt;span style="color:#b84">$webapi&lt;/span>&lt;span style="color:#b84">&amp;#34;&lt;/span>;
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">is_alive&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> is_resource(&lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">process&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">public&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">stop&lt;/span>()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proc_terminate(&lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">process&lt;/span>, &lt;span style="color:#099">9&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> proc_close(&lt;span style="color:#008080">$this&lt;/span>&lt;span style="font-weight:bold">-&amp;gt;&lt;/span>&lt;span style="color:#008080">process&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">private&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> __construct()
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">private&lt;/span> &lt;span style="font-weight:bold">static&lt;/span> &lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">render_configuration&lt;/span>(&lt;span style="color:#008080">$outpath&lt;/span>, &lt;span style="color:#008080">$env&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ob_start();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">include&lt;/span>(&lt;span style="color:#b84">&amp;#39;tests/freeswitch.xml.php&amp;#39;&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> file_put_contents(&lt;span style="color:#008080">$outpath&lt;/span>, ob_get_contents());
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ob_end_clean();
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="font-weight:bold">function&lt;/span> &lt;span style="color:#900;font-weight:bold">must&lt;/span>(&lt;span style="color:#008080">$assertion&lt;/span>, &lt;span style="color:#008080">$description&lt;/span> &lt;span style="font-weight:bold">=&lt;/span> &lt;span style="font-weight:bold">null&lt;/span>) {
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">if&lt;/span> (&lt;span style="color:#008080">$assertion&lt;/span> &lt;span style="font-weight:bold">===&lt;/span> &lt;span style="font-weight:bold">false&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">throw&lt;/span> &lt;span style="font-weight:bold">new&lt;/span> AssertionError(&lt;span style="color:#008080">$description&lt;/span>);
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>phpunit --include-path&lt;span style="font-weight:bold">=&lt;/span>. tests/
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="todo-escenario-de-configuracion-freeswitch">TODO escenario de configuracion FreeSWITCh&lt;/h2>
-&lt;h2 id="todo-pagina-web-php">TODO pagina web PHP&lt;/h2>
-&lt;h2 id="todo-encolamiento-de-llamada">TODO encolamiento de llamada&lt;/h2>
-&lt;h2 id="todo-despacho-de-llamada">TODO despacho de llamada&lt;/h2>
-&lt;h2 id="todo-resumen">TODO resumen&lt;/h2></description></item><item><title>Kamailio as SBC for MS Teams</title><link>http://bit4bit.github.io/post/kamailio_sbc_msteams/</link><pubDate>Sun, 25 Jun 2023 09:11:44 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/kamailio_sbc_msteams/</guid><description>&lt;p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;!--
+```sh @mdtoapp @execute
+freeswitch -nonat -lp -conf . -log . -db . -run . -temp . &amp;
+sleep 3s
+```
+-->
+&lt;p>confirmamos actividad del puerto&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -sSG -XGET &lt;span style="color:#b84">&amp;#39;http://localhost:8080/xmlapi/uptime&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"># 2&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ahora, asumamos que tenemos configurada la pasarela &lt;code>celulares&lt;/code> que nos
+da salida a llamadas a celulares en colombia, entonces
+para lanzar la llamada al numero 3001234567 seria:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -sSG -XGET --data-urlencode &lt;span style="color:#b84">&amp;#39;{originate_timeout=30,origination_uuid=&amp;lt;my uuid&amp;gt;,origination_caller_id_name=123,origination_caller_id_number=123}sofia/celulares/3001234567 event2dial XML event2dial&amp;#39;&lt;/span> &lt;span style="color:#b84">&amp;#39;http://localhost:8080/api/originate&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>TODO: ejemplo de retorno cuando la llamada a sido contestada
+TODO: ejemplo de retorno cuando la llamada no ha sido contestada&lt;/p>
+&lt;p>aclaraciónes:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>originate_timeout&lt;/code> = 30, esperamos almenos 30 segundos que contesten o colgamos (este comportamiento no aplica para destinos con buzón de voz).&lt;/li>
+&lt;li>&lt;code>origination_uuid&lt;/code> = UUIDv4, asignamos identificador a la llamada.&lt;/li>
+&lt;li>&lt;code>origination_caller_id_name&lt;/code> = 123, dependiendo de la linea destino podemos enviar un nombre a ser visualizado en el telefono.&lt;/li>
+&lt;li>&lt;code>origination_caller_id_number&lt;/code> = 123, dependiendo de la linea destino podemos enviar el numero de origen.&lt;/li>
+&lt;li>&lt;code>&amp;amp;transfer(event2dial XML event2dial)&lt;/code>, plan de marcado al la llamada ser contestada por ejemplo comunicar a un agente, o bien a una queue, etc..&lt;/li>
+&lt;/ul>
+&lt;p>Resumiendo:&lt;/p>
+&lt;ul>
+&lt;li>requerimos un FreeSWITCH previamente configurado con una o varias pasarelas a los destinos requeridos&lt;/li>
+&lt;li>activar y configurar &lt;strong>mod_xml_rpc&lt;/strong>&lt;/li>
+&lt;li>comandar llamada con &lt;strong>originate&lt;/strong>.&lt;/li>
+&lt;/ul>
+&lt;p>Con lo anterior tenemos todas las herramientas para integrar FreeSWITCH en actividades como:&lt;/p>
+&lt;ul>
+&lt;li>realizar campañas de mercadeo.&lt;/li>
+&lt;li>vincular CRM a la telefonía.&lt;/li>
+&lt;li>lanzar llamadas sin que el agente conozca el número destino.&lt;/li>
+&lt;li>integrar flujos a la telefonía.&lt;/li>
+&lt;/ul>
+&lt;!--
+detener freeswitch
+```sh @mdtoapp @execute
+freeswitch -conf . -stop -run .
+```
+--></description></item><item><title>Kamailio as SBC for MS Teams</title><link>http://bit4bit.github.io/post/kamailio_sbc_msteams/</link><pubDate>Sun, 25 Jun 2023 09:11:44 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/kamailio_sbc_msteams/</guid><description>&lt;p>Este post complementa con un ejemplo mínimo pero funcional de lo expuesto en &lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/p>
 &lt;p>Escenario confirmado.&lt;/p>
 &lt;div class="mermaid">flowchart LR
 MSTeams["MS Teams

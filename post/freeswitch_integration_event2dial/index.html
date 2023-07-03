@@ -1,7 +1,7 @@
 <!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="Una de las funcionalidades más prácticas o almenos más usadas por empresas en la gestión de sus usuarios es un mecanimo que conecte al usuario con un agente ante un evento, los eventos más comunes son:
 el usuario solicita que lo contacten (ejemplo al diligenciar un formulario) un agente solicita contactar con otro usuario sin conocer el número destino (ejemplo gestión en un CRM). contactar a usuario ante una campaña de mercadeo."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Freeswitch Integración - event2dial (TODO)"><meta property="og:description" content="Una de las funcionalidades más prácticas o almenos más usadas por empresas en la gestión de sus usuarios es un mecanimo que conecte al usuario con un agente ante un evento, los eventos más comunes son:
 el usuario solicita que lo contacten (ejemplo al diligenciar un formulario) un agente solicita contactar con otro usuario sin conocer el número destino (ejemplo gestión en un CRM). contactar a usuario ante una campaña de mercadeo."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/freeswitch_integration_event2dial/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-07-01T16:15:01-05:00"><meta property="article:modified_time" content="2023-07-01T16:15:01-05:00"><link rel=canonical href=http://bit4bit.github.io/post/freeswitch_integration_event2dial/><meta itemprop=name content="Freeswitch Integración - event2dial (TODO)"><meta itemprop=description content="Una de las funcionalidades más prácticas o almenos más usadas por empresas en la gestión de sus usuarios es un mecanimo que conecte al usuario con un agente ante un evento, los eventos más comunes son:
-el usuario solicita que lo contacten (ejemplo al diligenciar un formulario) un agente solicita contactar con otro usuario sin conocer el número destino (ejemplo gestión en un CRM). contactar a usuario ante una campaña de mercadeo."><meta itemprop=datePublished content="2023-07-01T16:15:01-05:00"><meta itemprop=dateModified content="2023-07-01T16:15:01-05:00"><meta itemprop=wordCount content="599"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Freeswitch Integración - event2dial (TODO) - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Freeswitch Integración - event2dial (TODO)"><meta name=twitter:description content="Una de las funcionalidades más prácticas o almenos más usadas por empresas en la gestión de sus usuarios es un mecanimo que conecte al usuario con un agente ante un evento, los eventos más comunes son:
+el usuario solicita que lo contacten (ejemplo al diligenciar un formulario) un agente solicita contactar con otro usuario sin conocer el número destino (ejemplo gestión en un CRM). contactar a usuario ante una campaña de mercadeo."><meta itemprop=datePublished content="2023-07-01T16:15:01-05:00"><meta itemprop=dateModified content="2023-07-01T16:15:01-05:00"><meta itemprop=wordCount content="570"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Freeswitch Integración - event2dial (TODO) - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Freeswitch Integración - event2dial (TODO)"><meta name=twitter:description content="Una de las funcionalidades más prácticas o almenos más usadas por empresas en la gestión de sus usuarios es un mecanimo que conecte al usuario con un agente ante un evento, los eventos más comunes son:
 el usuario solicita que lo contacten (ejemplo al diligenciar un formulario) un agente solicita contactar con otro usuario sin conocer el número destino (ejemplo gestión en un CRM). contactar a usuario ante una campaña de mercadeo."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
 <span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
 <span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>Freeswitch Integración - event2dial (TODO)</h1><article class=content><p>Una de las funcionalidades más prácticas o almenos más usadas por empresas
@@ -14,48 +14,7 @@ pueda diligenciar un formulario para ser contactado.</p><p>FreeSWITCH es un soft
 integraciónes, donde por nombrar algunos:</p><ul><li>por medio de <strong>mod_event_socket</strong></li><li>por medio de algunos del soporte de alguno de los lenguages como: <strong>mod_lua</strong>, <strong>mod_erlang</strong></li><li>por medio de <strong>mod_xml_curl</strong></li><li>por medio de <strong>mod_xml_rpc</strong></li><li>por medio de <strong>mod_httapi</strong></li></ul><p>para esta implementación usaremos <strong>mod_xml_rpc</strong> el cual nos ofrece un <strong>rpc</strong> para comandar al FreeSWITCH
 y la realizaremos de forma sincronica es decir al comandar esperaremos por el cambio de estado de llamada,
 para unas decenas de llamadas por minuto esto es suficiente pero para superar estos limites necesitariamos otra
-estrategia diferente.</p><p>importante antes de empezar:</p><ul><li>conocer como instalar y operar un FreeSWITCH</li><li>ejecutable <strong>freeswitch 1.10.9</strong> con los modulos <strong>mod_xml_rpc</strong> y <strong>mod_sofia</strong></li><li>ejecutable <strong>php >= 7.4</strong></li><li>ejectuable <strong>phpunit</strong></li></ul><p>Esta implementación la realizaremos desde 2 frentes:</p><ul><li><strong>outside -> in</strong> donde especularemos sobre el comportamiento desde el usuario</li><li><strong>inside -> out</strong> donde nos ilustraremos del detalle del implementación</li></ul><p>Empecemos por construir un mecanimos que nos permita interactuar con FreeSWITCH
-desde el ambiente de pruebas.</p><p><strong>tests/FreeswitchServiceTest.php</strong>*</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=font-weight:700>&lt;?</span>php <span style=font-weight:700>declare</span>(strict_types<span style=font-weight:700>=</span><span style=color:#099>1</span>);
-</span></span><span style=display:flex><span><span style=font-weight:700>require</span>(<span style=color:#b84>&#39;support.php&#39;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>use</span> PHPUnit\Framework\TestCase;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>FreeswitchServiceTest</span> <span style=font-weight:700>extends</span> TestCase
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=font-weight:700>private</span> <span style=color:teal>$freeswitch</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#b84>/** @test */</span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>actividad_rpc</span>()
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:teal>$resp</span> <span style=font-weight:700>=</span> <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>rpc</span>()<span style=font-weight:700>-&gt;</span><span style=color:teal>call</span>(<span style=color:#b84>&#34;uptime&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>assertTrue</span>(is_string(<span style=color:teal>$resp</span>));
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=color:#b84>/** @test */</span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>llamada_rpc_con_argumento</span>()
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:teal>$resp</span> <span style=font-weight:700>=</span> <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>rpc</span>()<span style=font-weight:700>-&gt;</span><span style=color:teal>call</span>(<span style=color:#b84>&#34;show&#34;</span>, <span style=color:#b84>&#34;modules&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>assertStringContainsString</span>(<span style=color:#b84>&#39;timer&#39;</span>, <span style=color:teal>$resp</span>);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>protected</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>setUp</span>()<span style=font-weight:700>:</span> void
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>freeswitch</span> <span style=font-weight:700>=</span> FreeswitchService<span style=font-weight:700>::</span><span style=color:teal>start</span>();
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>protected</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>tearDown</span>()<span style=font-weight:700>:</span> void
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>freeswitch</span><span style=font-weight:700>-&gt;</span><span style=color:teal>stop</span>();
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>private</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>rpc</span>()
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> <span style=font-weight:700>new</span> FreeswitchRPC(<span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>freeswitch</span>);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>freeswitch.xml.php</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#999;font-weight:700>&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+estrategia diferente.</p><p>importante antes de empezar:</p><ul><li>conocer como instalar y operar un FreeSWITCH</li><li>ejecutable <strong>freeswitch 1.10.9</strong> con los modulos <strong>mod_xml_rpc</strong> y <strong>mod_sofia</strong></li></ul><p><strong>freeswitch.xml</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#999;font-weight:700>&lt;?xml version=&#34;1.0&#34;?&gt;</span>
 </span></span><span style=display:flex><span><span style=color:navy>&lt;document</span> <span style=color:teal>type=</span><span style=color:#b84>&#34;freeswitch/xml&#34;</span><span style=color:navy>&gt;</span>
 </span></span><span style=display:flex><span>  <span style=color:navy>&lt;section</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;configuration&#34;</span> <span style=color:teal>description=</span><span style=color:#b84>&#34;Various Configuration&#34;</span><span style=color:navy>&gt;</span>
 </span></span><span style=display:flex><span>	<span style=color:navy>&lt;configuration</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;modules.conf&#34;</span> <span style=color:teal>description=</span><span style=color:#b84>&#34;Modules&#34;</span><span style=color:navy>&gt;</span>
@@ -66,94 +25,36 @@ desde el ambiente de pruebas.</p><p><strong>tests/FreeswitchServiceTest.php</str
 </span></span><span style=display:flex><span>		<span style=color:navy>&lt;load</span> <span style=color:teal>module=</span><span style=color:#b84>&#34;mod_xml_rpc&#34;</span><span style=color:navy>/&gt;</span>
 </span></span><span style=display:flex><span>	  <span style=color:navy>&lt;/modules&gt;</span>
 </span></span><span style=display:flex><span>	<span style=color:navy>&lt;/configuration&gt;</span>
-</span></span><span style=display:flex><span>	
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#998;font-style:italic>&lt;!-- configuracion minima para xml_rpc.conf OJO actualmente escucha en todas la interfaz bloquear acceso por iptables --&gt;</span>
 </span></span><span style=display:flex><span>	<span style=color:navy>&lt;configuration</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;xml_rpc.conf&#34;</span> <span style=color:teal>description=</span><span style=color:#b84>&#34;XML RPC&#34;</span><span style=color:navy>&gt;</span>
 </span></span><span style=display:flex><span>	  <span style=color:navy>&lt;settings&gt;</span>
-</span></span><span style=display:flex><span>		<span style=color:navy>&lt;param</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;http-port&#34;</span> <span style=color:teal>value=</span><span style=color:#b84>&#34;&lt;?= $env[&#39;http_port&#39;]?&gt;&#34;</span><span style=color:navy>/&gt;</span>
+</span></span><span style=display:flex><span>		<span style=color:navy>&lt;param</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;http-port&#34;</span> <span style=color:teal>value=</span><span style=color:#b84>&#34;8080&#34;</span><span style=color:navy>/&gt;</span>
 </span></span><span style=display:flex><span>	  <span style=color:navy>&lt;/settings&gt;</span>
 </span></span><span style=display:flex><span>	<span style=color:navy>&lt;/configuration&gt;</span>
 </span></span><span style=display:flex><span>  <span style=color:navy>&lt;/section&gt;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:navy>&lt;section</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;dialplan&#34;</span> <span style=color:teal>description=</span><span style=color:#b84>&#34;Regex/XML Dialplan&#34;</span><span style=color:navy>&gt;</span>
+</span></span><span style=display:flex><span>	<span style=color:navy>&lt;context</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;event2dial&#34;</span><span style=color:navy>&gt;</span>
+</span></span><span style=display:flex><span>	  <span style=color:#998;font-style:italic>&lt;!-- acciones a realizar una vez se logro contactar al usuario --&gt;</span>
+</span></span><span style=display:flex><span>	  <span style=color:navy>&lt;extension</span> <span style=color:teal>name=</span><span style=color:#b84>&#34;event2dial&#34;</span><span style=color:navy>&gt;</span>
+</span></span><span style=display:flex><span>		<span style=color:navy>&lt;condition&gt;</span>
+</span></span><span style=display:flex><span>		  <span style=color:#998;font-style:italic>&lt;!-- todas las llamadas son testadas por el agente 1000 --&gt;</span>
+</span></span><span style=display:flex><span>		  <span style=color:navy>&lt;action</span> <span style=color:teal>application=</span><span style=color:#b84>&#34;set&#34;</span> <span style=color:teal>data=</span><span style=color:#b84>&#34;hangup_after_bridge=true&#34;</span><span style=color:navy>/&gt;</span>
+</span></span><span style=display:flex><span>		  <span style=color:navy>&lt;action</span> <span style=color:teal>application=</span><span style=color:#b84>&#34;bridge&#34;</span> <span style=color:teal>data=</span><span style=color:#b84>&#34;user/1000&#34;</span><span style=color:navy>/&gt;</span>
+</span></span><span style=display:flex><span>		  <span style=color:navy>&lt;action</span> <span style=color:teal>application=</span><span style=color:#b84>&#34;hangup&#34;</span><span style=color:navy>/&gt;</span>
+</span></span><span style=display:flex><span>		<span style=color:navy>&lt;/condition&gt;</span>
+</span></span><span style=display:flex><span>	  <span style=color:navy>&lt;/extension&gt;</span>
+</span></span><span style=display:flex><span>	<span style=color:navy>&lt;/context&gt;</span>
+</span></span><span style=display:flex><span>  <span style=color:navy>&lt;/section&gt;</span>
 </span></span><span style=display:flex><span><span style=color:navy>&lt;/document&gt;</span>
-</span></span></code></pre></div><p><strong>infrastructure.php</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=font-weight:700>&lt;?</span>php
-</span></span><span style=display:flex><span><span style=font-weight:700>interface</span> FreeswitchEndpoint
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>rpc_endpoint</span>(<span style=color:teal>$webapi</span>);
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>FreeswitchRPC</span>
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> __construct(<span style=color:teal>$endpoint</span>)
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>endpoint</span> <span style=font-weight:700>=</span> <span style=color:teal>$endpoint</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>call</span>(<span style=color:teal>$cmd</span>, <span style=color:teal>$arg</span> <span style=font-weight:700>=</span> <span style=color:#b84>&#39;&#39;</span>)
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:teal>$ch</span> <span style=font-weight:700>=</span> curl_init();
-</span></span><span style=display:flex><span>        curl_setopt(<span style=color:teal>$ch</span>, CURLOPT_URL, <span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>endpoint</span><span style=font-weight:700>-&gt;</span><span style=color:teal>rpc_endpoint</span>(<span style=color:#b84>&#34;xmlapi/&#34;</span> <span style=font-weight:700>.</span> <span style=color:teal>$cmd</span> <span style=font-weight:700>.</span> <span style=color:#b84>&#34;?</span><span style=color:#b84>{</span><span style=color:teal>$arg</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>));
-</span></span><span style=display:flex><span>        curl_setopt(<span style=color:teal>$ch</span>, CURLOPT_CUSTOMREQUEST, <span style=color:#b84>&#34;GET&#34;</span>);
-</span></span><span style=display:flex><span>        curl_setopt(<span style=color:teal>$ch</span>, CURLOPT_RETURNTRANSFER, <span style=font-weight:700>true</span>);
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> chop(curl_exec(<span style=color:teal>$ch</span>));
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>support.php</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=font-weight:700>&lt;?</span>php
-</span></span><span style=display:flex><span><span style=font-weight:700>require</span>(<span style=color:#b84>&#39;infrastructure.php&#39;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>final</span> <span style=font-weight:700>class</span> <span style=color:#458;font-weight:700>FreeswitchService</span> <span style=font-weight:700>implements</span> FreeswitchEndpoint
-</span></span><span style=display:flex><span>{
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>static</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>start</span>()
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=color:teal>$run_dir</span> <span style=font-weight:700>=</span> chop(system(<span style=color:#b84>&#34;mktemp -d&#34;</span>));
-</span></span><span style=display:flex><span>        <span style=color:teal>$cfgname</span> <span style=font-weight:700>=</span> <span style=color:#b84>&#34;</span><span style=color:#b84>$run_dir</span><span style=color:#b84>/freeswitch.xml&#34;</span>;
-</span></span><span style=display:flex><span>        <span style=color:teal>$http_port</span> <span style=font-weight:700>=</span> <span style=color:#099>8080</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        self<span style=font-weight:700>::</span><span style=color:teal>render_configuration</span>(<span style=color:teal>$cfgname</span>, [<span style=color:#b84>&#34;http_port&#34;</span> <span style=font-weight:700>=&gt;</span> <span style=color:teal>$http_port</span>]);
-</span></span><span style=display:flex><span>        <span style=color:teal>$process</span> <span style=font-weight:700>=</span> proc_open(<span style=color:#b84>&#34;freeswitch -lp -nonat -nort -cfgname freeswitch.xml -log </span><span style=color:#b84>${</span><span style=color:teal>run_dir</span><span style=color:#b84>}</span><span style=color:#b84> -db </span><span style=color:#b84>${</span><span style=color:teal>run_dir</span><span style=color:#b84>}</span><span style=color:#b84> -conf </span><span style=color:#b84>${</span><span style=color:teal>run_dir</span><span style=color:#b84>}</span><span style=color:#b84> -run </span><span style=color:#b84>${</span><span style=color:teal>run_dir</span><span style=color:#b84>}</span><span style=color:#b84>&#34;</span>, [], <span style=color:teal>$pipes</span>, <span style=color:teal>$run_dir</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        must(is_resource(<span style=color:teal>$process</span>), <span style=color:#b84>&#34;fails to initialize freeswitch&#34;</span>);
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=color:teal>$srv</span> <span style=font-weight:700>=</span> <span style=font-weight:700>new</span> self();
-</span></span><span style=display:flex><span>        <span style=color:teal>$srv</span><span style=font-weight:700>-&gt;</span><span style=color:teal>process</span> <span style=font-weight:700>=</span> <span style=color:teal>$process</span>;
-</span></span><span style=display:flex><span>        <span style=color:teal>$srv</span><span style=font-weight:700>-&gt;</span><span style=color:teal>http_port</span> <span style=font-weight:700>=</span> <span style=color:teal>$http_port</span>;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> <span style=color:teal>$srv</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>rpc_endpoint</span>(<span style=color:teal>$webapi</span>)
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> <span style=color:#b84>&#34;http://localhost:</span><span style=color:#b84>{</span><span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>http_port</span><span style=color:#b84>}</span><span style=color:#b84>/</span><span style=color:#b84>$webapi</span><span style=color:#b84>&#34;</span>;
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>is_alive</span>()
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        <span style=font-weight:700>return</span> is_resource(<span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>process</span>);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>public</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>stop</span>()
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        proc_terminate(<span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>process</span>, <span style=color:#099>9</span>);
-</span></span><span style=display:flex><span>        proc_close(<span style=color:teal>$this</span><span style=font-weight:700>-&gt;</span><span style=color:teal>process</span>);
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>private</span> <span style=font-weight:700>function</span> __construct()
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>    <span style=font-weight:700>private</span> <span style=font-weight:700>static</span> <span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>render_configuration</span>(<span style=color:teal>$outpath</span>, <span style=color:teal>$env</span>)
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>        ob_start();
-</span></span><span style=display:flex><span>        <span style=font-weight:700>include</span>(<span style=color:#b84>&#39;tests/freeswitch.xml.php&#39;</span>);
-</span></span><span style=display:flex><span>        file_put_contents(<span style=color:teal>$outpath</span>, ob_get_contents());
-</span></span><span style=display:flex><span>        ob_end_clean();
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=font-weight:700>function</span> <span style=color:#900;font-weight:700>must</span>(<span style=color:teal>$assertion</span>, <span style=color:teal>$description</span> <span style=font-weight:700>=</span> <span style=font-weight:700>null</span>) {
-</span></span><span style=display:flex><span>    <span style=font-weight:700>if</span> (<span style=color:teal>$assertion</span> <span style=font-weight:700>===</span> <span style=font-weight:700>false</span>)
-</span></span><span style=display:flex><span>       <span style=font-weight:700>throw</span> <span style=font-weight:700>new</span> AssertionError(<span style=color:teal>$description</span>);
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>phpunit --include-path<span style=font-weight:700>=</span>. tests/
-</span></span></code></pre></div><h2 id=todo-escenario-de-configuracion-freeswitch>TODO escenario de configuracion FreeSWITCh</h2><h2 id=todo-pagina-web-php>TODO pagina web PHP</h2><h2 id=todo-encolamiento-de-llamada>TODO encolamiento de llamada</h2><h2 id=todo-despacho-de-llamada>TODO despacho de llamada</h2><h2 id=todo-resumen>TODO resumen</h2></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/kamailio_sbc_msteams/>← prev</a>
+</span></span></code></pre></div><p>confirmamos actividad del puerto</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>curl -sSG -XGET <span style=color:#b84>&#39;http://localhost:8080/xmlapi/uptime&#39;</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic># 2</span>
+</span></span></code></pre></div><p>ahora, asumamos que tenemos configurada la pasarela <code>celulares</code> que nos
+da salida a llamadas a celulares en colombia, entonces
+para lanzar la llamada al numero 3001234567 seria:</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>curl -sSG -XGET --data-urlencode <span style=color:#b84>&#39;{originate_timeout=30,origination_uuid=&lt;my uuid&gt;,origination_caller_id_name=123,origination_caller_id_number=123}sofia/celulares/3001234567 event2dial XML event2dial&#39;</span> <span style=color:#b84>&#39;http://localhost:8080/api/originate&#39;</span>
+</span></span></code></pre></div><p>TODO: ejemplo de retorno cuando la llamada a sido contestada
+TODO: ejemplo de retorno cuando la llamada no ha sido contestada</p><p>aclaraciónes:</p><ul><li><code>originate_timeout</code> = 30, esperamos almenos 30 segundos que contesten o colgamos (este comportamiento no aplica para destinos con buzón de voz).</li><li><code>origination_uuid</code> = UUIDv4, asignamos identificador a la llamada.</li><li><code>origination_caller_id_name</code> = 123, dependiendo de la linea destino podemos enviar un nombre a ser visualizado en el telefono.</li><li><code>origination_caller_id_number</code> = 123, dependiendo de la linea destino podemos enviar el numero de origen.</li><li><code>&transfer(event2dial XML event2dial)</code>, plan de marcado al la llamada ser contestada por ejemplo comunicar a un agente, o bien a una queue, etc..</li></ul><p>Resumiendo:</p><ul><li>requerimos un FreeSWITCH previamente configurado con una o varias pasarelas a los destinos requeridos</li><li>activar y configurar <strong>mod_xml_rpc</strong></li><li>comandar llamada con <strong>originate</strong>.</li></ul><p>Con lo anterior tenemos todas las herramientas para integrar FreeSWITCH en actividades como:</p><ul><li>realizar campañas de mercadeo.</li><li>vincular CRM a la telefonía.</li><li>lanzar llamadas sin que el agente conozca el número destino.</li><li>integrar flujos a la telefonía.</li></ul></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/kamailio_sbc_msteams/>← prev</a>
 <a class=link target=history href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/finfo?name=content/post%2ffreeswitch_integration_event2dial.md">history</a>
 <a class=link href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&filename=content/post%2ffreeswitch_integration_event2dial.md">source</a>
 <a></a></div><div class=comment></div></main><footer id=footer><div><span>© 2019</span> - <span>2023</span></div><div><span>Powered by</span>
