@@ -4,8 +4,7 @@ con un agente ante un evento, los eventos más comunes son:&lt;/p>
 &lt;ul>
 &lt;li>el usuario solicita que lo contacten (ejemplo al diligenciar un formulario)&lt;/li>
 &lt;li>un agente solicita contactar con otro usuario sin conocer el número destino (ejemplo gestión en un CRM).&lt;/li>
-&lt;li>contactar a usuario ante una campaña de mercadeo.
-&amp;hellip;.&lt;/li>
+&lt;li>contactar a usuario ante una campaña de mercadeo.&lt;/li>
 &lt;/ul>
 &lt;p>Para FreeSWITCH tenemos muy poca documentación de como realizar este tipo de
 integraciones así que vamos a realizar una implementación de este tipo de servicio (event2dial)
@@ -20,13 +19,14 @@ pueda diligenciar un formulario para ser contactado.&lt;/p>
 integraciónes, donde por nombrar algunos:&lt;/p>
 &lt;ul>
 &lt;li>por medio de &lt;strong>mod_event_socket&lt;/strong>&lt;/li>
-&lt;li>por medio de algunos del soporte de alguno de los lenguages como: &lt;strong>mod_lua&lt;/strong>, &lt;strong>mod_erlang&lt;/strong>&lt;/li>
+&lt;li>por medio de lenguage integrados como: &lt;strong>mod_lua&lt;/strong>, &lt;strong>mod_python&lt;/strong>, &lt;strong>mod_perl&lt;/strong>&lt;/li>
 &lt;li>por medio de &lt;strong>mod_xml_curl&lt;/strong>&lt;/li>
 &lt;li>por medio de &lt;strong>mod_xml_rpc&lt;/strong>&lt;/li>
 &lt;li>por medio de &lt;strong>mod_httapi&lt;/strong>&lt;/li>
+&lt;li>o bien una mezcla de todo&lt;/li>
 &lt;/ul>
-&lt;p>para esta implementación usaremos &lt;strong>mod_xml_rpc&lt;/strong> el cual nos ofrece un &lt;strong>rpc&lt;/strong> para comandar al FreeSWITCH
-y la realizaremos de forma sincronica es decir al comandar esperaremos por el cambio de estado de llamada,
+&lt;p>para esta implementación usaremos el modulo &lt;strong>mod_xml_rpc&lt;/strong> el cual nos ofrece un &lt;a href="https://en.wikipedia.org/wiki/Remote_procedure_call">&lt;strong>rpc&lt;/strong>&lt;/a>
+para comandar el FreeSWITCH siendo la ejecución de forma sincronica es decir al comandar esperaremos por el resultado,
 para unas decenas de llamadas por minuto esto es suficiente pero para superar estos limites necesitariamos otra
 estrategia diferente.&lt;/p>
 &lt;p>importante antes de empezar:&lt;/p>
@@ -43,11 +43,14 @@ estrategia diferente.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;load&lt;/span> &lt;span style="color:#008080">module=&lt;/span>&lt;span style="color:#b84">&amp;#34;mod_console&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;load&lt;/span> &lt;span style="color:#008080">module=&lt;/span>&lt;span style="color:#b84">&amp;#34;mod_commands&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;load&lt;/span> &lt;span style="color:#008080">module=&lt;/span>&lt;span style="color:#b84">&amp;#34;mod_dptools&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- habilitamos el modulo de nuestro interes --&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;load&lt;/span> &lt;span style="color:#008080">module=&lt;/span>&lt;span style="color:#b84">&amp;#34;mod_xml_rpc&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/modules&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/configuration&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- configuracion minima para xml_rpc.conf OJO actualmente escucha en todas la interfaz bloquear acceso por iptables --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- resto de configuración --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- configuracion minima para xml_rpc.conf OJO actualmente escucha en todas la interfaz --&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;configuration&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;xml_rpc.conf&amp;#34;&lt;/span> &lt;span style="color:#008080">description=&lt;/span>&lt;span style="color:#b84">&amp;#34;XML RPC&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;settings&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;param&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;http-port&amp;#34;&lt;/span> &lt;span style="color:#008080">value=&lt;/span>&lt;span style="color:#b84">&amp;#34;8080&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
@@ -56,11 +59,20 @@ estrategia diferente.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;/section&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;section&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;dialplan&amp;#34;&lt;/span> &lt;span style="color:#008080">description=&lt;/span>&lt;span style="color:#b84">&amp;#34;Regex/XML Dialplan&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- cuando contactemos el usuario con el `originate` el FreeSWITCH
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> ejecutará el siguiente plan de marcado para controlar su flujo
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> áca podemos indicar acciones como:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> - conectar con un usuario/extensión
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> - conectar con una linea de tierra o mobil
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> - reproducir un audio
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> - mover la llamada a una queue
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> - iniciar un IVR
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"> --&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;context&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;event2dial&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- acciones a realizar una vez se logro contactar al usuario --&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;extension&lt;/span> &lt;span style="color:#008080">name=&lt;/span>&lt;span style="color:#b84">&amp;#34;event2dial&amp;#34;&lt;/span>&lt;span style="color:#000080">&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;condition&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- todas las llamadas son testadas por el agente 1000 --&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">&amp;lt;!-- todas las llamadas son contestadas por el agente 1000 --&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;action&lt;/span> &lt;span style="color:#008080">application=&lt;/span>&lt;span style="color:#b84">&amp;#34;set&amp;#34;&lt;/span> &lt;span style="color:#008080">data=&lt;/span>&lt;span style="color:#b84">&amp;#34;hangup_after_bridge=true&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;action&lt;/span> &lt;span style="color:#008080">application=&lt;/span>&lt;span style="color:#b84">&amp;#34;bridge&amp;#34;&lt;/span> &lt;span style="color:#008080">data=&lt;/span>&lt;span style="color:#b84">&amp;#34;user/1000&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#000080">&amp;lt;action&lt;/span> &lt;span style="color:#008080">application=&lt;/span>&lt;span style="color:#b84">&amp;#34;hangup&amp;#34;&lt;/span>&lt;span style="color:#000080">/&amp;gt;&lt;/span>
@@ -75,36 +87,30 @@ freeswitch -nonat -lp -conf . -log . -db . -run . -temp . &amp;
 sleep 3s
 ```
 -->
-&lt;p>confirmamos actividad del puerto&lt;/p>
+&lt;p>primero confirmamos actividad del puerto, en caso de no obtener
+respuesta revisar configuración de FreeSWITCH.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -sSG -XGET &lt;span style="color:#b84">&amp;#39;http://localhost:8080/xmlapi/uptime&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic"># 2&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ahora, asumamos que tenemos configurada la pasarela &lt;code>celulares&lt;/code> que nos
 da salida a llamadas a celulares en colombia, entonces
 para lanzar la llamada al numero 3001234567 seria:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -sSG -XGET --data-urlencode &lt;span style="color:#b84">&amp;#39;{originate_timeout=30,origination_uuid=&amp;lt;my uuid&amp;gt;,origination_caller_id_name=123,origination_caller_id_number=123}sofia/celulares/3001234567 event2dial XML event2dial&amp;#39;&lt;/span> &lt;span style="color:#b84">&amp;#39;http://localhost:8080/api/originate&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>TODO: ejemplo de retorno cuando la llamada a sido contestada
-TODO: ejemplo de retorno cuando la llamada no ha sido contestada&lt;/p>
-&lt;p>aclaraciónes:&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>aclaraciónes:&lt;/p>
 &lt;ul>
 &lt;li>&lt;code>originate_timeout&lt;/code> = 30, esperamos almenos 30 segundos que contesten o colgamos (este comportamiento no aplica para destinos con buzón de voz).&lt;/li>
 &lt;li>&lt;code>origination_uuid&lt;/code> = UUIDv4, asignamos identificador a la llamada.&lt;/li>
 &lt;li>&lt;code>origination_caller_id_name&lt;/code> = 123, dependiendo de la linea destino podemos enviar un nombre a ser visualizado en el telefono.&lt;/li>
 &lt;li>&lt;code>origination_caller_id_number&lt;/code> = 123, dependiendo de la linea destino podemos enviar el numero de origen.&lt;/li>
-&lt;li>&lt;code>&amp;amp;transfer(event2dial XML event2dial)&lt;/code>, plan de marcado al la llamada ser contestada por ejemplo comunicar a un agente, o bien a una queue, etc..&lt;/li>
 &lt;/ul>
+&lt;p>TODO: ejemplo de retorno cuando la llamada a sido contestada
+TODO: ejemplo de retorno cuando la llamada no ha sido contestada&lt;/p>
 &lt;p>Resumiendo:&lt;/p>
 &lt;ul>
-&lt;li>requerimos un FreeSWITCH previamente configurado con una o varias pasarelas a los destinos requeridos&lt;/li>
+&lt;li>requerimos un FreeSWITCH previamente configurado con una o varias pasarelas a que nos den salida a los destinos requeridos&lt;/li>
 &lt;li>activar y configurar &lt;strong>mod_xml_rpc&lt;/strong>&lt;/li>
-&lt;li>comandar llamada con &lt;strong>originate&lt;/strong>.&lt;/li>
+&lt;li>comandar llamada con &lt;strong>originate&lt;/strong> por medio de HTTP.&lt;/li>
 &lt;/ul>
-&lt;p>Con lo anterior tenemos todas las herramientas para integrar FreeSWITCH en actividades como:&lt;/p>
-&lt;ul>
-&lt;li>realizar campañas de mercadeo.&lt;/li>
-&lt;li>vincular CRM a la telefonía.&lt;/li>
-&lt;li>lanzar llamadas sin que el agente conozca el número destino.&lt;/li>
-&lt;li>integrar flujos a la telefonía.&lt;/li>
-&lt;/ul>
+&lt;p>Con lo anterior tenemos todas las herramientas para integrar FreeSWITCH en los flujos de negoció.&lt;/p>
 &lt;!--
 detener freeswitch
 ```sh @mdtoapp @execute
