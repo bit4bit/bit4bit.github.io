@@ -1,4 +1,42 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Sat, 01 Jul 2023 16:15:01 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Freeswitch Integración - event2dial (TODO)</title><link>http://bit4bit.github.io/post/freeswitch_integration_event2dial/</link><pubDate>Sat, 01 Jul 2023 16:15:01 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/freeswitch_integration_event2dial/</guid><description>&lt;p>Una de las funcionalidades más prácticas o almenos más usadas por empresas
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Bit4bit Integraciones</title><link>http://bit4bit.github.io/post/</link><description>Recent content in Posts on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Sun, 09 Jul 2023 21:54:27 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Emacs - Básico 1 (TODO)</title><link>http://bit4bit.github.io/post/emacs_basics_1/</link><pubDate>Sun, 09 Jul 2023 21:54:27 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/emacs_basics_1/</guid><description>&lt;p>GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad
+que nos ofrecen y construir un paquete que nos permita cubrir
+varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS),
+el ejercicio entorna en implementar:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Autenticar a Gitea&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Solicitar issue id&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Consultar titulo de issue indicado&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>E insertar titulo en el arbol del documento.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>TODO introduccion lisp&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>TODO introduccion elisp&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>TODO introduccion org&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>TODO inicializacion paquete&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>TODO inicializacion tdd&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>TODO implementacion&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>TODO publicacion paquete&lt;/p>
+&lt;/li>
+&lt;/ul></description></item><item><title>Freeswitch Integración - event2dial</title><link>http://bit4bit.github.io/post/freeswitch_integration_event2dial/</link><pubDate>Sat, 01 Jul 2023 16:15:01 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/freeswitch_integration_event2dial/</guid><description>&lt;p>Una de las funcionalidades más prácticas o almenos más usadas por empresas
 en la gestión de sus usuarios es un mecanimo que conecte al usuario
 con un agente ante un evento, los eventos más comunes son:&lt;/p>
 &lt;ul>
@@ -94,16 +132,22 @@ respuesta revisar configuración de FreeSWITCH.&lt;/p>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ahora, asumamos que tenemos configurada la pasarela &lt;code>celulares&lt;/code> que nos
 da salida a llamadas a celulares en colombia, entonces
 para lanzar la llamada al numero 3001234567 seria:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -sSG -XGET --data-urlencode &lt;span style="color:#b84">&amp;#39;{originate_timeout=30,origination_uuid=&amp;lt;my uuid&amp;gt;,origination_caller_id_name=123,origination_caller_id_number=123}sofia/celulares/3001234567 event2dial XML event2dial&amp;#39;&lt;/span> &lt;span style="color:#b84">&amp;#39;http://localhost:8080/api/originate&amp;#39;&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -sSG -XGET &lt;span style="color:#b84">&amp;#39;http://localhost:8080/api/originate?&amp;#34;%7Boriginate_timeout%3D30%2Corigination_uuid%3DMYUUID%2Corigination_caller_id_name%3D123%2Corigination_caller_id_number%3D123%7Dsofia%2Fcelulares%2F3001234567%20event2dial%20XML%20event2dial%29&amp;#34;&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>aclaraciónes:&lt;/p>
 &lt;ul>
+&lt;li>se debe codificar por partes los argumentos del comando se separan con &lt;code>%20&lt;/code> y cada argumento se codifica con url, ejemplo de codificacion en ruby seria:
+&lt;ul>
+&lt;li>&lt;code>['{originate_timeout=30}sofia/gateway/celulares/3001234576', 'event2dial', 'XML', 'event2dial'].map { |v| URI.encode_www_form_component(v) }.join('%20')&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;li>&lt;code>originate_timeout&lt;/code> = 30, esperamos almenos 30 segundos que contesten o colgamos (este comportamiento no aplica para destinos con buzón de voz).&lt;/li>
 &lt;li>&lt;code>origination_uuid&lt;/code> = UUIDv4, asignamos identificador a la llamada.&lt;/li>
 &lt;li>&lt;code>origination_caller_id_name&lt;/code> = 123, dependiendo de la linea destino podemos enviar un nombre a ser visualizado en el telefono.&lt;/li>
 &lt;li>&lt;code>origination_caller_id_number&lt;/code> = 123, dependiendo de la linea destino podemos enviar el numero de origen.&lt;/li>
 &lt;/ul>
-&lt;p>TODO: ejemplo de retorno cuando la llamada a sido contestada
-TODO: ejemplo de retorno cuando la llamada no ha sido contestada&lt;/p>
+&lt;p>estados de retorno:&lt;/p>
+&lt;p>&lt;code>+OK &amp;lt;uuidv4&amp;gt;&lt;/code> indicando que fue exitoso el lanzamiento de la llamada&lt;/p>
+&lt;p>&lt;code>-ERR &amp;lt;cause&amp;gt;&lt;/code> indica el motivo por el cual no se puedo lanzar la llamada&lt;/p>
 &lt;p>Resumiendo:&lt;/p>
 &lt;ul>
 &lt;li>requerimos un FreeSWITCH previamente configurado con una o varias pasarelas a que nos den salida a los destinos requeridos&lt;/li>
@@ -512,7 +556,7 @@ AssertionError: ValidationError not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>match(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
 Ran 47 tests in 11.937s
@@ -636,7 +680,7 @@ AssertionError: Exception not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>match(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
 Ran 49 tests in 12.318s
