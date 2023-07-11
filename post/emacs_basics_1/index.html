@@ -1,45 +1,264 @@
 <!doctype html><html lang=es-co><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=author content="Jovany Leandro G.C"><meta name=description content="GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad que nos ofrecen y construir un paquete que nos permita cubrir varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS), el ejercicio entorna en implementar:
-Autenticar a Gitea
-Solicitar issue id
-Consultar titulo de issue indicado
-E insertar titulo en el arbol del documento.
-TODO introduccion lisp
-TODO introduccion elisp
-TODO introduccion org
-TODO inicializacion paquete
-TODO inicializacion tdd"><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Emacs - Básico 1 (TODO)"><meta property="og:description" content="GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad que nos ofrecen y construir un paquete que nos permita cubrir varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS), el ejercicio entorna en implementar:
-Autenticar a Gitea
-Solicitar issue id
-Consultar titulo de issue indicado
-E insertar titulo en el arbol del documento.
-TODO introduccion lisp
-TODO introduccion elisp
-TODO introduccion org
-TODO inicializacion paquete
-TODO inicializacion tdd"><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/emacs_basics_1/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-07-09T21:54:27-05:00"><meta property="article:modified_time" content="2023-07-09T21:54:27-05:00"><link rel=canonical href=http://bit4bit.github.io/post/emacs_basics_1/><meta itemprop=name content="Emacs - Básico 1 (TODO)"><meta itemprop=description content="GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad que nos ofrecen y construir un paquete que nos permita cubrir varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS), el ejercicio entorna en implementar:
-Autenticar a Gitea
-Solicitar issue id
-Consultar titulo de issue indicado
-E insertar titulo en el arbol del documento.
-TODO introduccion lisp
-TODO introduccion elisp
-TODO introduccion org
-TODO inicializacion paquete
-TODO inicializacion tdd"><meta itemprop=datePublished content="2023-07-09T21:54:27-05:00"><meta itemprop=dateModified content="2023-07-09T21:54:27-05:00"><meta itemprop=wordCount content="75"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Emacs - Básico 1 (TODO) - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Emacs - Básico 1 (TODO)"><meta name=twitter:description content="GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad que nos ofrecen y construir un paquete que nos permita cubrir varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS), el ejercicio entorna en implementar:
-Autenticar a Gitea
-Solicitar issue id
-Consultar titulo de issue indicado
-E insertar titulo en el arbol del documento.
-TODO introduccion lisp
-TODO introduccion elisp
-TODO introduccion org
-TODO inicializacion paquete
-TODO inicializacion tdd"><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
+Autenticar a Gitea Solicitar issue id Consultar titulo de issue indicado E insertar titulo en el arbol del documento. importante antes de empezar:
+ser usuario de EMACS 27. nociones en desarrollo de software. nociones del lenguage LISP o uno de sus dialectos."><link rel=icon href=http://bit4bit.github.io/favicon.ico><meta name=keywords content=" voip  freeswitch  Elixir  Crystal  Ruby  PHP "><meta property="og:title" content="Emacs - Básico 1 (TODO)"><meta property="og:description" content="GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad que nos ofrecen y construir un paquete que nos permita cubrir varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS), el ejercicio entorna en implementar:
+Autenticar a Gitea Solicitar issue id Consultar titulo de issue indicado E insertar titulo en el arbol del documento. importante antes de empezar:
+ser usuario de EMACS 27. nociones en desarrollo de software. nociones del lenguage LISP o uno de sus dialectos."><meta property="og:type" content="article"><meta property="og:url" content="http://bit4bit.github.io/post/emacs_basics_1/"><meta property="article:section" content="post"><meta property="article:published_time" content="2023-07-09T21:54:27-05:00"><meta property="article:modified_time" content="2023-07-09T21:54:27-05:00"><link rel=canonical href=http://bit4bit.github.io/post/emacs_basics_1/><meta itemprop=name content="Emacs - Básico 1 (TODO)"><meta itemprop=description content="GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad que nos ofrecen y construir un paquete que nos permita cubrir varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS), el ejercicio entorna en implementar:
+Autenticar a Gitea Solicitar issue id Consultar titulo de issue indicado E insertar titulo en el arbol del documento. importante antes de empezar:
+ser usuario de EMACS 27. nociones en desarrollo de software. nociones del lenguage LISP o uno de sus dialectos."><meta itemprop=datePublished content="2023-07-09T21:54:27-05:00"><meta itemprop=dateModified content="2023-07-09T21:54:27-05:00"><meta itemprop=wordCount content="1300"><meta itemprop=keywords content><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/common.css><link media=screen rel=stylesheet href=http://bit4bit.github.io/css/content.css><title>Emacs - Básico 1 (TODO) - Bit4bit Integraciones</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Emacs - Básico 1 (TODO)"><meta name=twitter:description content="GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad que nos ofrecen y construir un paquete que nos permita cubrir varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS), el ejercicio entorna en implementar:
+Autenticar a Gitea Solicitar issue id Consultar titulo de issue indicado E insertar titulo en el arbol del documento. importante antes de empezar:
+ser usuario de EMACS 27. nociones en desarrollo de software. nociones del lenguage LISP o uno de sus dialectos."><link rel=stylesheet href=http://bit4bit.github.io/css/single.css></head><body><div id=wrapper><header id=header><h1><a href=http://bit4bit.github.io/>Bit4bit Integraciones</a></h1><nav><span class=nav-bar-item><a class=link href=/>Post</a></span>
 <span class=nav-bar-item><a class=link href=/post/>Archives</a></span>
 <span class=nav-bar-item><a class=link href=/about/>About</a></span></nav></header><main id=main class=post><h1>Emacs - Básico 1 (TODO)</h1><article class=content><p>GNU EMACS es un editor altamente extensible y vamos aprovechar esta posibilidad
 que nos ofrecen y construir un paquete que nos permita cubrir
 varios elementos (peticiones HTTP, parseo JSON, TDD, EMACS),
-el ejercicio entorna en implementar:</p><ul><li><p>Autenticar a Gitea</p></li><li><p>Solicitar issue id</p></li><li><p>Consultar titulo de issue indicado</p></li><li><p>E insertar titulo en el arbol del documento.</p></li><li><p>TODO introduccion lisp</p></li><li><p>TODO introduccion elisp</p></li><li><p>TODO introduccion org</p></li><li><p>TODO inicializacion paquete</p></li><li><p>TODO inicializacion tdd</p></li><li><p>TODO implementacion</p></li><li><p>TODO publicacion paquete</p></li></ul></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/freeswitch_integration_event2dial/>← prev</a>
+el ejercicio entorna en implementar:</p><ul><li>Autenticar a Gitea</li><li>Solicitar issue id</li><li>Consultar titulo de issue indicado</li><li>E insertar titulo en el arbol del documento.</li></ul><p>importante antes de empezar:</p><ul><li>ser usuario de EMACS 27.</li><li>nociones en desarrollo de software.</li><li>nociones del lenguage LISP o uno de sus dialectos.</li></ul><p>EMACS es extensible atraves de su propio <a href=https://www.gnu.org/software/emacs/manual/html_node/elisp/Introduction.html>dialecto elisp</a>,
+vamos ir conociendo poco a poco en el transcurso de la implementacion.</p><p>Empecemos por crear la estructura minima del paquete.</p><p><strong>Makefile</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-makefile data-lang=makefile><span style=display:flex><span><span style=color:#900;font-weight:700>.PHONY</span><span style=font-weight:700>:</span> test
+</span></span><span style=display:flex><span><span style=color:#900;font-weight:700>test</span><span style=font-weight:700>:</span>
+</span></span><span style=display:flex><span>	emacs --batch -L . -L tests -l grieta-tests.el -f ert-run-tests-batch
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Cannot open load file: No such file or directory, grieta-tests.el
+</span></span><span style=display:flex><span>make: *** [Makefile:3: test] Error 255
+</span></span></code></pre></div><p>Empecemos a aprender apartir de los errores el mensaje</p><p><code>Cannot open load file: No such file or directory, grieta-tests.el</code></p><p>no ubica el archivo <code>grieta-tests.el</code>, pero en que directorio?</p><ul><li>en el parametro <code>-L</code> le indicamos a <code>emacs</code> donde ubicar archivos <code>Lisp</code>.</li><li>en el parametro <code>-l</code> le indicamo interpretar el archivo <code>Lisp</code>.</li><li>en el parametro <code>-f</code> le indicamos la funcion a ejecutar.</li></ul><p>entonces le estamos indicando a EMACS que interprete el archivo <code>grieta-tests.el</code> que
+posiblemente lo puede encontrar en el directorio <code>tests</code> y ejecute la funcion
+<a href=https://www.gnu.org/software/emacs/manual/html_node/ert/Running-Tests-in-Batch-Mode.html>ert-run-tests-batch</a>.</p><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>mkdir tests
+</span></span><span style=display:flex><span>touch tests/grieta-tests.el
+</span></span></code></pre></div><pre tabindex=0><code class=language-ssh data-lang=ssh>make test
+</code></pre><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Running 0 tests (2023-07-10 21:29:29-0500, selector ‘t’)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Ran 0 tests, 0 results as expected, 0 unexpected (2023-07-10 21:29:29-0500, 0.000060 sec)
+</span></span></code></pre></div><p>muy bien no mas errores por ahora, ahora vamos a proceder a iniciar con las pruebas
+y atraves de estas iremos realizando la implementacion, para automatizar las pruebas
+utilizaremos <a href=https://www.gnu.org/software/emacs/manual/html_node/ert/>ERT</a>.</p><p>Vamos a agrupar las pruebas segun:</p><ul><li><code>UNIT</code> funciones que solo varian su comportamiento segun los argumentos.</li><li><code>INTEGRATION</code> funciones que varian su compartamiento segun los argumentos u otros medios como variables globales o lecturas fuera del proceso (lectura disco, red, etc..).</li><li><code>ACCEPTANCE</code> los mismo criterios que <code>INTEGRATION</code> pero solo sobre las funciones publicadas es decir sobre las funciones que son accesible por el usuario u otros paquetes.</li><li><code>MANUAL</code> pruebas que se deben realizar manualmente.</li></ul><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Cannot open load file: No such file or directory, el-mock
+</span></span><span style=display:flex><span>make: *** [Makefile:3: test] Error 255
+</span></span></code></pre></div><p>UUmm ya hemos visto anteriormente este error, <code>el-mock</code> es una dependencia
+que utilizaremos para verificar el comportamiento en las pruebas <code>INTEGRATION</code> y <code>ACCEPTANCE</code>.</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>curl -q https://raw.githubusercontent.com/rejeep/el-mock.el/master/el-mock.el --output tests/el-mock.el
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Running 0 tests (2023-07-10 21:46:25-0500, selector ‘t’)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Ran 0 tests, 0 results as expected, 0 unexpected (2023-07-10 21:46:25-0500, 0.000052 sec)
+</span></span></code></pre></div><p>Excelente, ya no tenemos error al importar la dependencia <code>el-mock</code> con <code>([require](https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html#index-require) 'el-mock)</code>.</p><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-issue-check-url-path</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>mock</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;GET&#34;</span> <span style=color:#b84>&#34;/api/v1/repos/demo/grieta/issues/99&#34;</span>))
+</span></span><span style=display:flex><span>   (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>99</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Test grieta-test-grieta--gitea-issue-check-url-path condition:
+</span></span><span style=display:flex><span>    (void-function grieta--gitea-issue)
+</span></span><span style=display:flex><span>   FAILED  1/1  grieta-test-grieta--gitea-issue-check-url-path (0.000067 sec)
+</span></span></code></pre></div><p>arrancar las pruebas desde <code>INTEGRATION</code> o <code>ACCEPTANCE</code> nos facilita especular mas
+facilmente, hemos decido empezar por confirmar que la peticion este en la estructura
+esperada por la API de gitea.
+<code>(void-function grieta--gitea-issue)</code> lo vamos a ver cuando no logra llamar la funcion, en nuestro caso es por que no existe.</p><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:#999>defun</span> <span style=color:teal>grieta--gitea-issue</span> (<span style=color:teal>host</span> <span style=color:teal>owner</span> <span style=color:teal>repo</span> <span style=color:teal>issue-id</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-issue-check-url-path</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>mock</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;GET&#34;</span> <span style=color:#b84>&#34;/api/v1/repos/demo/grieta/issues/99&#34;</span>))
+</span></span><span style=display:flex><span>   (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>99</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>    (mock-error not-called grieta--gitea-call)
+</span></span><span style=display:flex><span>   FAILED  1/1  grieta-test-grieta--gitea-issue-check-url-path (0.000075 sec)
+</span></span></code></pre></div><p><code>(mock-error not-called grieta--gitea-call)</code> nos indica que se esperaba que se llamara esa funcion pero no sucedio.</p><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:#999>defun</span> <span style=color:teal>grieta--gitea-call</span> (<span style=color:teal>host</span> <span style=color:#458;font-weight:700>method</span> <span style=color:teal>path</span>))
+</span></span><span style=display:flex><span>(<span style=color:#999>defun</span> <span style=color:teal>grieta--gitea-issue</span> (<span style=color:teal>host</span> <span style=color:teal>owner</span> <span style=color:teal>repo</span> <span style=color:teal>issue-id</span>)
+</span></span><span style=display:flex><span>  (<span style=color:teal>grieta--gitea-call</span> <span style=color:teal>host</span> <span style=color:#b84>&#34;GET&#34;</span> (<span style=color:#900;font-weight:700>format</span> <span style=color:#b84>&#34;/api/v1/repos/%s/%s/issues/%d&#34;</span> <span style=color:teal>owner</span> <span style=color:teal>repo</span> <span style=color:teal>issue-id</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-issue-check-url-path</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>mock</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;GET&#34;</span> <span style=color:#b84>&#34;/api/v1/repos/demo/grieta/issues/99&#34;</span>))
+</span></span><span style=display:flex><span>   (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>99</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Running 1 tests (2023-07-10 22:03:12-0500, selector ‘t’)
+</span></span><span style=display:flex><span>   passed  1/1  grieta-test-grieta--gitea-issue-check-url-path (0.000062 sec)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Ran 1 tests, 1 results as expected, 0 unexpected (2023-07-10 22:03:12-0500, 0.000143 sec)
+</span></span></code></pre></div><p>muy bien hemos ajustado segun lo ilustrado porla prueba, ahora juguemos un poca
+aclarar el codigo, las funciones que creamos <code>grieta--gitea-issue</code> y <code>grieta--gitea-call</code> esta en las pruebas, movamos estas pruebas a su propio archivo.</p><p><strong>grieta.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#999>defun</span> <span style=color:teal>grieta--gitea-call</span> (<span style=color:teal>host</span> <span style=color:#458;font-weight:700>method</span> <span style=color:teal>path</span>))
+</span></span><span style=display:flex><span>(<span style=color:#999>defun</span> <span style=color:teal>grieta--gitea-issue</span> (<span style=color:teal>host</span> <span style=color:teal>owner</span> <span style=color:teal>repo</span> <span style=color:teal>issue-id</span>)
+</span></span><span style=display:flex><span>  (<span style=color:teal>grieta--gitea-call</span> <span style=color:teal>host</span> <span style=color:#b84>&#34;GET&#34;</span> (<span style=color:#900;font-weight:700>format</span> <span style=color:#b84>&#34;/api/v1/repos/%s/%s/issues/%d&#34;</span> <span style=color:teal>owner</span> <span style=color:teal>repo</span> <span style=color:teal>issue-id</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; `provide` es necesario para luego importar con `require`</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta</span>)
+</span></span></code></pre></div><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-issue-check-url-path</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>mock</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;GET&#34;</span> <span style=color:#b84>&#34;/api/v1/repos/demo/grieta/issues/99&#34;</span>))
+</span></span><span style=display:flex><span>   (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>99</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Test grieta-test-grieta--gitea-issue-check-url-path condition:
+</span></span><span style=display:flex><span>    (void-function grieta--gitea-issue)
+</span></span><span style=display:flex><span>   FAILED  1/1  grieta-test-grieta--gitea-issue-check-url-path (0.000073 sec)
+</span></span></code></pre></div><p><code>(void-function grieta--gitea-issue)</code> ya hemos visto este anterior, no logra ubicar
+la funcion y claro es debido a que movimos la funcion a otro archivo, debemos
+importar el archivo.
+<strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;grieta</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-issue-check-url-path</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>mock</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;GET&#34;</span> <span style=color:#b84>&#34;/api/v1/repos/demo/grieta/issues/99&#34;</span>))
+</span></span><span style=display:flex><span>   (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>99</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><pre tabindex=0><code class=language-output data-lang=output>Running 1 tests (2023-07-10 22:08:57-0500, selector ‘t’)
+   passed  1/1  grieta-test-grieta--gitea-issue-check-url-path (0.000060 sec)
+
+Ran 1 tests, 1 results as expected, 0 unexpected (2023-07-10 22:08:57-0500, 0.000137 sec)
+</code></pre><p>muy bien volvimos a estar estables, ya que empezamos por validar la estructura
+de la URL, podemos continuar en el mismo sobre el mismo tema de validar elementos
+hacia la API externa, procedamos por ejemplo con decodificar la respuesta json a
+una estructura interna.</p><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;grieta</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-json-&gt;issues</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; respuesta simplificada</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>stub</span> <span style=color:teal>grieta--gitea-call</span> <span style=color:teal>=&gt;</span> <span style=color:#b84>&#34;{\&#34;id\&#34;: 1000, \&#34;number\&#34;: 1, \&#34;title\&#34;: \&#34;Test\&#34;}&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>should</span> (<span style=color:#900;font-weight:700>equal</span>
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#39;</span>(<span style=color:#099>1</span> <span style=color:#b84>&#34;Test&#34;</span>)
+</span></span><span style=display:flex><span>            (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>1</span>)))))
+</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-issue-check-url-path</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>mock</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;GET&#34;</span> <span style=color:#b84>&#34;/api/v1/repos/demo/grieta/issues/99&#34;</span>))
+</span></span><span style=display:flex><span>   (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>99</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Test grieta-test-grieta--gitea-json-&gt;issues condition:
+</span></span><span style=display:flex><span>    (ert-test-failed
+</span></span><span style=display:flex><span>     ((should
+</span></span><span style=display:flex><span>       (equal &#39;...
+</span></span><span style=display:flex><span>	(grieta--gitea-issue &#34;gitea.test.org&#34; &#34;demo&#34; &#34;grieta&#34; 1)))
+</span></span><span style=display:flex><span>      :form
+</span></span><span style=display:flex><span>      (equal
+</span></span><span style=display:flex><span>       ((1 &#34;Test&#34;))
+</span></span><span style=display:flex><span>       &#34;{\&#34;id\&#34;: 1000, \&#34;number\&#34;: 1, \&#34;title\&#34;: \&#34;Test\&#34;}&#34;)
+</span></span><span style=display:flex><span>      :value nil :explanation
+</span></span><span style=display:flex><span>      (different-types
+</span></span><span style=display:flex><span>       ((1 &#34;Test&#34;))
+</span></span><span style=display:flex><span>       &#34;{\&#34;id\&#34;: 1000, \&#34;number\&#34;: 1, \&#34;title\&#34;: \&#34;Test\&#34;}&#34;)))
+</span></span><span style=display:flex><span>   FAILED  2/2  grieta-test-grieta--gitea-json-&gt;issues (0.000051 sec)
+</span></span></code></pre></div><p>miremos solo una parte</p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>      :form
+</span></span><span style=display:flex><span>      (equal
+</span></span><span style=display:flex><span>       ((1 &#34;Test&#34;))
+</span></span><span style=display:flex><span>       &#34;{\&#34;id\&#34;: 1000, \&#34;number\&#34;: 1, \&#34;title\&#34;: \&#34;Test\&#34;}&#34;)
+</span></span></code></pre></div><p>evidentemente los resultados no son iguales estamos retornando directamente
+la respuesta de la API, procedamos a implementar traductor.</p><p><strong>grieta.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#999>defun</span> <span style=color:teal>grieta--gitea-call</span> (<span style=color:teal>host</span> <span style=color:#458;font-weight:700>method</span> <span style=color:teal>path</span>))
+</span></span><span style=display:flex><span>(<span style=color:#999>defun</span> <span style=color:teal>grieta--gitea-issue</span> (<span style=color:teal>host</span> <span style=color:teal>owner</span> <span style=color:teal>repo</span> <span style=color:teal>issue-id</span>)
+</span></span><span style=display:flex><span>  (<span style=font-weight:700>let*</span> ((<span style=color:teal>response</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:teal>host</span> <span style=color:#b84>&#34;GET&#34;</span> (<span style=color:#900;font-weight:700>format</span> <span style=color:#b84>&#34;/api/v1/repos/%s/%s/issues/%d&#34;</span> <span style=color:teal>owner</span> <span style=color:teal>repo</span> <span style=color:teal>issue-id</span>))))
+</span></span><span style=display:flex><span>    (<span style=font-weight:700>if</span> <span style=color:teal>response</span>
+</span></span><span style=display:flex><span>        (<span style=font-weight:700>let</span> ((<span style=color:teal>remote-issue</span> (<span style=color:teal>json-parse-string</span> <span style=color:teal>response</span>)))
+</span></span><span style=display:flex><span>          (<span style=color:#458;font-weight:700>list</span> (<span style=color:#900;font-weight:700>gethash</span> <span style=color:#b84>&#34;number&#34;</span> <span style=color:teal>remote-issue</span>)
+</span></span><span style=display:flex><span>                (<span style=color:#900;font-weight:700>gethash</span> <span style=color:#b84>&#34;title&#34;</span> <span style=color:teal>remote-issue</span>)))
+</span></span><span style=display:flex><span>      <span style=color:teal>nil</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; `provide` es necesario para luego importar con `require`</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Running 2 tests (2023-07-10 22:35:19-0500, selector ‘t’)
+</span></span><span style=display:flex><span>   passed  1/2  grieta-test-grieta--gitea-issue-check-url-path (0.000058 sec)
+</span></span><span style=display:flex><span>   passed  2/2  grieta-test-grieta--gitea-json-&gt;issues (0.000062 sec)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Ran 2 tests, 2 results as expected, 0 unexpected (2023-07-10 22:35:19-0500, 0.000208 sec
+</span></span></code></pre></div><p>hemos lograda estar otra vez estables, pero en este caso adicionamos un <code>if</code>
+lo cual nos invita que debemos verificar cual sera el comportamiento cuando no se obtenga
+una respuesta desde el servidor.</p><p><strong>tests/grieta-tests.el</strong></p><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lisp data-lang=lisp><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;el-mock</span>)
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>require</span> <span style=color:#b84>&#39;grieta</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; UNIT</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; INTEGRATION</span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-json-&gt;issues-on-valid-data</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; respuesta simplificada</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>stub</span> <span style=color:teal>grieta--gitea-call</span> <span style=color:teal>=&gt;</span> <span style=color:#b84>&#34;{\&#34;id\&#34;: 1000, \&#34;number\&#34;: 1, \&#34;title\&#34;: \&#34;Test\&#34;}&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>should</span> (<span style=color:#900;font-weight:700>equal</span>
+</span></span><span style=display:flex><span>            <span style=font-weight:700>&#39;</span>(<span style=color:#099>1</span> <span style=color:#b84>&#34;Test&#34;</span>)
+</span></span><span style=display:flex><span>            (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>1</span>)))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-json-&gt;issues-on-invalid-data</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>stub</span> <span style=color:teal>grieta--gitea-call</span> <span style=color:teal>=&gt;</span> <span style=color:teal>nil</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>should</span> (<span style=color:#900;font-weight:700>equal</span>
+</span></span><span style=display:flex><span>            <span style=color:teal>nil</span> <span style=color:#998;font-style:italic>; volveremos a revisar luego si esta valor nos lleva a tener que usar condicionales</span>
+</span></span><span style=display:flex><span>            (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>1</span>)))))
+</span></span><span style=display:flex><span>   
+</span></span><span style=display:flex><span>(<span style=color:teal>ert-deftest</span> <span style=color:teal>grieta-test-grieta--gitea-issue-check-url-path</span> ()
+</span></span><span style=display:flex><span>  (<span style=color:teal>with-mock</span>
+</span></span><span style=display:flex><span>   <span style=color:#998;font-style:italic>;; https://try.gitea.io/api/swagger#/issue/issueGetIssue</span>
+</span></span><span style=display:flex><span>   (<span style=color:teal>mock</span> (<span style=color:teal>grieta--gitea-call</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;GET&#34;</span> <span style=color:#b84>&#34;/api/v1/repos/demo/grieta/issues/99&#34;</span>))
+</span></span><span style=display:flex><span>   (<span style=color:teal>grieta--gitea-issue</span> <span style=color:#b84>&#34;gitea.test.org&#34;</span> <span style=color:#b84>&#34;demo&#34;</span> <span style=color:#b84>&#34;grieta&#34;</span> <span style=color:#099>99</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; ACCEPTANCE</span>
+</span></span><span style=display:flex><span><span style=color:#998;font-style:italic>;; MANUAL</span>
+</span></span><span style=display:flex><span>(<span style=color:#900;font-weight:700>provide</span> <span style=color:#b84>&#39;grieta-tests</span>)
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>make <span style=color:#999>test</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Running 3 tests (2023-07-10 22:39:39-0500, selector ‘t’)
+</span></span><span style=display:flex><span>   passed  1/3  grieta-test-grieta--gitea-issue-check-url-path (0.000064 sec)
+</span></span><span style=display:flex><span>   passed  2/3  grieta-test-grieta--gitea-json-&gt;issues-on-invalid-data (0.000030 sec)
+</span></span><span style=display:flex><span>   passed  3/3  grieta-test-grieta--gitea-json-&gt;issues-on-valid-data (0.000067 sec)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Ran 3 tests, 3 results as expected, 0 unexpected (2023-07-10 22:39:39-0500, 0.000269 sec)
+</span></span></code></pre></div><ul><li>TODO introduccion org</li><li>TODO inicializacion paquete</li><li>TODO inicializacion tdd</li><li>TODO implementacion</li><li>TODO publicacion paquete</li></ul></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/freeswitch_integration_event2dial/>← prev</a>
 <a class=link target=history href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/finfo?name=content/post%2femacs_basics_1.md">history</a>
 <a class=link href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&filename=content/post%2femacs_basics_1.md">source</a>
 <a></a></div><div class=comment></div></main><footer id=footer><div><span>© 2019</span> - <span>2023</span></div><div><span>Powered by</span>
