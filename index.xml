@@ -461,7 +461,7 @@ una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la con
 &lt;p>&lt;strong>kamailio/kamailio.cfg&lt;/strong>&lt;/p>
 &lt;pre tabindex="0">&lt;code class="language-kamailio" data-lang="kamailio">#!KAMAILIO
 #
-# Asesorias y Consultorias a jovany@bit4bit.in
+# Asesorias y Consultorias a contacto@bit4bit.in
 # ACTUALIZAR LOS VALORES A CONTINUACION
 #!substdef &amp;#34;!SIPS_PORT!7062!g&amp;#34;
 #!substdef &amp;#34;!SIP_PORT!5073!g&amp;#34;
@@ -604,7 +604,7 @@ certificate = HERE YOUR CERTIFICATE
 /usr/sbin/kamailio -d 0 -D -c -f kamailio/kamailio.cfg
 ```
 -->
-&lt;p>Para escenarios más complejos o funcionalidades no presentes puedes contactarme a &lt;a href="mailto:jovany@bit4bit.in">jovany@bit4bit.in&lt;/a>.&lt;/p>
+&lt;p>Para escenarios más complejos o funcionalidades no presentes puedes contactarme a &lt;a href="mailto:contacto@bit4bit.in">contacto@bit4bit.in&lt;/a>.&lt;/p>
 &lt;h2 id="referencias">Referencias&lt;/h2>
 &lt;ul>
 &lt;li>&lt;a href="https://skalatan.de/en/blog/kamailio-sbc-teams">Kamailio as SBC for MS Teams&lt;/a>.&lt;/li>
@@ -2475,7 +2475,7 @@ que &lt;code>depende de&lt;/code>.&lt;/p></description></item><item><title>About
 &lt;li>Operador de sistemas operativo GNU/Linux u BSD.&lt;/li>
 &lt;li>Operador de servicios IT en la nube AWS &lt;a href="https://www.credly.com/badges/2b51e642-af51-4698-9900-7d2dc0dbd3e8/public_url">Certificación&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>&lt;a href="mailto:jovany@bit4bit.in">Contactar jovany@bit4bit.in&lt;/a>&lt;/p>
+&lt;p>&lt;a href="mailto:contacto@bit4bit.in">Contactar contacto@bit4bit.in&lt;/a>&lt;/p>
 &lt;p>Código Libre.&lt;/p>
 &lt;p>&lt;a href="https://github.com/bit4bit/">GITHUB&lt;/a>
 &lt;a href="https://chiselapp.com/user/bit4bit/">CHISELAPP&lt;/a>&lt;/p>

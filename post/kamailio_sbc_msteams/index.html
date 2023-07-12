@@ -27,7 +27,7 @@ MSTeams ---|TLS/PUBLIC IP| Kamailio
 Kamailio ---|UDP/PUBLIC IP| PBX</div><p>Funcionalidades confirmadas:</p><ul><li><input checked disabled type=checkbox> Llamadas MSTeams a PBX</li><li><input checked disabled type=checkbox> Llamadas PBX a MSTeams</li><li><input checked disabled type=checkbox> MSTeams Hold</li><li><input checked disabled type=checkbox> MSTeams Park</li><li><input checked disabled type=checkbox> MSTeams Unpark</li></ul><p>Para que esta configuracion sea efectiva debes conectar <a href=https://skalatan.de/en/blog/kamailio-sbc-teams>Kamailio a MS Teams</a> y
 una vez confirmes que MS Teams detecta el Kamailio puedes proceder a usar la configuracion entregada.</p><p><strong>kamailio/kamailio.cfg</strong></p><pre tabindex=0><code class=language-kamailio data-lang=kamailio>#!KAMAILIO
 #
-# Asesorias y Consultorias a jovany@bit4bit.in
+# Asesorias y Consultorias a contacto@bit4bit.in
 
 
 # ACTUALIZAR LOS VALORES A CONTINUACION
@@ -192,7 +192,7 @@ certificate = HERE YOUR CERTIFICATE
 1 sip:sip.pstnhub.microsoft.com;transport=tls 0 3 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
 1 sip:sip2.pstnhub.microsoft.com;transport=tls 0 2 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
 1 sip:sip3.pstnhub.microsoft.com;transport=tls 0 1 socket=tls:HERE EXTERNAL IP:HERE SIPS PORT;ping_from=sip:HERE EXTERNAL FQDN
-</code></pre><p>Para escenarios más complejos o funcionalidades no presentes puedes contactarme a <a href=mailto:jovany@bit4bit.in>jovany@bit4bit.in</a>.</p><h2 id=referencias>Referencias</h2><ul><li><a href=https://skalatan.de/en/blog/kamailio-sbc-teams>Kamailio as SBC for MS Teams</a>.</li><li><a href=https://github.com/dOpensource/dsiprouter/blob/master/kamailio/configs/kamailio.cfg>DSIPRouter kamailio.cfg</a></li></ul></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/writing_module_trytond_basics_2/>← prev</a>
+</code></pre><p>Para escenarios más complejos o funcionalidades no presentes puedes contactarme a <a href=mailto:contacto@bit4bit.in>contacto@bit4bit.in</a>.</p><h2 id=referencias>Referencias</h2><ul><li><a href=https://skalatan.de/en/blog/kamailio-sbc-teams>Kamailio as SBC for MS Teams</a>.</li><li><a href=https://github.com/dOpensource/dsiprouter/blob/master/kamailio/configs/kamailio.cfg>DSIPRouter kamailio.cfg</a></li></ul></article><div class=paginator><a class=link href=http://bit4bit.github.io/post/writing_module_trytond_basics_2/>← prev</a>
 <a class=link target=history href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/finfo?name=content/post%2fkamailio_sbc_msteams.md">history</a>
 <a class=link href="https://chiselapp.com/user/bit4bit/repository/bit4bit_website/raw?ci=tip&filename=content/post%2fkamailio_sbc_msteams.md">source</a>
 <a class=link href=http://bit4bit.github.io/post/freeswitch_integration_event2dial/>next →</a></div><div class=comment></div></main><script type=module>
