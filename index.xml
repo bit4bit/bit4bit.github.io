@@ -2467,6 +2467,7 @@ que &lt;code>depende de&lt;/code>.&lt;/p></description></item><item><title>About
 &lt;ul>
 &lt;li>Implementaciones de infraestructura altamente escalable de servicios VOIP (Asterisk, Freeswitch y Kamailio).&lt;/li>
 &lt;li>Implementaciones de infraestructura on-premise,serveless o cloud en AWS.&lt;/li>
+&lt;li>Implementaciones de infraestructura como código.&lt;/li>
 &lt;li>Capacitación en desarrollo de software sólido.&lt;/li>
 &lt;li>Desarrollo de software en Elixir, Go, Ruby, Python, PHP u otros según cliente.&lt;/li>
 &lt;li>Adaptación y capacitación software contable &lt;a href="https://www.tryton.org">Tryton ERP&lt;/a>.&lt;/li>
