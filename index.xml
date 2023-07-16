@@ -14,9 +14,8 @@ el ejercicio entorna en implementar:&lt;/p>
 &lt;li>nociones en desarrollo de software.&lt;/li>
 &lt;li>nociones del lenguage LISP o uno de sus dialectos.&lt;/li>
 &lt;/ul>
-&lt;p>EMACS es extensible atraves de su propio &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Introduction.html">dialecto elisp&lt;/a>,
-vamos ir conociendo poco a poco en el transcurso de la implementacion.&lt;/p>
-&lt;p>Empecemos por crear la estructura minima del paquete.&lt;/p>
+&lt;p>Vamos a el &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Introduction.html">dialecto ELisp&lt;/a> de EMACS el cual iremos conociendo poco a poco en el transcurso de la implementación.&lt;/p>
+&lt;p>Empecemos por crear la estructura mínima del paquete.&lt;/p>
 &lt;p>&lt;strong>Makefile&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-makefile" data-lang="makefile">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#900;font-weight:bold">.PHONY&lt;/span>&lt;span style="font-weight:bold">:&lt;/span> test
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#900;font-weight:bold">test&lt;/span>&lt;span style="font-weight:bold">:&lt;/span>
@@ -24,17 +23,17 @@ vamos ir conociendo poco a poco en el transcurso de la implementacion.&lt;/p>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Cannot open load file: No such file or directory, grieta-tests.el
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>make: *** [Makefile:3: test] Error 255
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Empecemos a aprender apartir de los errores el mensaje&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Empecemos a ilustrarnos a partir de los errores el mensaje&lt;/p>
 &lt;p>&lt;code>Cannot open load file: No such file or directory, grieta-tests.el&lt;/code>&lt;/p>
 &lt;p>no ubica el archivo &lt;code>grieta-tests.el&lt;/code>, pero en que directorio?&lt;/p>
 &lt;ul>
-&lt;li>en el parametro &lt;code>-L&lt;/code> le indicamos a &lt;code>emacs&lt;/code> donde ubicar archivos &lt;code>Lisp&lt;/code>.&lt;/li>
-&lt;li>en el parametro &lt;code>-l&lt;/code> le indicamo interpretar el archivo &lt;code>Lisp&lt;/code>.&lt;/li>
-&lt;li>en el parametro &lt;code>-f&lt;/code> le indicamos la funcion a ejecutar.&lt;/li>
+&lt;li>en el parametro &lt;code>-L&lt;/code> le indicamos a &lt;code>ENACS&lt;/code> donde ubicar archivos &lt;code>Lisp&lt;/code>.&lt;/li>
+&lt;li>en el parametro &lt;code>-l&lt;/code> le indicamos interpretar el archivo &lt;code>Lisp&lt;/code>.&lt;/li>
+&lt;li>en el parametro &lt;code>-f&lt;/code> le indicamos una función a ejecutar.&lt;/li>
 &lt;/ul>
-&lt;p>entonces le estamos indicando a EMACS que interprete el archivo &lt;code>grieta-tests.el&lt;/code> que
-posiblemente lo puede encontrar en el directorio &lt;code>tests&lt;/code> y ejecute la funcion
-&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ert/Running-Tests-in-Batch-Mode.html">ert-run-tests-batch&lt;/a>.&lt;/p>
+&lt;p>En otras palabras le estamos indicando a EMACS que ejecuta la función &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ert/Running-Tests-in-Batch-Mode.html">ert-run-tests-batch&lt;/a> además que interprete el archivo &lt;code>grieta-tests.el&lt;/code> que
+posiblemente lo puede encontrar en el directorio &lt;code>tests&lt;/code>.
+.&lt;/p>
 &lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>mkdir tests
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>touch tests/grieta-tests.el
@@ -43,14 +42,14 @@ posiblemente lo puede encontrar en el directorio &lt;code>tests&lt;/code> y ejec
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 0 tests, 0 results as expected, 0 unexpected (2023-07-10 21:29:29-0500, 0.000060 sec)
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>muy bien no mas errores por ahora, ahora vamos a proceder a iniciar con las pruebas
-y atraves de estas iremos realizando la implementacion, para automatizar las pruebas
+y por medio de estas iremos realizando la implementación, para automatizar las pruebas
 utilizaremos &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ert/">ERT&lt;/a>.&lt;/p>
-&lt;p>Vamos a agrupar las pruebas segun:&lt;/p>
+&lt;p>Para empezar definimos como agrupar las pruebas:&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>UNIT&lt;/code> funciones que solo varian su comportamiento segun los argumentos.&lt;/li>
-&lt;li>&lt;code>INTEGRATION&lt;/code> funciones que varian su compartamiento segun los argumentos u otros medios como variables globales o lecturas fuera del proceso (lectura disco, red, etc..).&lt;/li>
+&lt;li>&lt;code>UNIT&lt;/code> funciones que solo varían su comportamiento según los argumentos.&lt;/li>
+&lt;li>&lt;code>INTEGRATION&lt;/code> funciones que varían su comportamiento según los argumentos u otros medios como variables globales o lecturas fuera del proceso (lectura disco, red, etc..).&lt;/li>
 &lt;li>&lt;code>ACCEPTANCE&lt;/code> los mismo criterios que &lt;code>INTEGRATION&lt;/code> pero solo sobre las funciones publicadas es decir sobre las funciones que son accesible por el usuario u otros paquetes.&lt;/li>
-&lt;li>&lt;code>MANUAL&lt;/code> pruebas que se deben realizar manualmente.&lt;/li>
+&lt;li>&lt;code>MANUAL&lt;/code> pruebas que se deben realizar manualmente ya que el contexto no se puede reproduccir en &lt;code>ACCEPTANCE&lt;/code>.&lt;/li>
 &lt;/ul>
 &lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
@@ -63,14 +62,14 @@ utilizaremos &lt;a href="https://www.gnu.org/software/emacs/manual/html_node/ert
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Cannot open load file: No such file or directory, el-mock
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>make: *** [Makefile:3: test] Error 255
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>UUmm ya hemos visto anteriormente este error, &lt;code>el-mock&lt;/code> es una dependencia
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Uumm ya hemos visto anteriormente este error, &lt;code>el-mock&lt;/code> es una dependencia
 que utilizaremos para verificar el comportamiento en las pruebas &lt;code>INTEGRATION&lt;/code> y &lt;code>ACCEPTANCE&lt;/code>.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>curl -q https://raw.githubusercontent.com/rejeep/el-mock.el/master/el-mock.el --output tests/el-mock.el
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Running 0 tests (2023-07-10 21:46:25-0500, selector ‘t’)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 0 tests, 0 results as expected, 0 unexpected (2023-07-10 21:46:25-0500, 0.000052 sec)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Excelente, ya no tenemos error al importar la dependencia &lt;code>el-mock&lt;/code> con &lt;code>([require](https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html#index-require) 'el-mock)&lt;/code>.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Excelente, ya no tenemos error al importar la dependencia &lt;code>el-mock&lt;/code> con (&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html#index-require">require&lt;/a> &amp;rsquo;el-mock).&lt;/p>
 &lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
@@ -89,10 +88,9 @@ que utilizaremos para verificar el comportamiento en las pruebas &lt;code>INTEGR
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Test grieta-test-grieta--gitea-issue-check-url-path condition:
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (void-function grieta--gitea-issue)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED 1/1 grieta-test-grieta--gitea-issue-check-url-path (0.000067 sec)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>arrancar las pruebas desde &lt;code>INTEGRATION&lt;/code> o &lt;code>ACCEPTANCE&lt;/code> nos facilita especular mas
-facilmente, hemos decido empezar por confirmar que la peticion este en la estructura
-esperada por la API de gitea.
-&lt;code>(void-function grieta--gitea-issue)&lt;/code> lo vamos a ver cuando no logra llamar la funcion, en nuestro caso es por que no existe.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Iniciar las pruebas desde &lt;code>INTEGRATION&lt;/code> o &lt;code>ACCEPTANCE&lt;/code> nos facilita tener una perspectiva más cercana a su uso y empezar con anterioridad el flujo de la implementación, hemos decido empezar por confirmar que la petición este en la estructura
+esperada por la API de gitea.&lt;/p>
+&lt;p>&lt;code>(void-function grieta--gitea-issue)&lt;/code> lo vamos a ver cuando no logra llamar la función, en nuestro caso es por que no existe.&lt;/p>
 &lt;!-- creacion funcion grieta--gitea-issue -->
 &lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
@@ -113,7 +111,7 @@ esperada por la API de gitea.
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span> (mock-error not-called grieta--gitea-call)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED 1/1 grieta-test-grieta--gitea-issue-check-url-path (0.000075 sec)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>(mock-error not-called grieta--gitea-call)&lt;/code> nos indica que se esperaba que se llamara esa funcion pero no sucedio.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>(mock-error not-called grieta--gitea-call)&lt;/code> nos indica que se esperaba que se llamara esa función pero no sucedió.&lt;/p>
 &lt;!-- creacion funcion grieta--gitea-call -->
 &lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
@@ -138,8 +136,8 @@ esperada por la API de gitea.
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 1/1 grieta-test-grieta--gitea-issue-check-url-path (0.000062 sec)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 1 tests, 1 results as expected, 0 unexpected (2023-07-10 22:03:12-0500, 0.000143 sec)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>muy bien hemos ajustado segun lo ilustrado porla prueba, ahora juguemos un poca
-aclarar el codigo, las funciones que creamos &lt;code>grieta--gitea-issue&lt;/code> y &lt;code>grieta--gitea-call&lt;/code> esta en las pruebas, movamos estas pruebas a su propio archivo.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Muy bien hemos ajustado según lo ilustrado por la prueba, ahora juguemos un poco en&lt;br>
+aclarar el código, las funciones que creamos &lt;code>grieta--gitea-issue&lt;/code> y &lt;code>grieta--gitea-call&lt;/code> estan en las pruebas, movamos estas pruebas a su propio archivo.&lt;/p>
 &lt;p>&lt;strong>grieta.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-issue&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>)
@@ -167,7 +165,7 @@ aclarar el codigo, las funciones que creamos &lt;code>grieta--gitea-issue&lt;/co
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (void-function grieta--gitea-issue)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED 1/1 grieta-test-grieta--gitea-issue-check-url-path (0.000073 sec)
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>(void-function grieta--gitea-issue)&lt;/code> ya hemos visto este anterior, no logra ubicar
-la funcion y claro es debido a que movimos la funcion a otro archivo, debemos
+la función y claro es debido a que movimos la función a otro archivo, debemos
 importar el archivo.
 &lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
@@ -188,9 +186,9 @@ importar el archivo.
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre tabindex="0">&lt;code class="language-output" data-lang="output">Running 1 tests (2023-07-10 22:08:57-0500, selector ‘t’)
 passed 1/1 grieta-test-grieta--gitea-issue-check-url-path (0.000060 sec)
 Ran 1 tests, 1 results as expected, 0 unexpected (2023-07-10 22:08:57-0500, 0.000137 sec)
-&lt;/code>&lt;/pre>&lt;p>muy bien volvimos a estar estables, ya que empezamos por validar la estructura
-de la URL, podemos continuar en el mismo sobre el mismo tema de validar elementos
-hacia la API externa, procedamos por ejemplo con decodificar la respuesta json a
+&lt;/code>&lt;/pre>&lt;p>Muy bien volvimos a estar estables, ya que empezamos por validar la estructura
+de la URL podemos continuar esobre el mismo tema de validar elementos
+hacia la API externa, procedamos por ejemplo con traducir la respuesta JSON a
 una estructura interna.&lt;/p>
 &lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
@@ -258,7 +256,7 @@ la respuesta de la API, procedamos a implementar traductor.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 2/2 grieta-test-grieta--gitea-json-&amp;gt;issues (0.000062 sec)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 2 tests, 2 results as expected, 0 unexpected (2023-07-10 22:35:19-0500, 0.000208 sec
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>hemos lograda estar otra vez estables, pero en este caso adicionamos un &lt;code>if&lt;/code>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Hemos logrado estar otra vez estables, pero en este caso adicionamos un &lt;code>if&lt;/code>
 lo cual nos invita que debemos verificar cual sera el comportamiento cuando no se obtenga
 una respuesta desde el servidor.&lt;/p>
 &lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
@@ -302,16 +300,16 @@ una respuesta desde el servidor.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 3/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data (0.000067 sec)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 3 tests, 3 results as expected, 0 unexpected (2023-07-10 22:39:39-0500, 0.000269 sec)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Ya con las pruebas en curso pasemos a implementar la peticion http&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Ya con las pruebas en curso pasemos a completar la implementación es decir hacer la petición HTTP.&lt;/p>
 &lt;p>&lt;strong>grieta.el&lt;/strong>&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-current-buffer&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-retrieve-synchronously&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;https://&amp;#34;&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">path&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">goto-char&lt;/span> (&lt;span style="color:#008080">point-min&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">search-forward-regexp&lt;/span> &lt;span style="color:#b84">&amp;#34;\n\n&amp;#34;&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>)))))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-issue&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let*&lt;/span> ((&lt;span style="color:#008080">response&lt;/span> (&lt;span style="color:#008080">grieta--gitea-call&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> (&lt;span style="color:#900;font-weight:bold">format&lt;/span> &lt;span style="color:#b84">&amp;#34;/api/v1/repos/%s/%s/issues/%d&amp;#34;&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>))))
@@ -324,7 +322,7 @@ una respuesta desde el servidor.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; `provide` es necesario para luego importar con `require`&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>verificamos manualmente que funcione la peticion al servidor.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Verificamos manualmente que funcione la petición al servidor.&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>emacs --batch -l grieta.el --eval&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;(print (grieta--gitea-call &amp;#34;gitea.demo.org&amp;#34; &amp;#34;GET&amp;#34; &amp;#34;/api/v1/repos/bit4bit/prueba/issues/1&amp;#34;))&amp;#39;&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>&amp;#34;{\&amp;#34;errors\&amp;#34;:null,\&amp;#34;message\&amp;#34;:\&amp;#34;The target couldn&amp;#39;t be found.\&amp;#34;,\&amp;#34;url\&amp;#34;:\&amp;#34;https://gitea.onecluster.org/api/swagger\&amp;#34;}
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;#34;
@@ -334,49 +332,384 @@ una respuesta desde el servidor.&lt;/p>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;#34;
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>ajaa, investigando un poco sobre la API nos indica que para repositorios privados
 ahi que enviar una Api Key, ya ilustrados sobre este escenario procedamos a implementarlo,
-tenemos varios caminos&lt;/p>
+pero antes revisemos algunos caminos.&lt;/p>
 &lt;ol>
-&lt;li>crear otra funcion ejemplo &lt;code>grieta--gitea-auth-call&lt;/code>.&lt;/li>
-&lt;li>usar una variable global o funcion que nos entregue el api-key.&lt;/li>
-&lt;li>adicionar otro parametro a la funcion &lt;code>grieta-gitea-call&lt;/code>.&lt;/li>
+&lt;li>crear otra función ejemplo &lt;code>grieta--gitea-auth-call&lt;/code>.&lt;/li>
+&lt;li>usar una variable global o función que nos entregue el api-key.&lt;/li>
+&lt;li>adicionar otro parámetro a la función &lt;code>grieta-gitea-call&lt;/code>.&lt;/li>
 &lt;/ol>
-&lt;p>La primera ya que aunque puede ser la mas &amp;ldquo;sencilla&amp;rdquo; o &amp;ldquo;rapida&amp;rdquo; tendriamos
-redundancia en la logica que a posterior nos afectaria el mantenimiento, entonces la descartamos.&lt;/p>
-&lt;p>Ahora valores un poco la segunda, especulemos sobre la siguiente implementacion&lt;/p>
+&lt;p>La primera ya que aunque puede ser la mas &amp;ldquo;sencilla&amp;rdquo; tendríamos
+redundancia en la lógica que a posterior nos afectaría el mantenimiento, entonces la descartamos.&lt;/p>
+&lt;p>Ahora valoremos la segunda, especulemos sobre una posible implementación&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defvar&lt;/span> &lt;span style="color:#008080">grieta-gitea-api-key-call&lt;/span> &lt;span style="color:#008080">nil&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ((&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">grieta-gitea-api-key-call&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-extra-headers&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; acoplamiento&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;Authorization&amp;#34;&lt;/span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;token &amp;#34;&lt;/span> &lt;span style="color:#008080">grieta-gitea-api-key-call&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;Authorization&amp;#34;&lt;/span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;token &amp;#34;&lt;/span> &lt;span style="color:#008080">grieta-gitea-api-key-call&lt;/span>)))))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-current-buffer&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-retrieve-synchronously&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;https://&amp;#34;&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">path&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">goto-char&lt;/span> (&lt;span style="color:#008080">point-min&lt;/span>))
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">search-forward-regexp&lt;/span> &lt;span style="color:#b84">&amp;#34;\n\n&amp;#34;&lt;/span>)
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>)))))
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>al ejecutar las pruebas estas pasan, pero miremos algo, recordando:&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>al ejecutar las pruebas estas pasan, pero miremos algo, recordando lo siguiente:&lt;/p>
 &lt;ul>
-&lt;li>&lt;code>UNIT&lt;/code> funciones que solo varian su comportamiento segun los argumentos.&lt;/li>
-&lt;li>&lt;code>INTEGRATION&lt;/code> funciones que varian su compartamiento segun los argumentos u otros medios como variables globales o lecturas fuera del proceso (lectura disco, red, etc..).&lt;/li>
+&lt;li>&lt;code>UNIT&lt;/code> funciones que solo varían su comportamiento según los argumentos.&lt;/li>
+&lt;li>&lt;code>INTEGRATION&lt;/code> funciones que varían su comportamiento según los argumentos u otros medios como variables globales o lecturas fuera del proceso (lectura disco, red, etc..).&lt;/li>
 &lt;li>&lt;code>ACCEPTANCE&lt;/code> los mismo criterios que &lt;code>INTEGRATION&lt;/code> pero solo sobre las funciones publicadas es decir sobre las funciones que son accesible por el usuario u otros paquetes.&lt;/li>
 &lt;li>&lt;code>MANUAL&lt;/code> pruebas que se deben realizar manualmente.&lt;/li>
 &lt;/ul>
 &lt;p>hasta ahora hemos realizado las pruebas en el grupo de &lt;code>INTEGRATION&lt;/code> donde
-hemos verificado la interaccion con &lt;code>grieta--gitea-call&lt;/code> atraves de un doble,
-no nos hemos interesado en probar la funcion ya que esta es una pasarela un servicio
-externo donde no tenemos mas logica que la ejecucion del servicio pero ahora
-la situacion cambia ya que creamos una dependencia implicita (ya que solo leyendo la implementacion podemos determinarla) a una variable que va ser
+hemos verificado la interacción (with-mock) con &lt;code>grieta--gitea-call&lt;/code> por medio de un doble,
+no nos hemos interesado en probar detalles de la función ya que esta es una pasarela un servicio
+externo donde no tenemos mas lógica que la ejecución del servicio, pero ahora
+la situación cambia ya que creamos una dependencia implícita (ya que solo leyendo la implementación podemos determinarla) a una variable que va ser
 modificada por el usuario creando un acoplamiento de un mecanismo privado a un
-mecanismo netamente publico, ahora si usaramos las nociones anteriores para agrupar
-esta prueba evidentemente iria en el grupo de &lt;code>ACCEPTANCE&lt;/code> ya que la variable
+mecanismo netamente publico, ahora si usáramos las nociones anteriores para agrupar
+esta prueba evidentemente iría en el grupo de &lt;code>ACCEPTANCE&lt;/code> ya que la variable
 debe ser asignada por el usuario para que se autentique al servicio,
-pero como sabemos esta funcion no es mas que una pasarela un servicio externo
-por lo tanto las pruebas irian en &lt;code>MANUAL&lt;/code>.&lt;/p>
+pero como sabemos esta función no es mas que una pasarela un servicio externo
+por lo tanto las pruebas irían en &lt;code>MANUAL&lt;/code>, por lo cual nos contra decimos podríamos continuar pero seria forzar algo que claramente no encaja.&lt;/p>
+&lt;p>Ahora especulemos sobre adicionar un parámetro&lt;/p>
+&lt;p>&lt;strong>grieta.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-extra-headers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;Authorization&amp;#34;&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;token &amp;#34;&lt;/span> &lt;span style="color:#008080">api-key&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-current-buffer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-retrieve-synchronously&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;https://&amp;#34;&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">path&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">goto-char&lt;/span> (&lt;span style="color:#008080">point-min&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">search-forward-regexp&lt;/span> &lt;span style="color:#b84">&amp;#34;\n\n&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-issue&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let*&lt;/span> ((&lt;span style="color:#008080">response&lt;/span> (&lt;span style="color:#008080">grieta--gitea-call&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> (&lt;span style="color:#900;font-weight:bold">format&lt;/span> &lt;span style="color:#b84">&amp;#34;/api/v1/repos/%s/%s/issues/%d&amp;#34;&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">response&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">remote-issue&lt;/span> (&lt;span style="color:#008080">json-parse-string&lt;/span> &lt;span style="color:#008080">response&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;number&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;title&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; `provide` es necesario para luego importar con `require`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>al cambiar la firma de la función debemos actualizar todas las funciones dependientes &lt;a href="https://refactoring.com/">Martin Fowler en Refactoring&lt;/a>
+propone una metodología estructura de realizar esto, ya que es algo que estamos haciendo constantemente es de suma importancia aprender a
+refactorizar estructuradamente para no tomar caminos mas &amp;ldquo;rapidos&amp;rdquo; que a largo plazo son perjudiciales, ahora si valoramos nuevamente donde
+la ubicaríamos para las pruebas, estas irían en &lt;code>INTEGRATION&lt;/code> ya que realiza lecturas
+fuera de proceso, mirando un poco más de cerca la función, esta solo realiza actividades fuera de proceso osea
+que si realizáramos pruebas tendríamos que usar dobles para simular el comportamiento de funciones como &lt;code>url-retrieve-synchronously&lt;/code>
+pero este tipo de pruebas seria falsas ya que no conocemos o participamos del ciclo de desarrollo de esas funciones, este tipo
+de funciones serán verificadas en comportamientos de &lt;code>ACCEPTANCE&lt;/code> o bien &lt;code>MANUAL&lt;/code>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>emacs --batch -l grieta.el --eval&lt;span style="font-weight:bold">=&lt;/span>&lt;span style="color:#b84">&amp;#39;(print (grieta--gitea-call &amp;#34;gitea.demo.org&amp;#34; &amp;#34;oeuaeiaoi&amp;#34; &amp;#34;GET&amp;#34; &amp;#34;/api/v1/repos/bit4bit/prueba/issues/1&amp;#34;))&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>&amp;#34;{\&amp;#34;id\&amp;#34;:1861,\&amp;#34;url\&amp;#34;:\&amp;#34;https://gitea.onecluster.org/api/v1/repos/bit4bit/prueba/issues/1\&amp;#34;,\&amp;#34;html_url\&amp;#34;:\&amp;#34;https://gitea.onecluster.org/bit4bit/prueba/issues/1\&amp;#34;,\&amp;#34;number\&amp;#34;:1,\&amp;#34;user\&amp;#34;:{\&amp;#34;id\&amp;#34;:10,\&amp;#34;login\&amp;#34;:\&amp;#34;bit4bit\&amp;#34;,\&amp;#34;login_name\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;full_name\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;email\&amp;#34;:\&amp;#34;bit4bit@noreply.onecluster.org\&amp;#34;,\&amp;#34;avatar_url\&amp;#34;:\&amp;#34;https://gitea.onecluster.org/avatar/5984dea48f59d0cbf32c81e80cc81525\&amp;#34;,\&amp;#34;language\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;is_admin\&amp;#34;:false,\&amp;#34;last_login\&amp;#34;:\&amp;#34;0001-01-01T00:00:00Z\&amp;#34;,\&amp;#34;created\&amp;#34;:\&amp;#34;2021-11-24T14:59:21-05:00\&amp;#34;,\&amp;#34;restricted\&amp;#34;:false,\&amp;#34;active\&amp;#34;:false,\&amp;#34;prohibit_login\&amp;#34;:false,\&amp;#34;location\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;website\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;description\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;visibility\&amp;#34;:\&amp;#34;private\&amp;#34;,\&amp;#34;followers_count\&amp;#34;:0,\&amp;#34;following_count\&amp;#34;:0,\&amp;#34;starred_repos_count\&amp;#34;:0,\&amp;#34;username\&amp;#34;:\&amp;#34;bit4bit\&amp;#34;},\&amp;#34;original_author\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;original_author_id\&amp;#34;:0,\&amp;#34;title\&amp;#34;:\&amp;#34;prueba\&amp;#34;,\&amp;#34;body\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;ref\&amp;#34;:\&amp;#34;\&amp;#34;,\&amp;#34;assets\&amp;#34;:[],\&amp;#34;labels\&amp;#34;:[],\&amp;#34;milestone\&amp;#34;:null,\&amp;#34;assignee\&amp;#34;:null,\&amp;#34;assignees\&amp;#34;:null,\&amp;#34;state\&amp;#34;:\&amp;#34;open\&amp;#34;,\&amp;#34;is_locked\&amp;#34;:false,\&amp;#34;comments\&amp;#34;:0,\&amp;#34;created_at\&amp;#34;:\&amp;#34;2023-07-07T13:57:25-05:00\&amp;#34;,\&amp;#34;updated_at\&amp;#34;:\&amp;#34;2023-07-08T10:07:39-05:00\&amp;#34;,\&amp;#34;closed_at\&amp;#34;:null,\&amp;#34;due_date\&amp;#34;:null,\&amp;#34;pull_request\&amp;#34;:null,\&amp;#34;repository\&amp;#34;:{\&amp;#34;id\&amp;#34;:2098,\&amp;#34;name\&amp;#34;:\&amp;#34;prueba\&amp;#34;,\&amp;#34;owner\&amp;#34;:\&amp;#34;bit4bit\&amp;#34;,\&amp;#34;full_name\&amp;#34;:\&amp;#34;bit4bit/prueba\&amp;#34;}}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Running 3 tests (2023-07-14 20:36:23-0500, selector ‘t’)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 1/3 grieta-test-grieta--gitea-issue-check-url-path (0.000058 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 2/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data (0.000029 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 3/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data (0.000061 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 3 tests, 3 results as expected, 0 unexpected (2023-07-14 20:36:23-0500, 0.000264 sec)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>aaa pero que paso?? porque pasaron las pruebas si cambio la firma de la funcion?? esto es algo que
+suele ocurre cuando usamos dobles, por algo se le llama dobles, no es el elemento origen, creo que esto
+puede aclara un poco de porque se recomienda evitar los dobles sobre elementos que no sean implementados por el proyecto,
+por ejemplo &lt;code>url-request-method&lt;/code> tiene un ciclo de desarrollo diferente.&lt;/p>
+&lt;p>Ahora miremos un poco como podemos mitigar el efecto de los dobles&lt;/p>
+&lt;p>&lt;strong>grieta.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-extra-headers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;Authorization&amp;#34;&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;token &amp;#34;&lt;/span> &lt;span style="color:#008080">api-key&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-current-buffer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-retrieve-synchronously&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;https://&amp;#34;&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">path&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">goto-char&lt;/span> (&lt;span style="color:#008080">point-min&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">search-forward-regexp&lt;/span> &lt;span style="color:#b84">&amp;#34;\n\n&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-issue&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; es una abstraccion sobre la comunicacion con gitea&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let*&lt;/span> ((&lt;span style="color:#008080">response&lt;/span> (&lt;span style="color:#008080">grieta--gitea-call&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> (&lt;span style="color:#900;font-weight:bold">format&lt;/span> &lt;span style="color:#b84">&amp;#34;/api/v1/repos/%s/%s/issues/%d&amp;#34;&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">response&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; pero aca tenemos un mecanismo de implementacion&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">remote-issue&lt;/span> (&lt;span style="color:#008080">json-parse-string&lt;/span> &lt;span style="color:#008080">response&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; nuevamente una abstraccion&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;number&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;title&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; `provide` es necesario para luego importar con `require`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Revisando nuevamente la funcion &lt;code>grieta--gitea-issue&lt;/code> se puede ver que ahí un brinco entre diferentes niveles de abstracción,
+vamos a llevar esto a un solo nivel.&lt;/p>
+&lt;p>&lt;strong>grieta.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> (&lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">token&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-extra-headers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;Authorization&amp;#34;&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;token &amp;#34;&lt;/span> &lt;span style="color:#008080">token&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-current-buffer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-retrieve-synchronously&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">goto-char&lt;/span> (&lt;span style="color:#008080">point-min&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">search-forward-regexp&lt;/span> &lt;span style="color:#b84">&amp;#34;\n\n&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">response&lt;/span> (&lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;https://&amp;#34;&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">path&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">response&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">json-parse-string&lt;/span> &lt;span style="color:#008080">response&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-issue&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let*&lt;/span> ((&lt;span style="color:#008080">remote-issue&lt;/span> (&lt;span style="color:#008080">grieta--gitea-call&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> (&lt;span style="color:#900;font-weight:bold">format&lt;/span> &lt;span style="color:#b84">&amp;#34;/api/v1/repos/%s/%s/issues/%d&amp;#34;&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;number&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;title&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; `provide` es necesario para luego importar con `require`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>hemos aplanado los niveles de abstracción por ejemplo &lt;code>grieta--gitea-issue&lt;/code> habla en términos de una petición al servicio
+y &lt;code>grieta--gitea-call&lt;/code> habla en términos más técnicos hacer petición HTTP y procesar JSON,
+como movimos las responsabilidades debemos actualizar los dobles usados en las pruebas.&lt;/p>
+&lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; UNIT&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; INTEGRATION&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; respuesta simplificada&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">stub&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#008080">=&amp;gt;&lt;/span> &lt;span style="color:#b84">&amp;#34;{\&amp;#34;id\&amp;#34;: 1000, \&amp;#34;number\&amp;#34;: 1, \&amp;#34;title\&amp;#34;: \&amp;#34;Test\&amp;#34;}&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">should&lt;/span> (&lt;span style="color:#900;font-weight:bold">equal&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">&amp;#39;&lt;/span>(&lt;span style="color:#099">1&lt;/span> &lt;span style="color:#b84">&amp;#34;Test&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">1&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">stub&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#008080">=&amp;gt;&lt;/span> &lt;span style="color:#008080">nil&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">should&lt;/span> (&lt;span style="color:#900;font-weight:bold">equal&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span> &lt;span style="color:#998;font-style:italic">; volveremos a revisar luego si esta valor nos lleva a tener que usar condicionales&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">1&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-issue-check-url-path&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">mock&lt;/span> (&lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;/api/v1/repos/demo/grieta/issues/99&amp;#34;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">99&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; ACCEPTANCE&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; MANUAL&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta-tests&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Test grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data condition:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (wrong-number-of-arguments
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (lambda
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (host api-key method path)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (let
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> ((response ...))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (json-parse-string response)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> 3)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED 3/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data (0.000073 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 3 tests, 0 results as expected, 3 unexpected (2023-07-14 21:01:44-0500, 0.114529 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>3 unexpected results:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED grieta-test-grieta--gitea-issue-check-url-path
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Excelente ya se nos manifestó el error, procedamos a actualizar.&lt;/p>
+&lt;p>&lt;strong>grieta.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> (&lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">token&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-extra-headers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;Authorization&amp;#34;&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;token &amp;#34;&lt;/span> &lt;span style="color:#008080">token&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-current-buffer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-retrieve-synchronously&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">goto-char&lt;/span> (&lt;span style="color:#008080">point-min&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">search-forward-regexp&lt;/span> &lt;span style="color:#b84">&amp;#34;\n\n&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">response&lt;/span> (&lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;https://&amp;#34;&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">path&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">response&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">json-parse-string&lt;/span> &lt;span style="color:#008080">response&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-issue&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; TODO: api-key?&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let*&lt;/span> ((&lt;span style="color:#008080">remote-issue&lt;/span> (&lt;span style="color:#008080">grieta--gitea-call&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">nil&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> (&lt;span style="color:#900;font-weight:bold">format&lt;/span> &lt;span style="color:#b84">&amp;#34;/api/v1/repos/%s/%s/issues/%d&amp;#34;&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;number&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;title&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; `provide` es necesario para luego importar con `require`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Test grieta-test-grieta--gitea-issue-check-url-path condition:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (mock-error
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (grieta--url-auth-request &amp;#34;gitea.test.org&amp;#34; &amp;#34;GET&amp;#34; &amp;#34;/api/v1/repos/demo/grieta/issues/99&amp;#34;)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (grieta--url-auth-request &amp;#34;GET&amp;#34; nil &amp;#34;https://gitea.test.org/api/v1/repos/demo/grieta/issues/99&amp;#34;))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED 1/3 grieta-test-grieta--gitea-issue-check-url-path (0.000096 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 2/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data (0.000044 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 3/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data (0.000082 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 3 tests, 2 results as expected, 1 unexpected (2023-07-14 21:11:49-0500, 0.040699 sec)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>excelente nos estamos ilustrando.&lt;/p>
+&lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; UNIT&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; INTEGRATION&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; respuesta simplificada&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">stub&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#008080">=&amp;gt;&lt;/span> &lt;span style="color:#b84">&amp;#34;{\&amp;#34;id\&amp;#34;: 1000, \&amp;#34;number\&amp;#34;: 1, \&amp;#34;title\&amp;#34;: \&amp;#34;Test\&amp;#34;}&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">should&lt;/span> (&lt;span style="color:#900;font-weight:bold">equal&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">&amp;#39;&lt;/span>(&lt;span style="color:#099">1&lt;/span> &lt;span style="color:#b84">&amp;#34;Test&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">1&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">stub&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#008080">=&amp;gt;&lt;/span> &lt;span style="color:#008080">nil&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">should&lt;/span> (&lt;span style="color:#900;font-weight:bold">equal&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span> &lt;span style="color:#998;font-style:italic">; volveremos a revisar luego si esta valor nos lleva a tener que usar condicionales&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">1&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-issue-check-url-path&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">mock&lt;/span> (&lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;token&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;https://gitea.test.org/api/v1/repos/demo/grieta/issues/99&amp;#34;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">99&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; ACCEPTANCE&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; MANUAL&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta-tests&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Test grieta-test-grieta--gitea-issue-check-url-path condition:
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (mock-error
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (grieta--url-auth-request &amp;#34;GET&amp;#34; &amp;#34;token&amp;#34; &amp;#34;/api/v1/repos/demo/grieta/issues/99&amp;#34;)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (grieta--url-auth-request &amp;#34;GET&amp;#34; nil &amp;#34;https://gitea.test.org/api/v1/repos/demo/grieta/issues/99&amp;#34;))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> FAILED 1/3 grieta-test-grieta--gitea-issue-check-url-path (0.000098 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 2/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data (0.000043 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 3/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data (0.000080 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 3 tests, 2 results as expected, 1 unexpected (2023-07-14 21:14:39-0500, 0.041251 sec)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>las pruebas nos esta ilustrando, diciéndonos que piensa hacer con el token?
+nuevamente tenemos varios caminos&lt;/p>
+&lt;ol>
+&lt;li>crear otra función ejemplo &lt;code>grieta--gitea-auth-issue&lt;/code>&lt;/li>
+&lt;li>usar una variable global o función que nos entregue el api-key.&lt;/li>
+&lt;li>adicionar otro parámetro a la función &lt;code>grieta--gitea-issue&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>ya conocemos las implicaciones de las dos primeras, vamonos directamente
+por la tercera.&lt;/p>
+&lt;p>&lt;code>invito hacer el ejercio de llegar al estado presentado desde al archivo anteriomente expuesto a este, haciendo cambios que no dejen fallar las pruebas&lt;/code>
+&lt;strong>grieta.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> (&lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">token&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">url-request-method&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-data&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-request-extra-headers&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#458;font-weight:bold">cons&lt;/span> &lt;span style="color:#b84">&amp;#34;Authorization&amp;#34;&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;token &amp;#34;&lt;/span> &lt;span style="color:#008080">token&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-current-buffer&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">url-retrieve-synchronously&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">goto-char&lt;/span> (&lt;span style="color:#008080">point-min&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">search-forward-regexp&lt;/span> &lt;span style="color:#b84">&amp;#34;\n\n&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">buffer-substring&lt;/span> (&lt;span style="color:#008080">point&lt;/span>) (&lt;span style="color:#008080">point-max&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-call&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">path&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let&lt;/span> ((&lt;span style="color:#008080">response&lt;/span> (&lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#458;font-weight:bold">method&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> (&lt;span style="color:#008080">concat&lt;/span> &lt;span style="color:#b84">&amp;#34;https://&amp;#34;&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">path&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">response&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">json-parse-string&lt;/span> &lt;span style="color:#008080">response&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#999">defun&lt;/span> &lt;span style="color:#008080">grieta--gitea-issue&lt;/span> (&lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; TODO: api-key?&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">let*&lt;/span> ((&lt;span style="color:#008080">remote-issue&lt;/span> (&lt;span style="color:#008080">grieta--gitea-call&lt;/span> &lt;span style="color:#008080">host&lt;/span> &lt;span style="color:#008080">api-key&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> (&lt;span style="color:#900;font-weight:bold">format&lt;/span> &lt;span style="color:#b84">&amp;#34;/api/v1/repos/%s/%s/issues/%d&amp;#34;&lt;/span> &lt;span style="color:#008080">owner&lt;/span> &lt;span style="color:#008080">repo&lt;/span> &lt;span style="color:#008080">issue-id&lt;/span>))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="font-weight:bold">if&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#458;font-weight:bold">list&lt;/span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;number&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#900;font-weight:bold">gethash&lt;/span> &lt;span style="color:#b84">&amp;#34;title&amp;#34;&lt;/span> &lt;span style="color:#008080">remote-issue&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Named-Features.html&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; `provide` es necesario para luego importar con `require`&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>tests/grieta-tests.el&lt;/strong>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-lisp" data-lang="lisp">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;el-mock&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">require&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; UNIT&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; INTEGRATION&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; respuesta simplificada&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">stub&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#008080">=&amp;gt;&lt;/span> &lt;span style="color:#b84">&amp;#34;{\&amp;#34;id\&amp;#34;: 1000, \&amp;#34;number\&amp;#34;: 1, \&amp;#34;title\&amp;#34;: \&amp;#34;Test\&amp;#34;}&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">should&lt;/span> (&lt;span style="color:#900;font-weight:bold">equal&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">&amp;#39;&lt;/span>(&lt;span style="color:#099">1&lt;/span> &lt;span style="color:#b84">&amp;#34;Test&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;token&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">1&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">stub&lt;/span> &lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#008080">=&amp;gt;&lt;/span> &lt;span style="color:#008080">nil&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">should&lt;/span> (&lt;span style="color:#900;font-weight:bold">equal&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#008080">nil&lt;/span> &lt;span style="color:#998;font-style:italic">; volveremos a revisar luego si esta valor nos lleva a tener que usar condicionales&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;token&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">1&lt;/span>)))))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#008080">ert-deftest&lt;/span> &lt;span style="color:#008080">grieta-test-grieta--gitea-issue-check-url-path&lt;/span> ()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">with-mock&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic">;; https://try.gitea.io/api/swagger#/issue/issueGetIssue&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">mock&lt;/span> (&lt;span style="color:#008080">grieta--url-auth-request&lt;/span> &lt;span style="color:#b84">&amp;#34;GET&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;token&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;https://gitea.test.org/api/v1/repos/demo/grieta/issues/99&amp;#34;&lt;/span>))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> (&lt;span style="color:#008080">grieta--gitea-issue&lt;/span> &lt;span style="color:#b84">&amp;#34;gitea.test.org&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;token&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;demo&amp;#34;&lt;/span> &lt;span style="color:#b84">&amp;#34;grieta&amp;#34;&lt;/span> &lt;span style="color:#099">99&lt;/span>)))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; ACCEPTANCE&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#998;font-style:italic">;; MANUAL&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#900;font-weight:bold">provide&lt;/span> &lt;span style="color:#b84">&amp;#39;grieta-tests&lt;/span>)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>make &lt;span style="color:#999">test&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-text" data-lang="text">&lt;span style="display:flex;">&lt;span>Running 3 tests (2023-07-14 21:19:48-0500, selector ‘t’)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 1/3 grieta-test-grieta--gitea-issue-check-url-path (0.000064 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 2/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-invalid-data (0.000033 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> passed 3/3 grieta-test-grieta--gitea-json-&amp;gt;issues-on-valid-data (0.000069 sec)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Ran 3 tests, 3 results as expected, 0 unexpected (2023-07-14 21:19:48-0500, 0.000305 sec)
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>boom, nuevamente estables este proceso que realizamos de:&lt;/p>
+&lt;ol>
+&lt;li>especular&lt;/li>
+&lt;li>ilustrar&lt;/li>
+&lt;li>ajustar (+ importante no olvidar limpiar y aclarar lo escrito)&lt;/li>
+&lt;/ol>
+&lt;p>se realiza rápidamente en cuestión de segundos a minutos.&lt;/p>
 &lt;ul>
 &lt;li>TODO introduccion org&lt;/li>
 &lt;li>TODO inicializacion paquete&lt;/li>
@@ -903,7 +1236,7 @@ AssertionError: ValidationError not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>match(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
 Ran 47 tests in 11.937s
@@ -1027,7 +1360,7 @@ AssertionError: Exception not raised
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="font-weight:bold">True&lt;/span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
 &lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#998;font-style:italic"># formato entregado por area de telefonia&lt;/span>
-&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>&lt;span style="font-weight:bold">match&lt;/span>(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="font-weight:bold">return&lt;/span> &lt;span style="color:#999">bool&lt;/span>(re&lt;span style="font-weight:bold">.&lt;/span>match(&lt;span style="color:#b84">r&lt;/span>&lt;span style="color:#b84">&amp;#34;^[A-Z]{2,10}[0-9]{2,8}$&amp;#34;&lt;/span>, code))
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>python3 -munittest
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;pre>
 Ran 49 tests in 12.318s
