@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bit4bit Integraciones</title><link>http://bit4bit.github.io/</link><description>Recent content on Bit4bit Integraciones</description><generator>Hugo -- gohugo.io</generator><language>es-co</language><managingEditor>bit4bit@riseup.net (Jovany Leandro G.C)</managingEditor><webMaster>bit4bit@riseup.net (Jovany Leandro G.C)</webMaster><lastBuildDate>Mon, 20 Nov 2023 13:13:16 -0500</lastBuildDate><atom:link href="http://bit4bit.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>FreeSWITCH talks to MS Teams</title><link>http://bit4bit.github.io/post/freeswitch_msteams/</link><pubDate>Mon, 20 Nov 2023 13:13:16 -0500</pubDate><author>bit4bit@riseup.net (Jovany Leandro G.C)</author><guid>http://bit4bit.github.io/post/freeswitch_msteams/</guid><description>&lt;p>Voy explicar como logre conectar FreeSWITCH con MS Team.&lt;/p>
-&lt;p>Para configurar MS TEAMS ver &lt;a href="http://bit4bit.github.io/kamailio_sbc_msteams/">Kamailio SBC MS Teams&lt;/a>&lt;/p>
+&lt;p>Para configurar MS TEAMS ver &lt;a href="http://bit4bit.github.io/post/kamailio_sbc_msteams/">Kamailio SBC MS Teams&lt;/a>&lt;/p>
 &lt;p>Escenario confirmado.&lt;/p>
 &lt;div class="mermaid">flowchart LR
 MSTeams["MS Teams
